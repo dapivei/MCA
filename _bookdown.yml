@@ -1,0 +1,8 @@
+book_filename: "multivariate-statistics-R-code"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+
+repo: https://github.com/C1587S/EMV-ejercicios
+output_dir: "docs"

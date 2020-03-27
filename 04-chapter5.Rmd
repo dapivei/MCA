@@ -1,0 +1,1114 @@
+# Test on one or two mean vectors {#chapter5}
+
+
+
+## Multivariate Test for $H_{0}:\mu=\mu_{0}$ with $\Sigma$ known
+
+Test on One or Two Mean Vectors
+
+**Why we prefer to do multivariate testing?**
+
+- The use of p univariate tests inflates the Type I error rate, a, whereas the multivariate test preserves the exact a level. For example, if we do p = 10 separate univariate tests at the .05 level, the probability of at least one false rejection is greater than .05. If the variables were independent (they rarely are), we would have (under Ho)
+
+- The univariate tests completely ignore the correlations among the variables, whereas the multivariate tests make direct use of the correlations.
+
+- The multivariate test is more powerful in many cases. The power of a test is the probability of rejecting HQ when it is false. In some cases, all p of the univariate tests fail to reach significance, but the multivariate test is significant because small effects on some of the variables combine to jointly indicate significance. However, for a given sample size, there is a limit to the number of variables a multivariate test can handle without losing power. This is discussed further in Section 5.3.2.
+
+- Many multivariate tests involving means have as a by-product the construction of a linear combination of variables that reveals more about how the variables unite to reject the hypothesis.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+
+$$
+H_{0}:\left(\begin{array}{c}
+\mu_{1}\\
+\mu_{2}\\
+\vdots\\
+\mu_{p}
+\end{array}\right)=\left(\begin{array}{c}
+\mu_{01}\\
+\mu_{02}\\
+\vdots\\
+\mu_{0p}
+\end{array}\right),\qquad H_{0}:\left(\begin{array}{c}
+\mu_{1}\\
+\mu_{2}\\
+\vdots\\
+\mu_{p}
+\end{array}\right)\neq\left(\begin{array}{c}
+\mu_{01}\\
+\mu_{02}\\
+\vdots\\
+\mu_{0p}
+\end{array}\right)
+$$
+To test $H_{0}$, we use a random sample of n observation vectors $y_{1}, y_{2}, ...,y_{n}$ from $Ν_{p}(\mu, \Sigma)$, with $\Sigma$ known, and calculate $\bar{y}=\sum_{i=1}^{n}y_{i}/n$. The test statistic is:
+
+$$
+Z^{2}=n\left(\bar{y}-\mu_{0}\right)^{'}\Sigma^{-1}\left(\bar{y}-\mu_{0}\right)
+$$
+
+
+If $H_{0}$ is true, $Z$ is distributed as $\chi_{p}^{2}$, and we therefore reject $H_{0}$ if $Z >\chi_{\alpha}^{2}$. 
+
+**Example 5.2.2**
+
+In Table 3.1, height and weight were given for a sample of 20 college-age males. Let us assume that this sample originated from the bivariate normal $N_{2}\left(\mu,\Sigma\right)$ where
+
+$$
+\Sigma=\left(\begin{array}{cc}
+20 & 100\\
+100 & 1000
+\end{array}\right)
+$$
+
+Suppose we wish to test $H_{0}:  \mu = (70, 170)'$.
+
+Recovering dataset from table 3.1.: 20 college-age males, data for weight and height anc computing $\mu_{0}$ and $\Sigma$:
+```{r}
+height <- c(69, 74, 68, 70, 72, 67, 66, 70, 76, 68, 72, 79, 74, 67, 66, 71, 74, 75, 75, 76) 
+weight <- c(153, 175, 155, 135, 172, 150, 115, 137, 200, 130, 140, 265, 185, 112, 140, 150, 165, 185, 210, 220)
+
+data522 <- cbind(height, weight) %>% as.data.frame 
+
+data522
+# 
+mu522 <- matrix(c(70, 170), nrow = 2, ncol = 1)
+mu522
+sigma522 <-matrix(c(20, 100, 100, 1000), nrow = 2, ncol = 2)
+sigma522
+```
+
+**Solution:**
+
+```{r}
+test_mu_sigKnown <- function(db, mu0, sigma, alpha){
+  "
+  This function computes $Z^{2}$ (eq. 5.2).
+  Parameters:
+  db: database containing columns of variables
+  mu0: vector of means in H0
+  sigma: known covariance matrix
+  alpha: significance level
+  "
+  n <- nrow(db) 
+  p <- ncol(db)
+  y_hat <<- as.matrix(apply(db, MARGIN=2, mean)) # sample mean for each column
+  Z2 <- n * t(y_hat - mu0) %*% solve(sigma)  %*% (y_hat - mu0)
+  # performing the test
+  print(paste("Z2 value:", round(Z2, 5), sep=" "))
+  print(paste("chi2:", round(qchisq(1-alpha, df=p), 5) , "with p =", p, "degrees of freedom", sep=" "))
+  print(paste("reject H0:", Z2 > qchisq(1-alpha, df=p)))
+  
+}
+```
+
+using $\alpha=0.05$, and knowing $p=2$ (because we have two varibles height and weight), then we have $\chi_{\alpha, p}^{2}$. Now we can compute the test:
+
+```{r}
+test_mu_sigKnown(db=data522, mu0 = mu522, sigma = sigma522, alpha=0.05)
+```
+
+## Multivariate Test for $H_{0}:\mu=\mu_{0}$ with $\Sigma$ known
+
+Database from table 3.3
+```{r}
+y_1 <- c( 35, 35, 40, 10, 6, 20, 35, 35, 35, 30)
+y_2 <- c( 4.9, 3.5, 30, 2.8, 2.7, 2.8, 4.6, 10.9, 8, 1.6)
+y_3 <- c( 2.7, 2.8, 4.38, 3.21, 2.73, 2.81, 2.88, 2.9, 3.28, 3.2)
+
+data532 <- as.matrix(cbind(y_1, y_2, y_3))
+data532
+# mu0
+mu532 <- matrix(c(15.0, 6.0, 2.85), nrow = 3, ncol = 1)
+mu532
+```
+
+```{r}
+db <- data532
+mu0 <- mu532
+  n <- nrow(db) 
+  v <- n-1
+  p <- ncol(db)
+  y_hat <- as.matrix(apply(db, MARGIN=2, mean)) # sample mean for each column
+  S <- as.matrix(cov(db))
+S
+y_hat
+```
+
+```{r}
+T2 <- n * t(y_hat - mu0) %*% solve(S)  %*% (y_hat - mu0)
+```
+
+
+```{r}
+test_mu_sigUnknown <- function(db, mu0, alpha){
+  library(ICSNP)
+  "
+  This function computes $Z^{2}$ (eq. 5.5).
+  Parameters:
+  * db: database containing columns of variables
+  * mu0: vector of means in H0
+  * alpha: significance level
+  "
+  n <- nrow(db) 
+  v <- n-1
+  p <- ncol(db)
+  y_hat <- as.matrix(apply(db, MARGIN=2, mean)) # sample mean for each column
+  S <- as.matrix(cov(db))
+  T2 <- n * t(y_hat - mu0) %*% solve(S)  %*% (y_hat - mu0)
+  T2_adj <- T2*(v-p+1)/(v*p)
+  # performing the test
+  print(paste("T2 value:", round(T2, 5), sep=" "))
+  print(paste("T2 F-adjusted value:", round(T2_adj, 5), sep=" "))
+  print(paste("F-critial value:", round(qf(1-alpha, df1=p, df2=v-p+1), 5) , "with", p,"and", v-p+1, " degrees of freedom", sep=" "))
+  print(paste("reject H0:", T2_adj > qf(1-alpha, df1=p, df2=v-p+1)))
+  print(paste("p-value:", (pf(T2_adj,df1=p, df2=v-p+1, lower.tail = F))))
+  print("***Comparing results using HotellingsT2 from ICSNP library - F Test***")
+  print(HotellingsT2(db, Y = NULL, mu = mu0, test = "f"))
+  print("***Comparing results using HotellingsT2 from ICSNP library - Chi Test***")
+  print(HotellingsT2(db, Y = NULL, mu = mu0, test = "chi"))
+
+}
+```
+
+```{r}
+?pf
+test_mu_sigUnknown(db=data532, mu0=mu532, alpha=0.05)
+```
+
+## Multivariate Two-Sample $T^2$-test
+
+**Example 5.4.2**
+
+Four psychological test were given to $32$ men and $32$ women. The data are recorded in Table $5.1$ (Beall 1945). The variables are:
+
+$$y_{1}=\text{pictorial inconsistencies}$$
+
+$$y_{2}=\text{paper form board}$$
+
+$$y_{3}=\text{tool recognition}$$
+
+$$y_{4}= \text{vocabulary}$$
+
+We wish to test:
+
+$$H_{0}: \mu_{1}=\mu{2} \ \text{vs} \ H_{1}: \mu_{1} \neq \mu_{2}$$
+
+We assume that the two samples are independent and that $\Sigma_{1}=\Sigma_{2}=\Sigma$, say with \Sigma unknown.
+These assumptions are neccesary in order for $T^{2}$ statistic in (5.9) to have a $T^2$-distribution.
+
+>1) First we load the data required
+
+```{r}
+#pyschological data of males
+
+y_1m <- c(17,	15,	15,	13,	20,	15,	15,	13,	14,	17,	17,	17,	15,	18,	18,	15,	18,	10,	18,	18,	13,	16,	11,	16,	16,	18,	16,	15,	18,	18,	17,	19)
+
+y_2m <-c(15,	17,	14,	12,	17,	21,	13,	5,	7,	15,	17,	20,	15,	19,	18,	14,	17,	14,	21,	21,	17,	16,	15,	13,	13,	18,	15,	16,	19,	16,	20,	19)
+
+y_3m <- c(32,	24,	29,	10,	26,	26,	26,	22,	30,	30,	26,	28,	29,	32,	31,	26,	33,	19,	30,	34,	30,	16,	25,	26,	23,	34,	28,	29,	32,	33,	21,	30)
+
+y_4m <- c(26,	14,	23,	16,	28,	21,	22,	22,	17,	27,	20,	24,	24,	28,	27,	21,	26,	17,	29,	26,	24,	16,	23,	16,	21,	24,	27,	24,	23,	23,	21,	28)
+```
+
+
+```{r}
+data542_male <- data.frame(
+  y_1m, y_2m, y_3m, y_4m
+  )
+data542_male
+```
+
+
+
+```{r}
+#pyschological data of females
+
+y_1f <- c(
+  14,	13,	12,	12,	11, 12,	10,	10,	12,	11,	12,	14,	14,	13,	14,	13,	16,	14,	16,	13,	2,	14,	17,	16,	15,	12,	14,	13,	11,	7,	12,	6
+  )
+
+
+y_2f <-c(
+  12,	14,	19,	13,	20,	9,	13,	8,	20,	10,	18,	18,	10,	16,	8,	16,	21,	17,	16,	16,	6,	16,	17,	13,	14,	10,	17,	15,	16,	7,	15,	5
+  )
+
+y_3f <- c(
+  14,	12,	21,	10,	16,	14,	18,	13,	19,	11,	25,	13,	25,	8,	13,	23,	26,	14,	15,	23,	16,	22,	22,	16,	20,	12,	24,	18,	18,	19,	7,	6
+  )
+
+y_4f <- c(
+  26,	21,	21,	16,	16,	18,	24,	23,	23,	27,	25,	26,	28,	14,	25,	28,	26,	14,	23,	24,	21,	26,	28,	14,	26,	9,	23,	20,	28,	18,	28,	13
+  )
+```
+
+```{r}
+data542_female <- data.frame(
+  y_1f, y_2f, y_3f, y_4f
+  )
+data542_female
+
+
+```
+
+We can also visualize the data
+
+
+
+```{r message=FALSE, warning=FALSE}
+if(!require("plotly")){
+    install.packages("plotly")
+    library(ICSNP)
+}
+```
+
+```{r paged.print=TRUE}
+
+f1 <- plot_ly(data542_male,
+              type = "box") %>% 
+  add_boxplot(y = ~y_1m) %>% 
+  add_boxplot(y = ~y_2m)  %>% 
+  add_boxplot(y = ~y_3m)  %>% 
+  add_boxplot(y = ~y_4m) %>% 
+  layout(title = "Male Psychological Scores By Each Variable",
+         xaxis = list(title = "Variables"),
+         yaxis = list(title = "Scores"))
+f1
+
+
+f2 <- plot_ly(data542_female,
+              type = "box") %>% 
+  add_boxplot(y = ~y_1f) %>% 
+  add_boxplot(y = ~y_2f)  %>% 
+  add_boxplot(y = ~y_3f)  %>% 
+  add_boxplot(y = ~y_4f)  %>% 
+  layout(title = "Female Psychological Scores By Each Variable",
+         xaxis = list(title = "Variables"),
+         yaxis = list(title = "Scores"))
+f2
+```
+
+
+>2. We find the mean vectors and covariances matrices of the two samples.
+
+```{r}
+
+#Determining the mean of each variable of the male population
+y_mean_male<-as.matrix(
+  apply(
+    data542_male, 2, FUN=mean
+    )
+  )
+y_mean_male
+dim(y_mean_male)
+
+#Determining the mean of each variable of the female population
+y_mean_female<-as.matrix(
+  apply(data542_female, 2, FUN=mean
+        )
+  )
+y_mean_female
+dim(y_mean_female)
+
+```
+
+
+```{r}
+#Determining the covariance matrix of the male population
+sigma_male <- cov(data542_male)
+sigma_male
+#Determining the mean of each variable of the female population
+sigma_female <- cov(data542_female)
+sigma_female
+```
+
+>3. We find the pooled covaricance matrix -an unbiased estimator of the common population covariance matrix, $\Sigma$.
+
+
+$$S_{pl}= \frac{1}{n_{1}+n_{2}-2}[(n_{1}-1)\textbf{S}_{1}+(n_{2}-1)\textbf{S}_{2}]$$
+
+```{r}
+#function for finding the common population covariance matrix
+
+common_population_variance <- function(data1, data2) {
+  "
+
+  "
+  n_1= nrow(data1)
+  n_2= nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+
+  sigma_population<-(1/(n_1+n_2-2))*((n_1-1) * sigma_1 + (n_2-1) * sigma_2)
+  print("The pooled covariance matrix is:")
+  print(sigma_population)
+}
+
+```
+
+
+```{r}
+common_population_variance(data542_female, data542_male)
+```
+
+> 4. Then, to test $$H_{0}: \mu_{1}=\mu{2} \ \text{vs} \ H_{1}: \mu_{1} \neq \mu_{2}$$, we find:
+
+$$T^2= \frac{ n_{1}n_{2}}{n_{1}+n_{2}}(\bar{y}_{1}- \bar{y}_2)' \textbf{S}_{pl}^{-1}(\bar{y}_{1}- \bar{y}_2)$$
+
+
+```{r}
+#function for finding the T^2 in a multivariate two sample setting
+
+T2_two_sample<- function(data1, data2) {
+  "
+
+  "
+  n_1 <<- nrow(data1)
+  n_2<<- nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+  
+  y_mean_1<-as.matrix(
+  apply(data1, 2, FUN=mean
+        )
+  )
+  
+  y_mean_2<-as.matrix(
+  apply(data2, 2, FUN=mean
+        )
+  )
+  sigma_population<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  
+  sigma_population_inverse <- solve(sigma_population)
+  T2 <<- ((n_1*n_2)/(n_1+n_2))*t(y_mean_1-y_mean_2) %*% sigma_population_inverse %*% (y_mean_1-y_mean_2)
+  
+  print("The pooled covariance matrix is:")
+  print(sigma_population)
+  print("The value of T2 is:")
+  print (T2)
+}
+
+```
+
+
+```{r}
+T2_two_sample(data542_female, data542_male)
+#transforming T^2- statistic to an F-statistic
+
+```
+
+
+The $T^2$-statistic can be readily transformed to an F-statistic using:
+
+$$
+\frac{n_{1}+ n_{2}-p-1}{(n_1+n_2-2)p}T^2=F_{p, n_1+n_2-p-1}
+$$
+
+where again the dimension $p$ of the $T^2$-statistic becomes the first degree-of-freedom parameter for the $F$-statistic.
+
+>5. Finally, we have the elements to integrate all mentioned above (plus some complements of the T2 statistic test) into a function that will test whether the means of the two samples are equal and compare it to existing packages in R.
+
+```{r}
+#Function for multivariate two-Sample $T^2$-test
+
+
+
+hotelling_two_independent_samples <- function(data1, data2, alpha) {
+  "
+  Considering that p variables are measured on two samples, this function tests whether
+  H_0:u_1=u_2 vs H_1: u_1 distinct from    u_2. We assume that the two samples are independent and that
+  sigma_1=sigma_2=sigma
+  
+  Input: 
+  + data1: dataset from sample 1
+  + data2: dataset from sample 2
+  + alpha. significance level
+  
+  Output:
+  + sigma_population: pooled covariance matrix
+  + T2: hotellings T2
+  + F: T2-statistic transformed to an F-statistic
+  + F-critical value
+  + Reject H0: if we reject H0=TRUE, otherwise FALSE
+  + P-value
+
+  "
+  #package for hotelling testing
+  if(!require("ICSNP")){
+    install.packages("ICSNP")
+    library(ICSNP)
+    }
+  n_1 <<- nrow(data1)
+  n_2<<- nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+  
+  y_mean_1<-as.matrix(
+  apply(data1, 2, FUN=mean
+        )
+  )
+  
+  y_mean_2<-as.matrix(
+  apply(data2, 2, FUN=mean
+        )
+  )
+  sigma_population<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  
+  sigma_population_inverse <- solve(sigma_population)
+  T2 <<- ((n_1*n_2)/(n_1+n_2))*t(y_mean_1-y_mean_2) %*% sigma_population_inverse %*% (y_mean_1-y_mean_2)
+  F<-round(T2*(n_1+n_2-p-1)/(p*(n_1+n_2-2)),2)
+  p<-ncol(data1)
+  print(
+    "The pooled covariance matrix is:"
+    )
+  print(
+    sigma_population
+    )
+  print(
+    paste0(
+      "The value of T2 is: ", T2 
+      )
+    )
+  print(
+    paste0(
+      "T2-statistic transformed to an F-statistic is: ", F
+           )
+    )
+  print(
+    paste0(
+      "F-critical value: ", round(qf(1-alpha, df1=p, df2=n_1+n_2-p-1), 5) , " with ", p," and ", n_1+n_2-p-1, " degrees of freedom", sep=" "
+      )
+    )
+  print(
+    paste0(
+      "Reject H0: ", F > qf(1-alpha, df1=p, df2=n_1+n_2-p-1)
+      )
+    )
+  print(
+    paste0(
+      "P-value: ", (pf(F,df1=p, df2=n_1+n_2-p-1, lower.tail = F))
+      )
+    )
+  print(
+    "***Comparing results using HotellingsT2 from ICSNP library - F-TEST***"
+    )
+  print(
+    HotellingsT2(data1, data2, mu=NULL, test = "f")
+    )
+  print(
+    "***Comparing results using HotellingsT2 from ICSNP library - CHI-TEST***"
+    )
+  print(
+    HotellingsT2(data1, data2, mu=NULL, test = "chi")
+    )
+}
+
+
+```
+
+>6. The solution to problem $5.42$ is:
+
+```{r}
+hotelling_two_independent_samples(data542_female, data542_male, 0.05)
+```
+
+
+### 5.5 Tests on individual variables conditional on rejection of $H_{0}$ by the $T^2$-test.
+
+If the hypothesis $H_{0}: \mu_{1} = \mu_{2}$ is rejected, the implication is that $\mu_{ij} \neq \mu_{2j}$ for at least one $j=1,2,...,p$. But there is no guarantee that $H_{0}: \mu_{1} = \mu_{2}$ will be rejected for some $j$ by a univariate test. However, if we consider a linear combination of the variables, $z = a'y$, then there is at least one coefficient vector \textbf{a} for which will reject the corresponding hyphotesis $H_{0}=a'\mu_{1}=a'\mu_{2}$. Thus **if** $H_{0}: \mu_{1} = \mu_{2}$ is rejected by $T^2$, the \textbf{discriminant function} $a'y$ will lead to rejection of$H_{0}=a'\mu_{1}=a'\mu_{2}$, with $a=S_{pl}^{-1}(\bar{y}_{1}-\bar{y}_{2})$. 
+
+We can then examine each $a_{j}$ in \textbf{a} for an indication of the contribution of the corresponding $y_{j}$ to rejection of $H_{0}$. 
+
+**Example 5.5**
+
+Returning to the psychological data Table $5.1$, we obtained $\bar{y}_{1}- \bar{y}_{2}$, and $\textbf{S}_{pl}$. The discriminant function coefficiente vector is obtained as:
+
+$$a=\textbf{S}_{pl}^{-1}(\bar{y}_{1}- \bar{y}_{2})$$
+
+```{r}
+discriminant_function <- function(data1, data2) {
+    "
+    This function determines the discriminat function coefficient vector
+    
+
+    Input: 
+    + data1: dataset from sample 1
+    + data2: dataset from sample 2
+
+    Output:
+    + a: discriminant function coefficient vector
+  
+    "
+
+  n_1 <<- nrow(data1)
+  n_2<<- nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+  
+  y_mean_1<-as.matrix(
+  apply(data1, 2, FUN=mean
+        )
+  )
+  
+  y_mean_2<-as.matrix(
+  apply(data2, 2, FUN=mean
+        )
+  )
+  sigma_population<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  
+  sigma_population_inverse <- solve(sigma_population)
+  a <- sigma_population_inverse%*%(y_mean_1-y_mean_2)
+  print(
+      "The discriminant coeficient vector is: "
+      )
+  print(round(a, 4))
+}
+```
+
+
+```{r}
+discriminant_function(data542_female, data542_male)
+```
+
+
+Thus the linear combination that best separates the two groups is:
+
+$$a'y= -0,5104y_{1} + 0.2033y_{2} -0.4660y_{3}+0.3097y_{4}$$
+
+
+## Computation of $T^2$
+
+**Obtaining $T^2$ from a MANOVA Program**
+
+One-way MANOVA involves a comparison of mean vectors from several samples. Typically, the number of samples is three or more, but the procedure will also accommodate two samples. The two-sample $T^2$ test is thus a special case of MANOVA.
+
+**Obtaining $T^2$ from Multiple Regression**
+
+
+
+
+**Example: 5.6.2**
+
+We illustrate the regression approach to computation of $T^2$ using the psychological data in Table $5.1.$
+
+
+## Paired Observation Test
+
+**Univariate Case**
+
+Suppose two samples are **not independent** because there exists a natural pairing between the $ith$ observation $y_{i}$ int the first sample and the $ith$ observation $x_{i}$ in the second sample for all $i$, as for example, when a treatment is applied twice to the same indidividual or when subjects are matched according to some criterion, such as IQ or family background. With such pairing, the samples are often referred to as **paired observations or matched pairs**. 
+
+>The two samples thus obtained are `correlated`, and the two-sample test statistic is not appropriate because the samples must be `independent` in order to have a t-distribution. 
+
+**Multivariate Case**
+We assume $y$ and $x$ are correlated and have a multivariate normal distribution.
+
+$$H_0=\mu_d=0$$, which is equivalent to $H_0=\mu_y=\mu_x$, since $\mu_d=E(y-x)=\mu_y-\mu_x$.
+we find:
+$$\bar{d}=\frac{1}{n}\sum_1^nd_i$$
+
+$$S_d=\frac{1}{n-1}\sum_1^n(d_i-\bar{d})(d_i-\bar{d})'$$
+
+
+We then have:
+
+$$T^2=\bar{d}'\begin{pmatrix}
+\frac{S_d}{n}
+\end{pmatrix}^{-1}\bar{d}=n\bar{d}'S_d^{-1}\bar{d}'$$
+
+
+**Example 5.7.2**
+
+To compare two types of coating for resistance to corroison, 15 pieces of pipe were coated with each type of coating. Two pipes, one with each type of coating, were buried together and left for the same length of time at $15$ different locations, providing a natural pairing of the observations. Corrosion for the first type of coating was measured by two variables:
+
+
+$y_1$ = maximum depth of pit in thousandths of an inch. $y_2$ = number of pits.
+
+with $x_1$ and $x_2$ defined analogously for the second coating. The data and differences are given in Table $5.3$. Thus, we have, for example, $y_1'=74$
+
+
+```{r}
+
+#data for exercise 5.7.2, based on table 5.3.maximum depth of pits and number of pits coated pipes
+omq1<-c(
+  43, 73,	47,	53,	58,	47,	52,	38,	61,	56,	56,	34,	55,	65,	75
+  )
+
+tedad1<-c(
+  19,	31,	22,	26,	36,	30,	29,	36,	34,	33,	19,	19,	26,	15,	18
+  )
+
+omq2<-c(
+  41,	51,	43,	41,	47,	32,	24,	43,	53,	52,	57,	44,	57,	40,	68
+)
+
+tedad2<- c(
+  14,	35,	19,	29,	34,	26,	19,	37,	24,	27,	14,	19,	30,	7,	13
+  )
+
+omq_difference  <- (omq1-omq2)
+
+tedad_difference <- (tedad1-tedad2)
+data572 <- tibble(omq1, omq2, tedad1, tedad2, omq_difference, tedad_difference)
+
+data572
+```
+
+
+
+
+
+## Test for Aditional Information
+
+In this section we again consider **two independent samples** in section $5.4$. We start with a basic $p x 1$ vector y of measurements on each sampling unit and **ask** whether a $q x 1$ subvector **x** measured in addition to $y$ (on the same unit) **will significantly increase the separation of the two samples** as shown by $T^2$`.
+
+Or, we may be interested in determining **whether some of the variables we already have are redundant** in the presence of other variables in terms of separating the groups, in terms of **separating the groups**. 
+
+In short: we wish to test the hypothesis that $x_{1}$ and $x_{2}$ are **redundante** for separating the two groups: that is, that the extra $q$ variables **do no** contribute anything significant beyond the information already available in $y_{1}$ and $y_{2}$ for seperating the groups.
+
+**Notice!** We area not asking whether $x$'s can signigicantly separate the two groups by themselves, but whether they provide additional separation beyond the separation already achieved by the $y$'s. 
+
+***
+>$H_{0}$: redundancy of **x**.
+
+>We reject hypothesis of redundancy if $F>= F_{\alpha, q, \nu-p-q+1}$
+
+***
+
+If $x$'s were independent of $y$'s, we would have $T^2_{p+q}=T^2_p+T^2_q$, but this does not hold because they are correlated. Therefore, we can only inquiry **whether the increase from $T^2_p$ to $T^2_{p+q)}$ is significant**.
+
+
+$T^2$-statistic, based on the full set of $p+q$ variables is given by:
+
+$$
+T^2_{p+q}=\frac{n_1n_2}{n_1+n_2}
+\Big(\begin{bmatrix}
+    \bar{y}_1\\
+    \bar{x}_1
+\end{bmatrix}
+-
+\begin{bmatrix}
+    \bar{y}_2\\
+    \bar{x}_2
+\end{bmatrix}\Big)'\textbf{S}_{pl}^{-1}\Big(\begin{bmatrix}
+    \bar{y}_1\\
+    \bar{x}_1
+\end{bmatrix}
+-
+\begin{bmatrix}
+    \bar{y}_2\\
+    \bar{x}_2
+\end{bmatrix}\Big)
+$$
+
+
+Whereas $T^2$, for the reduced set of $p$ variables is:
+
+$$T^2_p=\frac{n_1n_2}{n_1+n_2}(\bar{y}_1- \bar{y}_2)'\textbf{S}_{yy}^{-1}(\bar{y}_1- \bar{y}_2)$$
+
+Then the test statistic for the significance of the increase from $T^2_P$ to $T^2_{p+q}$ is given by:
+
+$$
+T^2(x|y)= (\nu-p)\frac{T^2_{p+q}-T^2_p}{\nu+T^2_p}
+$$
+
+which is distributed as $T^2_{q, \nu-p}$. We reject the hyphotesis of redundancy of $x$ if $T^2(x|y) >= T^2_{\alpha, q,\nu-p}$
+
+$T^2(x|y)$ can be also converted to an $F$-statistic:
+
+$$
+F=\frac{\nu-p-q+1}{q}\frac{T^2_{p+q}-T^2_p}{\nu+ T^2_p}
+$$
+
+Which is distributed as $F_{q, \nu-p-q+1}$, and we reject the hypothesis of redundacy if $F>= F_{\alpha, q, \nu-p-q+1}$
+
+**Example 5.8**
+
+We use the psychological data of Table $5.1$ to illustrate tests on subvectors. We begin by testing the significance of $y_{3}$ and $y_{4}$ above and beyond $y_{1}$ and $y_{2}$ (In the notation of the present section,$y_{3}$ and $y_{4}$ become $x_{1}$ and $x_{2}$).
+
+
+>$H_{0}$: $y_3$ and $y_4$ are redundant on $y_1$ and $y_2$.
+
+For these subvectors, $p = 2$ and $q = 2$. The value of $T^2_{p+q}$ for all four variables as given by (5.27) was obtained in Example $5.4.2$ as $97.6015$. 
+
+Thus, for $y_{1}$ and $y_{2}$ we obtain, by (5.28), the $T^2$-statistic for the reduced set of $p$ variables:
+
+$$
+T_{p}^{2}= \frac{n_{1}n_{2}}{n_{1}+n_{2}}(\bar{y_1}-\bar{y_2})'S_{yy}^{-1}(\bar{y_{1}}-\bar{y_{2}})
+$$
+
+```{r}
+T2_reduced <- {nrow(data542_male)*nrow(data542_female)}/{nrow(data542_male)+ nrow(data542_female)}
+```
+
+
+First, we get the reduced data samples.
+
+```{r}
+##filter variables of interest from each dataset
+if(!require("tidyverse")){
+  install.packages("tidyverse")
+  library("tidyverse")
+  }
+  data542_female_reduced <- data542_female %>% select(y_1f, y_2f) #we select the variables of data1 we are interested in
+  data542_male_reduced <- data542_male %>% select(y_1m, y_2m) #we select the variables of data2 we are interested in
+  
+```
+
+
+Second, with the reduced version of the data samples, we have enough elements to find the $T^2$-statistic for the reduced set of $p$ variables:
+
+```{r}
+#function for finding the T^2-statistic for the reduced set of p variables:
+
+T2_two_sample_reduced<- function(data1_reduced, data2_reduced) {
+  "
+  Function to obtain T2 for the reduced set of p            variables.
+  "
+  n_1 <<- nrow(data1_reduced)
+  n_2<<- nrow(data2_reduced)
+  sigma_1 <- cov(data1_reduced) 
+  sigma_2 <- cov(data2_reduced)
+  
+  y_mean_1<-as.matrix(
+  apply(data1_reduced, 2, FUN=mean
+        )
+  ) 
+  
+  y_mean_2<-as.matrix(
+  apply(data2_reduced, 2, FUN=mean
+        )
+  ) 
+  sigma_population_reduced<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  p <- ncol(data1_reduced)
+  sigma_population_reduced_inverse <- solve(sigma_population_reduced)
+  T2_reduced <<- ((n_1*n_2)/(n_1+n_2))*t(y_mean_1-y_mean_2) %*% sigma_population_reduced_inverse %*% (y_mean_1-y_mean_2)
+  
+  print(paste0("The pooled covariance matrix of the reduced set of ", p, " variables is:"))
+  print(sigma_population_reduced)
+  print(paste0("The value of T2 for the reduced set of ", p, " variables is:"))
+  print (round(T2_reduced, 4))
+
+}
+```
+
+```{r}
+T2_two_sample_reduced(data542_female_reduced, data542_male_reduced)
+```
+
+Third, we are ready to test redundancy of variables or significance of the increase from $T_p^2$ to $T_{p+q}^2$. The null hyphotesis is: redundancy of x. We reject $H_0$ if $T^2_(x|y)>=T^2_(\alpha, q,\nu-p)$
+
+We can also convert $T^2(x|y)$ to an F-statistic:
+
+$$F=\frac{\nu-p-q-1}{q}*\frac{T^2_{p+q}-T^2_p}{v+T^2_p}$$
+
+Then, we reject $H_{0}$ if $F>=F_{\alpha, q, \nu-p-q+1}$.
+
+```{r}
+#Function to test redundancy of variables or significance of the increase from Tp^2 to Tp+q^2
+
+test_redundancy_additional_information <- function(data1, data2, data1_reduced, data2_reduced, alpha) {
+  "
+  This function tests the statistic significance of the increase from T_p^2 to T_{p+q}^2. 
+  H0: Redundancy of x 
+  We reject H0 if T^2_(x|y)>=T^2_(alpha, q, niu-p)
+  Or, if we convert T^2_(x|y) to an F-statistic: we reject H0 if F>=F_{alpha, q, niu-p-q+1}
+
+  Input: 
+  + data1: dataset from sample 1
+  + data2: dataset from sample 2
+  + data1_reduced: dataset from sample 1 with selected variables of interest
+  + data2_reduced: dataset from sample 2 with selected variables of interest
+  + alpha: significance level
+
+  "
+  #package for hotelling testing
+  if(!require("ICSNP")){
+    install.packages("ICSNP")
+    library(ICSNP)
+    }
+  n_1 <<- nrow(data1)
+  n_2 <<- nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+  
+  y_mean_1<-as.matrix(
+  apply(data1, 2, FUN=mean
+        )
+  )
+  
+  y_mean_2<-as.matrix(
+  apply(data2, 2, FUN=mean
+        )
+  )
+  sigma_population<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  
+  sigma_population_inverse <- solve(sigma_population)
+  T2 <<- ((n_1*n_2)/(n_1+n_2))*t(y_mean_1-y_mean_2) %*% sigma_population_inverse %*% (y_mean_1-y_mean_2)
+  
+  n_1 <<- nrow(data1_reduced)
+  n_2<<- nrow(data2_reduced)
+  sigma_1 <- cov(data1_reduced) 
+  sigma_2 <- cov(data2_reduced)
+  
+  y_mean_1<-as.matrix(
+  apply(data1_reduced, 2, FUN=mean
+        )
+  ) 
+  
+  y_mean_2<-as.matrix(
+  apply(data2_reduced, 2, FUN=mean
+        )
+  ) 
+  sigma_population_reduced<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  p <- ncol(data1_reduced)
+  q <- ncol(data1)-ncol(data1_reduced)
+  sigma_population_reduced_inverse <- solve(sigma_population_reduced)
+  T2_reduced <<- ((n_1*n_2)/(n_1+n_2))*t(y_mean_1-y_mean_2) %*% sigma_population_reduced_inverse %*% (y_mean_1-y_mean_2)
+  niu=n_1+n_2-2
+  T2_significance_increase <<- (niu-p)*(T2-T2_reduced)/(niu+T2_reduced)
+  F = ((niu-p-q+1)/q)*(T2-T2_reduced)/(niu+T2_reduced)
+  df1=q
+  df2=niu-p-q+1
+  print(
+    "The pooled covariance matrix is:"
+    )
+  print(
+    round(sigma_population,4
+          )
+    )
+  print(
+    paste0(
+      "The value of T2 is: ", round(T2,4) 
+      )
+    )  
+  
+  print(
+    paste0(
+      "The pooled covariance matrix of the reduced set of ", p, " variables is:"
+      )
+    )
+  print(
+    round(
+      sigma_population_reduced, 4
+      )
+    )
+  print(
+    paste0(
+      "The value of T2 for the reduced set of ", p, " variables is:"
+      )
+    )
+  print(
+    round(
+      T2_reduced, 4
+      )
+    )
+  print(
+    paste0(
+    "The results of the test statistic for the significance of the increase from ", round(T2_reduced,4), " to ", round(T2, 4), " is "
+    )
+  )
+  print(
+    round(
+      T2_significance_increase, 4
+      )
+    )
+
+  print(
+    paste0(
+      "T2 test statistic transformed to an F-statistic is: ", round(F,4)
+           )
+    )
+  print(
+    paste0(
+      "F-critical value: ", round(qf(1-alpha, df1, df2), 5) , " with ", df1," and ", df2, " degrees of freedom", sep=" "
+      )
+    )
+  print(
+    paste0(
+      "Reject H0: ", F > qf(1-alpha, df1, df2)
+      )
+    )
+  print(
+    paste0(
+      "P-value: ", (pf(F,df1, df2, lower.tail = F))
+      )
+    )
+}
+
+
+```
+
+
+```{r}
+test_redundancy_additional_information(data542_female, data542_male, data542_female_reduced, data542_male_reduced, 0.05)
+```
+
+Therefore we conclude that $x=(y_3, y_4)'$ adds a significant amount of separation to $y=(y_1,y_2)'$.
+
+
+If we want to test the effect of each variable adjusted to the rest of the variables, we just need to redefine the data samples from which to pooled. Notice that when we are testing the effect of adding a single $x$, then $t^2_{\alpha/2, \nu -p}= F_{\alpha, 1, \nu-p}$.
+
+For illustration purposes we will only evaluate the effect of $y_1$ on the other three variables.
+
+```{r}
+##filter variables of interest from each dataset: we keep everyvariable by y_1
+if(!require("tidyverse")){
+  install.packages("tidyverse")
+  library("tidyverse")
+  }
+  data542_female_reduced_y1<- data542_female %>% select(y_2f, y_3f,y_4f) #we select the variables of data1 we are interested in
+  data542_male_reduced_y1<- data542_male %>% select(y_2m, y_3m, y_4m) #we select the variables of data2 we are interested in
+  
+```
+
+```{r}
+
+test_redundancy_additional_information(data542_female, data542_male, data542_female_reduced_y1, data542_male_reduced_y1, 0.05)
+```
+
+
+
+## Profile Analysis
+
+When multivariate data are the result of repeated measures, you might want to see how the mean is changing over time. As an example, you might have data on blood pressure taken once per month for the same set of patients.
+
+Profile analysis can also be used when variables are not ordered in time (or any other way), but the values are on a similar scale, such as in psychological testing.
+
+**Tecnical Note:** A profile plot uses the subscript of the variable on the x-axis and the means μ1,...,μp on the y-axis. The pattern obtained by plotting $\mu_{1}, \mu_{2}, ..., \mu_{p}$ as ordinates and connecting the points is called *profile*. **Profile Analysis** is an analysis of the profile or a comparison of two or more profiles. 
+
+In a one sample setting, the null hypothesis that all means are equal $H_{0} : \mu_1 = ··· = \mu_2$ can be interpreted graphically as the hypothesis that the profile plot is flat. The alternative hypothesis is $H_{1} : \mu_{i}\neq \mu_j$ for for some $i,j$.
+
+>Note that these hypotheses are the same as for ANOVA, but the analysis will be different because the columns are not assumed to be independent. Here we have a single population but are sampling correlated variables from this population.
+
+#### Parallelism
+
+Usually the main test of interest of profile analysis. It asks whether each segment is the same across all groups.
+
+
+For two samples, **the null hyphotesis that the two plots have the same slopes (are parallel)** can be tested checking whether differences between means are equal for the two groups. This can be written as:
+
+$$H_0=\mu_{i,j}-\mu_{i,j-1}= \mu_{2,j}-\mu_{2,j-1}$$
+for $j=1, ..., p$. In matrix notation, this is:
+
+$$H_{01}=\begin{pmatrix}
+\mu_{12} & -\mu_{11} \\
+\mu_{12} & -\mu_{11} \\
+\vdots\\
+\mu_{1p} & -\mu_{1, p-1} \\
+\end{pmatrix}=\begin{pmatrix}
+\mu_{22} & -\mu_{21} \\
+\mu_{22} & -\mu_{21} \\
+\vdots\\
+\mu_{2p} & -\mu_{2, p-1} \\
+\end{pmatrix}$$
+
+which can be written as $H_{01}:\mathbf{C\mu_1}=\mathbf{C\mu_2}$, using the contrast matrix:
+
+
+$$\mathbf{C}=
+\begin{pmatrix}
+-1 & 1 & 0 & \dots & 0\\
+0 & -1 & 1 & \dots &0 \\
+\vdots& \vdots&\vdots & &\vdots\\
+0&0&0 & \dots & 1
+\end{pmatrix}$$
+
+
+The test statistic is:
+
+The biggest discrepancy in the slopes can be found by looking at the discriminant function, for which we use:
+
+$$
+\textbf{a}=(\textbf{C}S_{pl}\textbf{C'})^{-1}\textbf{C}(\bar{y}_1- \bar{y}_2)
+$$
+If the largest component of $\textbf{a}$ is $a_i$, then the $i$ slope has largest violation of parallel slopes.
+
+
+#### Same overall level
+A second question is whether two samples have the same overall level, ignoring possible interaction.
+
+This hyphotesis can be expressed as:
+
+$$H_{0}: \mu_{11}+\dots + \mu_{1p}=\mu_{21}+ \cdots +\mu_{2p}$$
+or:
+
+$$H_{0}=j'(\mu_1-\mu_2)=0$$
+
+In this case, the test statistic is:
+
+$$t=\frac{j'(\bar{y}_{1}-\bar{y}_2)}{\sqrt{j'S_{pl}j(1/n_1+1/n_2)}}$$
+which has a t-distribution with $n_1 +n_2 -2$ degrees of freedom.
+
+#### Flatness
+
+A third hyphotesis is that the two profiles are both flat. Because the lack of parallelism automatically implies that at least one curve is not flat, the hypothesis that botch curves are flat is more interesting if the hyphotesis of parallelism cant be rejected. 
+**Example 5.9.2**
+
+We use the psychological data in Table $5.1$ to illustrate two-sample profile analysis. The values of \ $\bar{y}_{1}$, $\bar{y}_{2}$ and $\textbf{S}_{pl}$ are given in Example $5.4.2$. The profiles of the two mean vectors $\bar{y}_{1}$ and $\bar{y}_{2}$  are plotted in Figure $5.8$. There appears to be a lack of parallelism.
+
+To test for parallelism, $H_{01}: \textbf{C}\mu_{1}= \textbf{C}\mu_{2}$, we use the matrix:
+
+```{r message=FALSE, warning=FALSE}
+
+
+```
+
+>1. First: data preparation, joining together both samples
+
+
+```{r}
+
+library(dplyr)
+data542_female <- data542_female %>% select(y1 = y_1f, y2=y_2f, y3=y_3f, y4=y_4f) %>% mutate(gender="female")
+
+data542_male <- data542_male %>% select(y1 = y_1m, y2=y_2m, y3=y_3m, y4=y_4m) %>% mutate(gender="male")
+
+data542 <- rbind(data542_female, data542_male)
+data542
+```
+
+>2. Second we implement the profiling analysis, employing the package "pbg".
+
+```{r message=FALSE, warning=FALSE}
+if(!require("profileR")){
+  install.packages("profileR")
+  library("pbg")
+"The pbg function implements three hypothesis tests. These tests are whether the profiles are parallel, have equal levels, and are flat across groups defined by the grouping variable. If parallelism is rejected, the other two tests are not necessary.
+    "
+}
+```
+
+```{r}
+mod<-pbg(data=data542[,1:4], group=data542[,5], original.names = TRUE, profile.plot = TRUE)
+print(mod)
+summary(mod)
+```
+

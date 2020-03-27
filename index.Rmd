@@ -1,6 +1,6 @@
 --- 
 title: "Multivariate and Categorical Statistics"
-author: "Daniela Pinto Veizaga & Sebatián Cadavid Sánchez"
+author: "Daniela Pinto Veizaga & Sebastián Cadavid Sánchez"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
@@ -18,7 +18,6 @@ description: "This is a book meant to me read along side the book Multivariate M
 
 The **bookdown** package can be installed from CRAN or Github:
 
-Hello
 
 ```{r eval=FALSE}
 install.packages("bookdown")
@@ -26,9 +25,6 @@ install.packages("bookdown")
 # devtools::install_github("rstudio/bookdown")
 ```
 
-Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
-
-To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.name/tinytex/>.
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

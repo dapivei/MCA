@@ -1,0 +1,31 @@
+# Discriminant Analysis: description of group separation {#chapter8} 
+
+
+
+<div align="justify"> 
+
+### Introduction
+
+### Discriminant Function for Two Vectors
+
+
+**Example 8.2**
+
+Samples of steel produced at two different rolling temperatures are compared in *Table 8.1* (Kramer and Jensen 1969a). 
+
+```{r}
+# Data: Yield point and ultimate strenght of steel produced at two rolling temperatures
+
+
+y1t1 <- c(33, 36, 35, 38, 40)
+y2t1 <- c(60, 61, 64, 63, 65)
+y1t2 <- c(35, 36, 38, 39, 41, 43, 41)
+y2t2 <- c(57, 59, 59, 61, 63, 65, 59)
+
+yield_strength_t1 <-data.frame(y1t1, y2t1)
+yield_strength_t1
+
+yield_strength_t2 <-data.frame(y1t2, y2t2)
+yield_strength_t2
+
+```

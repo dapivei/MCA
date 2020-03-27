@@ -1,0 +1,797 @@
+# Tests in covariance matrices {#chapter7}
+
+
+## Introduction
+
+We now consider test of hyphotesis involving the variance-covariance structure.
+
+These tests are often carried out to check assumptions pertaining to other test.
+
+We cover three basic types of hyphotesis:
+
+>1) the covariance matrix has a particular structure;
+>2) two or more covariance matrices are equal;
+>3) certain elements of the covariance matrix are zero.
+
+## Testing a specified pattern for $\Sigma$
+
+
+### Testing $H_0: \Sigma=\Sigma_0$
+
+### Testing Sphericity
+
+The hypothesis that the variables $y_1, y_2, \cdots, y_p$ in y are independent and have the same variance can be expressed as $$H_0; \Sigma=\sigma^2I \text{ versus } H_{1}:\Sigma \neq \sigma^2I$$
+,where $\sigma^2$ is the unknown common variance.
+
+
+>Under $H_0$, the ellipsoid $(y-\mu)'\Sigma^{-1}(y-\mu)=c^2$ reduces to $(y-\mu)'(y-\mu)=\sigma^2c^2$, the equation of a sphere.
+
+Another sphericity hyphotesis of interest in repeated measures is $H_0: C\Sigma C'=\sigma^2 I$, where C is any full-rank $(p-1)xp$ matrix of orthonormal contrasts.
+
+
+
+**Example 7.2.2**
+
+We use the probe word data in Table $3.6$ to illustrate tests of sphericity. The five variables appear to be commensurate, and the hypothesis $H_0: \mu_1=\mu_2 = \cdots =\mu_5$ may be of interest. We would expect the variables to be correlated, and $H_0$ would ordinarily be tested using a multivariate approach, as in Sections 5.9.1 and 6.9.2. 
+
+However, if $\Sigma=\sigma^2I$ or $C\Sigma C' = \sigma^2Ι$, then the hypothesis $H_0:\mu_1=\mu_2=\cdots =\mu_5$ can be tested with a univariate ANOVA F-test (see Section 6.9.1).
+
+> We first test $H_0:\Sigma = \sigma^2I$.
+
+
+```{r}
+#Data
+subject_number <-seq(1:11)
+y1<- c(51,27,37,42,27,43,41,38,36,26,29)
+y2<- c(36,20,22,36,18,32,22,21,23,31,20)
+y3<- c(50,26,41,32,33,43,36,31,27,31,25)
+y4<- c(35,17,37,34,14,35,25,20,25,32,26)
+y5<- c(42,27,30,27,29,40,38,16,28,36,25)
+
+probewords <-data.frame(subject_number,y1,y2,y3,y4,y5)
+probewords
+```
+
+```{r}
+# Obtaining covariance-variance matrix
+S<-cov(probewords[,2:6])
+
+S
+```
+
+
+By (7.7):
+
+$$u=\frac{p^p|S|}{(trS)^p}$$
+
+
+```{r}
+#Finding u
+p<- ncol(probewords[,2:6]) #number of variables
+mu<-round((p**p)*(det(S))/((sum(diag(S)))**p),4)
+mu
+```
+
+Then by (7.9), with $n=11$ and $p=5$, we have:
+
+$$\mu'=\Big(n-1-\frac{2p^2+p+2}{6}\Big)ln\mu$$
+
+```{r}
+# Mu prime
+n<-nrow(probewords)
+mu_prime <- -(n-1-((2*p**2+p+2)/(6*p)))*log(mu)
+round(mu_prime,3)
+```
+
+The approximate $\chi^2$-test has $\frac{1}{2}p(p+1)-1=14$ degrees of freedom.
+
+```{r}
+df_chi<- 0.5*(p*(p+1)-1)
+df_chi
+```
+
+
+We therefore compare $\mu'=26.17$ with $\chi^2_{0.5,14}=23.68$ and reject $H_0: \Sigma=\sigma^2I$.
+
+>Testing $H_0: C\Sigma C'=\sigma^2I$, use $C\Sigma C'$ in place of **C** and use **p-1** in place of **p** in (7.7)-(7.9) and in the degrees of freedom fo $\chi^2$.
+
+Note: **C** is a $(p — 1) x p$ matrix whose rows are *orthonormal contrasts* (orthogonal contrasts that have been normalized to unit length). We can construct **C** by choosing
+any $p — 1$orthogonal contrasts among the means $\mu_1, \mu_2, \cdots, \mu_p$ of the repeated measures factor and dividing each contrast by $\sqrt{\sum_{r=1}^p c_r^2}$. (This matrix C is different from **C** used in Section 6.8 and in the remainder of Section 6.9, whose rows are contrasts that are not normalized to unit length.) 
+
+We use the following matrix of orthonormalized constrast:
+
+```{r}
+
+# Creating a matrix of contrasts
+C= matrix( 
+  c(4, 0, 0, 0, -1, 3, 0, 0, -1, -1, 2, 0, -1, -1 , -1, 1, -1, -1 ,-1, -1), 
+   nrow=4, 
+   ncol=5)
+
+C # contrast matrix
+
+# wordspace: Package required to use "normalize.rows"
+
+if(!require(wordspace)){
+    install.packages("wordspace", dependencies= TRUE)
+    library(wordspace)
+}
+# Creating a matrix of orthonormalized contrasts
+C_ortho<-normalize.rows(C)
+C_ortho #orthonormalized contrast matrix
+
+```
+
+Then using $CSC'$ in place of **S** and with $p-1=4$ for the four rows of **C**, we obtain:
+
+
+```{r}
+# MASS: Package required to use "ginv": to obtain the inverse of a non square matrix.
+
+if(!require(MASS)){
+    install.packages("MASS", dependencies= TRUE)
+    library(MASS)
+}
+mu <- round(((p-1)**(p-1))*det(C_ortho%*%S%*%   ginv(C_ortho))/((sum(diag(C_ortho%*%S%*%ginv(C_ortho)))))**(p-1),3)
+mu
+```
+
+```{r}
+# Mu prime
+n<-nrow(probewords)
+n
+p<-(p-1)
+mu_prime <- -(n-1-((2*(p**2)+p+2)/(6*p)))*log(mu)
+round(mu_prime,3)
+```
+
+For degrees of freedom, we now have $\frac{1}{2}(p-1)(p-1+1)-1=9$ and the critical value is $\chi^2_{0.5,9}=16.92$. Hence, we do not reject $H_0:C\Sigma C'=\sigma^2I$, and a univariate *F-test* of $H_0:\mu_1=\mu=2=\cdots=\mu_5$ may be justified.
+
+### Testing $H_0:\Sigma=\sigma^2[(1-\rho)I+\rho J]$
+
+
+**Example 7.2.3**
+
+
+We use the cork data of Table 6.21.  In Problem 6.34,
+a comparison is made of average thickness, and hence weight, in the four directions. A standard ANOVA approach to this repeated measures design would be valid if (7.10) holds. 
+
+To check this assumption, we test:
+
+$$H_0: \Sigma= \sigma^2[(1-\rho)I+\rho J]$$
+
+
+```{r}
+
+# Data: Weights of corn borings in four directions for 28 trees
+
+tree <- seq(1:28)
+north <- c(72, 60, 56, 41, 32, 30, 39, 42, 37, 33, 32, 63, 54, 47, 91, 56, 79, 81, 78, 46, 39, 32, 60, 35, 39, 50, 43, 48
+)
+east <- c(66, 53, 57, 29, 32, 35, 39, 43, 40, 29, 30 , 45, 46, 51, 79, 68, 65, 80, 55, 38, 35, 30,50, 37, 36, 34, 37, 54
+)
+south <-c(76, 66, 64, 36, 35, 34, 31, 31, 31, 27, 34, 74, 60, 52, 100, 47, 70, 68, 67, 37, 34, 30, 67, 48, 39, 37, 39, 57
+)
+west <-c(77,63, 58, 38, 36, 26, 27, 25, 25, 36, 28, 63, 52, 43, 75, 50, 61, 58, 60, 38, 37, 32, 54, 39, 31, 40, 50, 43
+)
+
+corkBorings <- data.frame(tree, north, east, south, west)
+corkBorings
+```
+
+From a sample, we obtain the sample covariance matrix **S**.
+
+```{r}
+# Covariance matrix
+S <- round(cov(corkBorings[,2:5]),2)
+S
+```
+
+Estimates of $\sigma^2$ and $\sigma^2\rho$ under $H_0$ are given by:
+
+$$s^2=\frac{1}{p}\sum_{j=1}^{p}s_{jj}$$
+
+$$s^2r=\frac{1}{\rho (\rho-1)}\sum_{j\neq k} s_{jk}$$
+Where $s_{jj}$ and $s_{jk}$ are from **S**. 
+
+
+```{r}
+# Average of the variances on the diagonal of S
+
+p<- ncol(S)
+s2<-round(sum(diag(S))/p, 3)
+print(paste0("Average varaicnes of the diagonal of S: ", s2))
+```
+
+
+```{r}
+# Average of the off-diagonal covariances in S
+s2r <- round((sum (S)- sum(diag(S)))/(p*(p-1)),3)
+s2r
+```
+
+An estimate of $\rho$ can be obtained as:
+
+$$r=\frac{s^2r}{s^2}$$
+
+```{r}
+# Estimate of rho
+r <-round(s2r/s2,3)
+r
+```
+
+Recall:
+
+$$\mu= \frac{|S|}{(s^2)^{p}(1-r)^{p-1}[1+(p-1)r]}$$
+
+$$\mu '=-\Big[\nu-\frac{p(p+1)^2(2p-3)}{6(p-1)(p^2+p-4)}\Big]ln \mu$$
+
+, where $\nu$ is the degrees of freedom of **S**. For a single sample, $\nu=n-1$; for a pooled covariance matrix, $\nu=\sum_{i=1}^k(n_i-1)=\sum_{i=1}^kn_i-k=N-k$
+
+```{r}
+# Determinant of S_0
+det_S0<-((s2)**p)*(1-r)**(p-1)*(1+(p-1)*r)
+det_S0
+```
+
+```{r}
+# mu
+mu <- round(det(S)/det_S0,4)
+mu
+```
+
+
+```{r}
+
+# mu_prime
+n <- nrow(corkBorings)
+nu <- n-1 #degrees of freedom of S; for a single sample, nu=n-1
+mu_prime <- -(nu-(p*((p+1)**2)*(2*p-3))/(6*(p-1)*(p**2+p-4)))*log(mu)
+mu_prime
+```
+
+
+> The statistic $\mu'$ is approximately $\chi^2[\frac{1}{2}p(p+1)-2]$ and we reject $H_0$ if $\mu'$ > \chi^2[\alpha, \frac{1}{2}p(p+1)-2]$. Note that two degrees of freedom are lost due to estimation of $\sigma^2$ and $\rho$.
+
+Since 19.511 > $\chi^2_{0.5, 8}=15.5$, we reject $H_0$ and conclude that $\Sigma$ does not have the pattern in (7.10): $\sigma^2[(1-\rho)I+\rho J]$.
+
+## Tests comparing covariance matrices
+
+### Univariate Tests of Equality of Variances
+### Multivariate Tests of Equality of Covariance Matrices
+
+**Example 7.3.2**
+
+We test the hypothesis $H_{0}: \Sigma_{1}=\Sigma_{2}$ for the psychological data of Table *5.1*. 
+
+>1) First we load the data required
+
+```{r}
+#pyschological data of males
+
+y_1m <- c(17,	15,	15,	13,	20,	15,	15,	13,	14,	17,	17,	17,	15,	18,	18,	15,	18,	10,	18,	18,	13,	16,	11,	16,	16,	18,	16,	15,	18,	18,	17,	19)
+
+y_2m <-c(15,	17,	14,	12,	17,	21,	13,	5,	7,	15,	17,	20,	15,	19,	18,	14,	17,	14,	21,	21,	17,	16,	15,	13,	13,	18,	15,	16,	19,	16,	20,	19)
+
+y_3m <- c(32,	24,	29,	10,	26,	26,	26,	22,	30,	30,	26,	28,	29,	32,	31,	26,	33,	19,	30,	34,	30,	16,	25,	26,	23,	34,	28,	29,	32,	33,	21,	30)
+
+y_4m <- c(26,	14,	23,	16,	28,	21,	22,	22,	17,	27,	20,	24,	24,	28,	27,	21,	26,	17,	29,	26,	24,	16,	23,	16,	21,	24,	27,	24,	23,	23,	21,	28)
+```
+
+
+```{r}
+data542_male <- data.frame(
+  y_1m, y_2m, y_3m, y_4m
+  )
+data542_male
+```
+
+
+
+```{r}
+#pyschological data of females
+
+y_1f <- c(
+  14,	13,	12,	12,	11, 12,	10,	10,	12,	11,	12,	14,	14,	13,	14,	13,	16,	14,	16,	13,	2,	14,	17,	16,	15,	12,	14,	13,	11,	7,	12,	6
+  )
+
+
+y_2f <-c(
+  12,	14,	19,	13,	20,	9,	13,	8,	20,	10,	18,	18,	10,	16,	8,	16,	21,	17,	16,	16,	6,	16,	17,	13,	14,	10,	17,	15,	16,	7,	15,	5
+  )
+
+y_3f <- c(
+  14,	12,	21,	10,	16,	14,	18,	13,	19,	11,	25,	13,	25,	8,	13,	23,	26,	14,	15,	23,	16,	22,	22,	16,	20,	12,	24,	18,	18,	19,	7,	6
+  )
+
+y_4f <- c(
+  26,	21,	21,	16,	16,	18,	24,	23,	23,	27,	25,	26,	28,	14,	25,	28,	26,	14,	23,	24,	21,	26,	28,	14,	26,	9,	23,	20,	28,	18,	28,	13
+  )
+```
+
+```{r}
+data542_female <- data.frame(
+  y_1f, y_2f, y_3f, y_4f
+  )
+data542_female
+
+
+```
+
+The covariance matrices $S_1, S_2, S_pl$ were given in Example 5.4.2. Using these, we obtain, by (7.24),
+
+```{r}
+# Sigma male and Sigma female
+sigma_male <- cov(data542_male)
+sigma_male
+sigma_female <- cov(data542_female)
+sigma_female
+```
+
+
+```{r}
+# Sigma pooled
+
+pooled_sigma <- function(data1, data2) {
+  "
+
+  "
+  n_1= nrow(data1)
+  n_2= nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+
+  sigma_population<-(1/(n_1+n_2-2))*((n_1-1) * sigma_1 + (n_2-1) * sigma_2)
+  print("The pooled covariance matrix is:")
+  print(sigma_population)
+}
+
+pooled_sigma_542<-pooled_sigma(data542_female, data542_male)
+
+```
+
+
+Using the covariances matrices and pooled variance, we obtain: `ln M`.
+
+
+$$ln M= \frac{1}{2}[\nu_1ln|S_1|+\nu |S_2|]-\frac{1}{2}(\nu_1+\nu_2)ln |S_{pl}|$$
+
+
+```{r}
+n1 <- nrow(data542_female)
+n2 <- nrow(data542_male)
+nu1 <- n1-1
+nu2 <- n2-1
+ln_M <- 0.5*(nu1*log(det(sigma_female))+ nu2*(log(det(sigma_male))))-0.5*(nu1+nu2)*(log(det(pooled_sigma_542)))
+ln_M
+```
+
+For the $\chi^2$-approximation, we compute, by (7.25) and (7.23): $c_1$; then $\mu=-2(1-c1)ln M$ is approximately $\chi^2[\frac{1}{2}(k-1)p(p+1)]$.
+
+```{r}
+-2*ln_M
+```
+
+with 19.74, its critical value from Table A.14.
+
+We reject $H_0$ if $\mu > \chi^2_{\alpha}$. If $\nu_1= \nu_2= \cdots=\nu_k=\nu$, then c1 simplifies to:
+
+$$c_1=\frac{(k+1)(2p^2+3p-1)}{6k\nu(p+1)}$$
+
+```{r}
+# c1
+n <- nrow(data542_female)  #nrow(female)=nrow(male)
+nu <- n-1 #nu1=nu2=nu
+k<-2 #two samples
+p <- ncol(sigma_female) #the samen number of variates for females or males
+c1 <- (k+1)*(2*p**2+3*p-1)/(6*k*nu*(p+1))
+c1
+```
+
+
+```{r}
+# mu
+mu <--(2*(1-c1)*ln_M)
+mu
+```
+
+
+$$\mu=13.551 < \chi^2_{0.05,10}=18.307$$
+
+For an approximate *F-test*, we first calculate the following:
+
+$$c_2=\frac{(p-1)(p+2)}{6(k-1)}\Big[\sum_{i=1}^k\frac{1}{\nu_i^2}-\frac{1}{(\sum_{i=1}^k \nu_i)^2}\Big]$$
+
+
+```{r}
+nu
+```
+
+```{r}
+
+c2<-((p-1)*(p+2)/(6*(k-1)))*((1/nu**2)*2-(1/(nu*2)**2))
+c2
+```
+
+
+$$a_1=\frac{1}{2}(k-1)p(p+1)$$
+
+```{r}
+
+# a1
+a1 <-0.5*(k-1)*p*(p+1)
+a1
+```
+
+$$a_2=\frac{a_1+2}{|c_2-c_1^2|}$$
+
+```{r}
+# a2
+a2 <- (a1+2)/abs(c2-c1**2)
+a2
+```
+
+$$b_1=\frac{1-c_1-a_1/a_2}{a_1}$$
+
+```{r}
+b1 <- (1-c1-a1/a2)/a1
+b1
+```
+
+
+$$b_2=\frac{1-c_1-2/a_2}{a_2}$$
+
+```{r}
+b2 <- (1-c1-2/a2)/a2
+b2
+```
+
+Since $c_2=0.005463 > c_1^2=0.00481$, we use (7.27) to obtain:
+
+$F=-2b_1 \ln \ M$, which is approximately $F_{a1, a2}$.
+
+```{r}
+F <- -2*b1*ln_M
+F
+```
+
+
+Since $F=1.354 < F_{.05, 10, \infty}=1.83$
+
+Thus all three tests accept $H_0$.
+
+## Tests of independence
+
+### Independence of Two Subvectors
+
+**Example 7.4.1**
+
+
+Suppose the observation vector is partitioned into two vectors of interest, which we label *y* and *x*, as in Section 3.9.1,where **y** is *px1* and **x** is *qx1*. By (3.46), the corresponding partitioning og the population variance matrix is:
+
+$$\Sigma= \begin{bmatrix}
+\Sigma_{yy} & \Sigma_{yx}\\
+\Sigma_{xy} & \Sigma_{xx}
+\end{bmatrix}$$
+
+with analogous partitioning of **S** and **R** as in (3.42):
+
+$$S= \begin{bmatrix}
+S_{yy} & S_{yx}\\
+S_{xy} & S_{xx}
+\end{bmatrix}$$
+
+$$R= \begin{bmatrix}
+R_{yy} & R_{yx}\\
+R_{xy} & R_{xx}
+\end{bmatrix}$$
+
+The hyphotesis of independence of **y** and **x** can be expressed as:
+
+$$H_0:\Sigma= \begin{bmatrix}
+\Sigma_{yy} & O\\
+O & \Sigma_{xx}
+\end{bmatrix}$$
+
+or
+
+$$H_0: \Sigma_{yx}=O$$.
+
+Thus independence of **y** and **x** means that every variable in **y** is independent of every variable in **x**. Note that there is no restriction on $\Sigma_{yy}$ or $\Sigma_{xx}$.
+
+Now, consider the diabetes data in *Table 3.5*. 
+
+```{r}
+# Data: relative weight, bloopd glucose, and insuline levels
+
+patient_number <- seq(1:46
+                      )
+y1 <- c(0.81, 0.95, 0.94, 1.04, 1.00, .76, .91, 1.10, .99, 1.10, 0.99, .73, .96, .84, .74, .98, 1.10, .85, .83, .93, .95, .74, .95, .97, .72, 1.11, 1.2, 1.13, 1., .78, 1., 1., .71, .76, .89, .88, 1.17, .85, .97,1, 1, .89, .98, .78, .74, .91 
+                     )
+y2 <-c(80, 97, 105, 90, 90, 86, 100, 85, 97, 97, 91, 87, 78, 90, 86, 80, 90, 99, 85, 90, 90, 88, 95, 90, 92, 74, 98, 100, 86, 98, 70, 99, 75, 90, 85, 99, 100, 78, 106, 98, 102, 90, 94, 80, 93, 86
+                   )
+
+x1 <- c(356, 289, 319, 356, 323, 381, 350, 301, 379, 296, 353, 306, 290, 371, 312, 393, 364, 359, 296, 345, 378, 304, 347, 327, 386, 365, 365, 352, 325, 321, 360, 336, 352, 353, 373, 376, 367, 335, 396, 277, 378, 360, 291, 269, 318, 328
+                  )
+x2 <- c(124, 117, 143, 199, 240, 157, 221, 186, 142, 131, 221, 178, 136, 200, 208, 202, 152, 185, 116, 123, 136, 134, 184, 192, 279, 228, 145, 172, 179, 222, 134, 143, 169, 263, 174, 134, 182, 241, 128, 222, 165, 282, 94, 121, 73, 106
+                   )
+
+x3 <- c(55, 76, 105, 108, 143, 165, 119, 105, 98, 94, 53, 66, 142, 93, 68, 102, 76, 37, 60, 50, 47, 50, 91, 124, 74, 235, 158, 140,145, 99, 90, 105, 32, 165,78, 80, 54, 175, 80, 186, 117, 160, 71, 29, 42, 56
+          )
+
+clinical_clasification <- rep(3, 46
+                              )
+  
+measures <- data.frame(y1,y2,x1,x2,x3)
+measures
+
+
+```
+
+There is a natural partitioning in the variables, with $y_1$ and $y_2$ of minor interest and $x_1, x_2, x_3$ of major interest. We test independence of the $y's$ and the $x's$, that is, $H_0: \Sigma_{yx}=O$. 
+
+From Example *3.9.1*, the partitioned covariance matrix is:
+
+```{r}
+
+# Full rank variance-covariance matrix
+S <- cov(measures)
+# Covariance of partitioned matrices
+S11 <- round(S[1:2,1:2],4)
+S22 <- round(S[3:5,3:5])
+S11
+S22
+```
+
+
+The likelihood ratio test statistic for $H_0: \Sigma_{yx}=O$ is given by:
+
+$$\Lambda=\frac{|S|}{|S_{yy}||S_{xx}|}$$
+which is distributed as:
+
+$$\Lambda_{p, q, n-1-q}$$
+
+```{r}
+# Likelihood ratio test
+lambda <- det(S)/(det(S11)*det(S22))
+lambda
+```
+
+>We reject $H_0$ if $\Lambda \leq \Lambda_{\alpha}$
+
+Since:
+
+$$\Lambda=0.724 < \Lambda_{0.05, 2, 3, 40}=.730$$
+
+
+Thus we reject the hyphotesis of independence. Note the use of 40 in $\Lambda_{0.05, 2, 3, 40}$ in place of $n-1-q=46-1-3=42.$ This is a conservative approach that allows the use of a table value without interpolation.
+
+### Independence of Several Subvectors
+
+**Example 7.4.2**
+
+For **30** brands of Japanese Seishu wine, Siotani et al. (1963) studied the rela- tionship between:
+
+
+$$y_1=taste$$
+$$y_2=odor$$
+
+and
+
+$$x_1=pH$$
+$$x_2= \text{acidity 1}$$
+$$x_3= \text{acidity 2}$$
+$$x_4= \text{sake meter}$$
+$$x_5= \text{direct reducing sugar}$$
+$$x_6= \text{total sugar}$$
+$$x_7= \text{alcohol}$$
+$$x_8= \text{formy-nitrogen}$$
+
+
+The data are in *Table 7.1*.
+
+```{r}
+y1 <- c( 1.0, .1, .5, .7, -.1, .4, .2, .3, .7, .5, -.1, .5, .5, .6, .0, -.2, .0, .2, -.1, .6,.8, .5, .4, .6, -.7, -.2, .3, .1, .4, -.6
+)
+
+y2 <- c(.8, .2, .0, .7, -1.1, .5, -.3, -.1, .4, -.1, .1,-.5, -.8, .2, -.5, -.2, -.2, .2, -.2, .1, .5, .2, .7, -.3, -.3, .0, -.1, .4, .5, -.3
+)
+
+x1 <- c(4.05, 3.81, 4.20, 4.35, 4.35, 4.05, 4.20, 4.32, 4.21, 4.17, 4.45, 4.45, 4.25, 4.25, 4.05, 4.22, 4.10, 4.28, 4.32, 4.12, 4.30, 4.55, 4.15, 4.15, 4.25, 3.95, 4.35, 4.15, 4.16, 3.85
+)
+
+x2 <- c(1.68, 1.39, 1.63, 1.43, 1.53, 1.84, 1.61, 1.43, 1.74, 1.72, 1.78, 1.48, 1.53, 1.49, 1.48, 1.64, 1.55, 1.52, 1.54, 1.68, 1.50, 1.50, 1.62, 1.32, 1.77, 1.36, 1.42, 1.17, 1.61, 1.32
+)
+
+x3 <- c(0.85, .30, .92, .97, .87, .95, 1.09, .93, .95, .92, 1.19, .86, .83, .86, .30, .90, .85, .75, .83, .84, .92, 1.14, .78, .31, 1.12, .25, .96, 1.06, .91, .30)
+
+
+x4 <- c(3.0, .6, -2.3, -1.6, -2.0, -2.5, -1.7, -5.0, -1.5, -1.2, -2.0, -2.0, -3.0, 2.0, .0, -2.2, 1.8, -4.8, -2.0, -2.1, -1.5, .9, -7.0, .8, .5, 1.0, -2.5, -4.5, -2.1, .7
+)
+
+x5 <- c(3.97, 3.62, 3.48, 3.45, 3.67, 3.61, 3.25, 4.16, 3.4, 3.62, 3.09, 3.32, 3.48, 3.13, 3.67, 3.59, 3.02, 3.64, 3.17, 3.72, 2.98, 2.6, 4.11, 3.56, 2.84, 3.67, 3.4, 3.89, 3.93, 3.61
+)
+
+x6 <- c(5, 4.52, 4.46, 3.98, 4.22, 5, 4.15, 5.45, 4.25, 4.31, 3.92, 4.09, 4.54, 3.45, 4.54,4.49, 3.62, 4.93,4.62, 4.83, 3.92, 3.45, 5.55, 4.42, 4.15, 4.52, 4.12, 5., 4.35, 4.29
+)
+
+x7 <- c(16.9, 15.80, 15.80, 15.40, 15.40, 16.78, 15.81, 16.78, 16.62, 16.70, 16.50, 15.40, 15.55, 15.60, 15.38, 16.37, 15.31, 15.77, 16.60, 16.93, 15.10, 15.70, 15.50, 15.40, 16.65, 15.98, 15.30, 16.79, 15.70,15.71
+)
+
+x8 <- c(122, 62, 139, 150, 138, 123, 172, 144, 153, 121, 176, 128, 126, 128, 99, 122.8, 114, 125, 119, 111, 68, 197, 106, 49.5, 164, 29.5, 131, 168.2, 118, 48
+)
+seishu <- data.frame(y1, y2,x1, x2, x3, x4, x5, x6, x7, x8)
+seishu
+
+
+```
+
+We test independence of the following four subsets of variables:
+
+$$(y_1, y_2), (x_1, x_2, x_3), (x_4, x_5, x_6), (x_7,x_8)$$
+
+The sample covariance matrix is:
+
+$$\textbf{S}= \begin{bmatrix}
+S_{11}& S_{12} & S_{13} & S_{14}\\
+S_{21}& S_{22} & S_{23} & S_{24}\\
+S_{31}& S_{32} & S_{33} & S_{34}\\
+S_{41}& S_{42} & S_{43} & S_{44}
+\end{bmatrix}$$
+
+
+, where $S_{11}$ is $2x2$, $S_{22}$ is $3x3$, $S_{33}$ is $3x3$ and $S_{44}$ is $2x2$. We first obtain:
+
+
+```{r}
+# Obtain full variance covariance matrix
+S <- cov(seishu)
+S
+# Obtain covariance of partitioned matrices
+S11 <- round(S[1:2,1:2],2)
+S22 <- round(S[3:5,3:5], 3)
+S33 <- round(S[6:8, 6:8], 2)
+S44 <- round(S[9:10, 9:10], 2)
+
+S11
+S22
+S33
+S44
+
+```
+
+Then, we obtain the likelihood ratio statistic:
+
+$$\mu= \frac{|S|}{|S_{11}||S_{22}||S_{33}||S_{44}|}$$
+
+```{r}
+mu <- round(det(S)/(det(S11)*det(S22)*det(S33)*det(S44)),3)
+mu
+```
+
+The statistic $\mu$ does not have Wilks $\lambda$-distribution as it does in (7.30) when $k$=2, but a good $\chi^2$-approximation to its distribution is given by:
+
+$$\mu'=-\nu \ c \ ln \mu$$
+
+,where: 
+
+$$c=1- \frac{1}{12f\nu}(2a_3+3a_2)$$
+$$f=\frac{1}{2}a_2$$
+
+$$a_2=p^2-\sum_{i=1}^4p_i^2$$
+
+$$a_3=p^3-\sum_{i=1}^4p_i^3$$
+
+and $\nu$ is the degrees of freedom of **S**. 
+>We reject the independence hyphotesis if $\mu' > \chi^2_{\alpha, f}$
+
+Then, for the $\chi^2$-approximation, we calculate:
+
+$$a_2=p^2-\sum_{i=1}^4p_i^2$$
+
+```{r}
+# a2
+p <- ncol(S)
+p1 <- ncol(S11)
+p1
+p2 <- ncol(S22)
+p2
+p3 <- ncol(S33)
+p3
+p4 <- ncol(S44)
+p4
+a2 <- (p**2) - ((p1**2)+(p2**2)+(p3**2)+(p4**2))
+a2
+```
+
+$$a_3=p^3-\sum_{i=1}^4p_i^3$$
+
+```{r}
+# a3
+a3 <- (p**3) - ((p1**3)+(p2**3)+(p3**3)+(p4**3))
+a3
+```
+
+$$f=\frac{1}{2}a_2$$
+
+```{r}
+# f
+f <- 0.5*a2
+f
+```
+
+$$c=1- \frac{1}{12f\nu}(2a_3+3a_2)$$
+
+```{r}
+# c
+n <- nrow(seishu)
+nu <- n-1
+nu
+c <- round(1-(1/(12*f*nu))*(2*a3+3*a2),3)
+c
+```
+
+Then, 
+
+$$\mu'=-\nu \ c \ ln \ \mu$$
+
+```{r}
+# mu prime
+mu_prime <- -(nu*c*log(mu))
+mu_prime
+```
+
+which exceeds $\chi^2_{0.001, 37}=69.35$, and we reject the hyphotesis of independence of the four subsets.
+
+### Test for Independence of All Variables
+
+**Example 7.4.3**
+
+For this exercise we use the probe data from table *3.6*.
+
+We test the hyphotesis:
+
+$$H_0: \sigma_{jk}=0, j\neq k$$.
+
+
+```{r}
+probewords
+```
+
+First, we obtain **R**:
+
+```{r}
+# Correlation matrix
+R <- round(cor (probewords[, 2:6]),3)
+R
+```
+
+
+Then by (7.37) and (7.38), 
+
+$$\mu=|R|$$
+
+```{r}
+# mu 
+mu <- round(det(R),4)
+mu
+```
+
+$$\mu'=-[n-1-\frac{1}{6}(2p+5)]ln \ \mu$$
+
+
+```{r}
+# mu prime
+n = nrow(probewords)
+p = ncol(R)
+mu_prime <- -(n-1-(1/6)*((2*p)+5))*log(mu)
+round(mu_prime,3)
+  
+```
+
+The exact 0.01 critical value for $\mu'$ from *table A.15* is 23.75, and we therefore reject $H_0$. The approximate $\chi^2$ critical value for $\mu'$ is $\chi^2_{0.01, 10}=23.21$, with which we also reject $H_0$.
+
+
+
+
+
