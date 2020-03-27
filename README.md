@@ -11,4 +11,4 @@ Click [here](https://dapivei.github.io/MCA/) to access our implementations and s
 **Contact Information:**
 
 - Daniela Pinto Veizaga, [dapivei](https://github.com/dapivei);
-- Sebastián Cadavid Sánchez [C1587S](https://github.com/C1587S)
+- Sebastián Cadavid Sánchez, [C1587S](https://github.com/C1587S).
