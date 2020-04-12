@@ -2758,114 +2758,37 @@ Where:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="chapter9.html#cb43-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;magrittr&quot;</span>)){</span>
 <span id="cb43-2"><a href="chapter9.html#cb43-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
 <span id="cb43-3"><a href="chapter9.html#cb43-3"></a>    <span class="kw">library</span>(magrittr)</span>
-<span id="cb43-4"><a href="chapter9.html#cb43-4"></a>}</span></code></pre></div>
-<pre><code>## Loading required package: magrittr</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="chapter9.html#cb45-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;dplyr&quot;</span>)){</span>
-<span id="cb45-2"><a href="chapter9.html#cb45-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
-<span id="cb45-3"><a href="chapter9.html#cb45-3"></a>    <span class="kw">library</span>(dplyr)</span>
-<span id="cb45-4"><a href="chapter9.html#cb45-4"></a>}</span></code></pre></div>
-<pre><code>## Loading required package: dplyr</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:MASS&#39;:
-## 
-##     select</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="chapter9.html#cb51-1"></a>data542_female&lt;-data542_female <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">gender=</span><span class="st">&quot;female&quot;</span>)</span>
-<span id="cb51-2"><a href="chapter9.html#cb51-2"></a>data542_male &lt;-<span class="st"> </span>data542_male <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">gender=</span><span class="st">&quot;male&quot;</span>)</span>
-<span id="cb51-3"><a href="chapter9.html#cb51-3"></a>psychologicalData&lt;-<span class="kw">rbind</span>(data542_female, data542_male)</span>
-<span id="cb51-4"><a href="chapter9.html#cb51-4"></a>psychologicalData</span></code></pre></div>
-<pre><code>##    y_1 y_2 y_3 y_4 gender
-## 1   14  12  14  26 female
-## 2   13  14  12  21 female
-## 3   12  19  21  21 female
-## 4   12  13  10  16 female
-## 5   11  20  16  16 female
-## 6   12   9  14  18 female
-## 7   10  13  18  24 female
-## 8   10   8  13  23 female
-## 9   12  20  19  23 female
-## 10  11  10  11  27 female
-## 11  12  18  25  25 female
-## 12  14  18  13  26 female
-## 13  14  10  25  28 female
-## 14  13  16   8  14 female
-## 15  14   8  13  25 female
-## 16  13  16  23  28 female
-## 17  16  21  26  26 female
-## 18  14  17  14  14 female
-## 19  16  16  15  23 female
-## 20  13  16  23  24 female
-## 21   2   6  16  21 female
-## 22  14  16  22  26 female
-## 23  17  17  22  28 female
-## 24  16  13  16  14 female
-## 25  15  14  20  26 female
-## 26  12  10  12   9 female
-## 27  14  17  24  23 female
-## 28  13  15  18  20 female
-## 29  11  16  18  28 female
-## 30   7   7  19  18 female
-## 31  12  15   7  28 female
-## 32   6   5   6  13 female
-## 33  17  15  32  26   male
-## 34  15  17  24  14   male
-## 35  15  14  29  23   male
-## 36  13  12  10  16   male
-## 37  20  17  26  28   male
-## 38  15  21  26  21   male
-## 39  15  13  26  22   male
-## 40  13   5  22  22   male
-## 41  14   7  30  17   male
-## 42  17  15  30  27   male
-## 43  17  17  26  20   male
-## 44  17  20  28  24   male
-## 45  15  15  29  24   male
-## 46  18  19  32  28   male
-## 47  18  18  31  27   male
-## 48  15  14  26  21   male
-## 49  18  17  33  26   male
-## 50  10  14  19  17   male
-## 51  18  21  30  29   male
-## 52  18  21  34  26   male
-## 53  13  17  30  24   male
-## 54  16  16  16  16   male
-## 55  11  15  25  23   male
-## 56  16  13  26  16   male
-## 57  16  13  23  21   male
-## 58  18  18  34  24   male
-## 59  16  15  28  27   male
-## 60  15  16  29  24   male
-## 61  18  19  32  23   male
-## 62  18  16  33  23   male
-## 63  17  20  21  21   male
-## 64  19  19  30  28   male</code></pre>
+<span id="cb43-4"><a href="chapter9.html#cb43-4"></a>}</span>
+<span id="cb43-5"><a href="chapter9.html#cb43-5"></a></span>
+<span id="cb43-6"><a href="chapter9.html#cb43-6"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;dplyr&quot;</span>)){</span>
+<span id="cb43-7"><a href="chapter9.html#cb43-7"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb43-8"><a href="chapter9.html#cb43-8"></a>    <span class="kw">library</span>(dplyr)</span>
+<span id="cb43-9"><a href="chapter9.html#cb43-9"></a>}</span>
+<span id="cb43-10"><a href="chapter9.html#cb43-10"></a></span>
+<span id="cb43-11"><a href="chapter9.html#cb43-11"></a>data542_female&lt;-data542_female <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">gender=</span><span class="st">&quot;female&quot;</span>)</span>
+<span id="cb43-12"><a href="chapter9.html#cb43-12"></a>data542_male &lt;-<span class="st"> </span>data542_male <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">gender=</span><span class="st">&quot;male&quot;</span>)</span>
+<span id="cb43-13"><a href="chapter9.html#cb43-13"></a>psychologicalData&lt;-<span class="kw">rbind</span>(data542_female, data542_male)</span></code></pre></div>
 <blockquote>
 <ol start="2" style="list-style-type: decimal">
 <li>Lda function to data</li>
 </ol>
 </blockquote>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="chapter9.html#cb53-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;MASS&quot;</span>)){</span>
-<span id="cb53-2"><a href="chapter9.html#cb53-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
-<span id="cb53-3"><a href="chapter9.html#cb53-3"></a>    <span class="kw">library</span>(MASS)</span>
-<span id="cb53-4"><a href="chapter9.html#cb53-4"></a>  }</span>
-<span id="cb53-5"><a href="chapter9.html#cb53-5"></a>psychologicalData_lda &lt;-<span class="st"> </span><span class="kw">lda</span>(gender <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> psychologicalData)</span>
-<span id="cb53-6"><a href="chapter9.html#cb53-6"></a>psychologicalData_lda_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(psychologicalData_lda)<span class="op">$</span>class</span>
-<span id="cb53-7"><a href="chapter9.html#cb53-7"></a>confusion_lda&lt;-<span class="kw">table</span>(psychologicalData<span class="op">$</span>gender, psychologicalData_lda_pred, <span class="dt">dnn =</span> <span class="kw">c</span>(<span class="st">&#39;Actual Group&#39;</span>,<span class="st">&#39;Predicted Group&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapter9.html#cb44-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;MASS&quot;</span>)){</span>
+<span id="cb44-2"><a href="chapter9.html#cb44-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb44-3"><a href="chapter9.html#cb44-3"></a>    <span class="kw">library</span>(MASS)</span>
+<span id="cb44-4"><a href="chapter9.html#cb44-4"></a>  }</span>
+<span id="cb44-5"><a href="chapter9.html#cb44-5"></a>psychologicalData_lda &lt;-<span class="st"> </span><span class="kw">lda</span>(gender <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> psychologicalData)</span>
+<span id="cb44-6"><a href="chapter9.html#cb44-6"></a>psychologicalData_lda_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(psychologicalData_lda)<span class="op">$</span>class</span>
+<span id="cb44-7"><a href="chapter9.html#cb44-7"></a>confusion_lda&lt;-<span class="kw">table</span>(psychologicalData<span class="op">$</span>gender, psychologicalData_lda_pred, <span class="dt">dnn =</span> <span class="kw">c</span>(<span class="st">&#39;Actual Group&#39;</span>,<span class="st">&#39;Predicted Group&#39;</span>))</span></code></pre></div>
 <blockquote>
 <ol start="3" style="list-style-type: decimal">
 <li>Obtaining apparent error rate</li>
 </ol>
 </blockquote>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter9.html#cb54-1"></a>apparentCorrectRateLda&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(<span class="kw">diag</span>(confusion_lda))<span class="op">/</span><span class="kw">sum</span>(confusion_lda),<span class="dv">3</span>)</span>
-<span id="cb54-2"><a href="chapter9.html#cb54-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent correct classification rate, using lda, is: &quot;</span>, apparentCorrectRateLda))</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="chapter9.html#cb45-1"></a>apparentCorrectRateLda&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(<span class="kw">diag</span>(confusion_lda))<span class="op">/</span><span class="kw">sum</span>(confusion_lda),<span class="dv">3</span>)</span>
+<span id="cb45-2"><a href="chapter9.html#cb45-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent correct classification rate, using lda, is: &quot;</span>, apparentCorrectRateLda))</span></code></pre></div>
 <pre><code>## [1] &quot;The apparent correct classification rate, using lda, is: 0.875&quot;</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter9.html#cb56-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent error rate, using lda, is: &quot;</span>, (<span class="dv">1</span><span class="op">-</span>apparentCorrectRateLda)))</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="chapter9.html#cb47-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent error rate, using lda, is: &quot;</span>, (<span class="dv">1</span><span class="op">-</span>apparentCorrectRateLda)))</span></code></pre></div>
 <pre><code>## [1] &quot;The apparent error rate, using lda, is: 0.125&quot;</code></pre>
 </div>
 <div id="example-9.4.b" class="section level3" number="9.4.2">
@@ -2873,19 +2796,19 @@ Where:</p>
 <p>We use the football data of Table <span class="math inline">\(8.3\)</span> to illustrate the use of the resubstitution method for estimating the error rate in the case of more than two groups. The sample covariance matrices for the three groups are almost significantly different, and we will use both linear and quadratic classification functions.
 The linear classification</p>
 <p><strong>Using Linear Discriminating Function</strong></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="chapter9.html#cb58-1"></a>apparentCorrectRateLda&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(<span class="kw">diag</span>(confusion_lda))<span class="op">/</span><span class="kw">sum</span>(confusion_lda),<span class="dv">3</span>)</span>
-<span id="cb58-2"><a href="chapter9.html#cb58-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent correct classification rate, using lda, is: &quot;</span>, apparentCorrectRateLda))</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="chapter9.html#cb49-1"></a>apparentCorrectRateLda&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(<span class="kw">diag</span>(confusion_lda))<span class="op">/</span><span class="kw">sum</span>(confusion_lda),<span class="dv">3</span>)</span>
+<span id="cb49-2"><a href="chapter9.html#cb49-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent correct classification rate, using lda, is: &quot;</span>, apparentCorrectRateLda))</span></code></pre></div>
 <pre><code>## [1] &quot;The apparent correct classification rate, using lda, is: 0.875&quot;</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="chapter9.html#cb60-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent error rate, using lda, is: &quot;</span>, (<span class="dv">1</span><span class="op">-</span>apparentCorrectRateLda)))</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="chapter9.html#cb51-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent error rate, using lda, is: &quot;</span>, (<span class="dv">1</span><span class="op">-</span>apparentCorrectRateLda)))</span></code></pre></div>
 <pre><code>## [1] &quot;The apparent error rate, using lda, is: 0.125&quot;</code></pre>
 <p><strong>Using the Quadratic Classification Rules</strong></p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="chapter9.html#cb62-1"></a>footballHeads_qda &lt;-<span class="st"> </span><span class="kw">qda</span>(group <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> footballHeads)</span>
-<span id="cb62-2"><a href="chapter9.html#cb62-2"></a>footballHeads_qda_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(footballHeads_qda)<span class="op">$</span>class</span>
-<span id="cb62-3"><a href="chapter9.html#cb62-3"></a>confusion_qda&lt;-<span class="kw">table</span>(footballHeads<span class="op">$</span>group, footballHeads_qda_pred, <span class="dt">dnn =</span> <span class="kw">c</span>(<span class="st">&#39;Actual Group&#39;</span>,<span class="st">&#39;Predicted Group&#39;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="chapter9.html#cb63-1"></a>apparentCorrectRateQda&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(<span class="kw">diag</span>(confusion_qda))<span class="op">/</span><span class="kw">sum</span>(confusion_qda),<span class="dv">3</span>)</span>
-<span id="cb63-2"><a href="chapter9.html#cb63-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent correct classification rate, using qda, is: &quot;</span>, apparentCorrectRateQda))</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="chapter9.html#cb53-1"></a>footballHeads_qda &lt;-<span class="st"> </span><span class="kw">qda</span>(group <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> footballHeads)</span>
+<span id="cb53-2"><a href="chapter9.html#cb53-2"></a>footballHeads_qda_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(footballHeads_qda)<span class="op">$</span>class</span>
+<span id="cb53-3"><a href="chapter9.html#cb53-3"></a>confusion_qda&lt;-<span class="kw">table</span>(footballHeads<span class="op">$</span>group, footballHeads_qda_pred, <span class="dt">dnn =</span> <span class="kw">c</span>(<span class="st">&#39;Actual Group&#39;</span>,<span class="st">&#39;Predicted Group&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter9.html#cb54-1"></a>apparentCorrectRateQda&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(<span class="kw">diag</span>(confusion_qda))<span class="op">/</span><span class="kw">sum</span>(confusion_qda),<span class="dv">3</span>)</span>
+<span id="cb54-2"><a href="chapter9.html#cb54-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent correct classification rate, using qda, is: &quot;</span>, apparentCorrectRateQda))</span></code></pre></div>
 <pre><code>## [1] &quot;The apparent correct classification rate, using qda, is: 0.822&quot;</code></pre>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="chapter9.html#cb65-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent error rate, using qda, is: &quot;</span>, (<span class="dv">1</span><span class="op">-</span>apparentCorrectRateQda)))</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter9.html#cb56-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent error rate, using qda, is: &quot;</span>, (<span class="dv">1</span><span class="op">-</span>apparentCorrectRateQda)))</span></code></pre></div>
 <pre><code>## [1] &quot;The apparent error rate, using qda, is: 0.178&quot;</code></pre>
 </div>
 </div>
@@ -2898,18 +2821,18 @@ The linear classification</p>
 <p>Here is an implementation using R:</p>
 </blockquote>
 <p><strong>Holdout method</strong></p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="chapter9.html#cb67-1"></a>footballHeads_cv &lt;-<span class="st"> </span><span class="kw">lda</span>(group <span class="op">~</span><span class="st"> </span>., <span class="dt">CV=</span><span class="ot">TRUE</span>, <span class="dt">data =</span> footballHeads)</span></code></pre></div>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="chapter9.html#cb68-1"></a>confusion_cv&lt;-<span class="kw">table</span>(footballHeads<span class="op">$</span>group, footballHeads_cv<span class="op">$</span>class, <span class="dt">dnn =</span> <span class="kw">c</span>(<span class="st">&#39;Actual Group&#39;</span>,<span class="st">&#39;Predicted Group&#39;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="chapter9.html#cb69-1"></a>confusion_cv</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="chapter9.html#cb58-1"></a>footballHeads_cv &lt;-<span class="st"> </span><span class="kw">lda</span>(group <span class="op">~</span><span class="st"> </span>., <span class="dt">CV=</span><span class="ot">TRUE</span>, <span class="dt">data =</span> footballHeads)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="chapter9.html#cb59-1"></a>confusion_cv&lt;-<span class="kw">table</span>(footballHeads<span class="op">$</span>group, footballHeads_cv<span class="op">$</span>class, <span class="dt">dnn =</span> <span class="kw">c</span>(<span class="st">&#39;Actual Group&#39;</span>,<span class="st">&#39;Predicted Group&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="chapter9.html#cb60-1"></a>confusion_cv</span></code></pre></div>
 <pre><code>##             Predicted Group
 ## Actual Group  1  2  3
 ##            1 26  1  3
 ##            2  1 18 11
 ##            3  2  9 19</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="chapter9.html#cb71-1"></a>apparentCorrectRateCv&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(<span class="kw">diag</span>(confusion_cv))<span class="op">/</span><span class="kw">sum</span>(confusion_qda),<span class="dv">3</span>)</span>
-<span id="cb71-2"><a href="chapter9.html#cb71-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent correct classification rate, using qda, is: &quot;</span>, apparentCorrectRateCv))</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="chapter9.html#cb62-1"></a>apparentCorrectRateCv&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(<span class="kw">diag</span>(confusion_cv))<span class="op">/</span><span class="kw">sum</span>(confusion_qda),<span class="dv">3</span>)</span>
+<span id="cb62-2"><a href="chapter9.html#cb62-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent correct classification rate, using qda, is: &quot;</span>, apparentCorrectRateCv))</span></code></pre></div>
 <pre><code>## [1] &quot;The apparent correct classification rate, using qda, is: 0.7&quot;</code></pre>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="chapter9.html#cb73-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent error rate, using qda, is: &quot;</span>, (<span class="dv">1</span><span class="op">-</span>apparentCorrectRateCv)))</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chapter9.html#cb64-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The apparent error rate, using qda, is: &quot;</span>, (<span class="dv">1</span><span class="op">-</span>apparentCorrectRateCv)))</span></code></pre></div>
 <pre><code>## [1] &quot;The apparent error rate, using qda, is: 0.3&quot;</code></pre>
 <p>As expected, the holdout error rate has increased somewhat from the apparent error rate based on resubstitution in Tables <span class="math inline">\(9.3\)</span> and <span class="math inline">\(9.4\)</span> in Example 9.4.(b).. An error rate of <span class="math inline">\(.300\)</span> is a less optimistic (more realistic) estimate of what the classification functions can do with the future samples.</p>
 </div>
