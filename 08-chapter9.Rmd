@@ -345,7 +345,7 @@ We use the psychological data of Table $5.1$ to illustrate the apparent error ra
 > 1) Data manipulation
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 if(!require("magrittr")){
     install.packages("magrittr")
@@ -360,12 +360,11 @@ if(!require("dplyr")){
 data542_female<-data542_female %>% mutate(gender="female")
 data542_male <- data542_male %>% mutate(gender="male")
 psychologicalData<-rbind(data542_female, data542_male)
-psychologicalData
 ```
 
 > 2) Lda function to data
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 if(!require("MASS")){
     install.packages("MASS")
