@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 10 Canonical Correlation | Multivariate and Categorical Statistics</title>
+  <meta name="description" content="This is a book meant to me read along side the book Multivariate Methods." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 10 Canonical Correlation | Multivariate and Categorical Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a book meant to me read along side the book Multivariate Methods." />
+  <meta name="github-repo" content="https://github.com/C1587S/EMV-ejercicios" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 10 Canonical Correlation | Multivariate and Categorical Statistics" />
+  
+  <meta name="twitter:description" content="This is a book meant to me read along side the book Multivariate Methods." />
+  
+
+<meta name="author" content="Daniela Pinto Veizaga &amp; Sebastián Cadavid Sánchez" />
+
+
+<meta name="date" content="2020-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter9.html"/>
+
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Multivariate and Categorical Statistics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
+<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
+<li class="chapter" data-level="5" data-path="chapter5.html"><a href="chapter5.html"><i class="fa fa-check"></i><b>5</b> Test on one or two mean vectors</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter5.html"><a href="chapter5.html#multivariate-test-for-h_0mumu_0-with-sigma-known"><i class="fa fa-check"></i><b>5.1</b> Multivariate Test for <span class="math inline">\(H_{0}:\mu=\mu_{0}\)</span> with <span class="math inline">\(\Sigma\)</span> known</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter5.html"><a href="chapter5.html#multivariate-test-for-h_0mumu_0-with-sigma-known-1"><i class="fa fa-check"></i><b>5.2</b> Multivariate Test for <span class="math inline">\(H_{0}:\mu=\mu_{0}\)</span> with <span class="math inline">\(\Sigma\)</span> known</a></li>
+<li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#multivariate-two-sample-t2-test"><i class="fa fa-check"></i><b>5.3</b> Multivariate Two-Sample <span class="math inline">\(T^2\)</span>-test</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#tests-on-individual-variables-conditional-on-rejection-of-h_0-by-the-t2-test."><i class="fa fa-check"></i><b>5.3.1</b> 5.5 Tests on individual variables conditional on rejection of <span class="math inline">\(H_{0}\)</span> by the <span class="math inline">\(T^2\)</span>-test.</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="chapter5.html"><a href="chapter5.html#computation-of-t2"><i class="fa fa-check"></i><b>5.4</b> Computation of <span class="math inline">\(T^2\)</span></a></li>
+<li class="chapter" data-level="5.5" data-path="chapter5.html"><a href="chapter5.html#paired-observation-test"><i class="fa fa-check"></i><b>5.5</b> Paired Observation Test</a></li>
+<li class="chapter" data-level="5.6" data-path="chapter5.html"><a href="chapter5.html#test-for-aditional-information"><i class="fa fa-check"></i><b>5.6</b> Test for Aditional Information</a></li>
+<li class="chapter" data-level="5.7" data-path="chapter5.html"><a href="chapter5.html#profile-analysis"><i class="fa fa-check"></i><b>5.7</b> Profile Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter6.html"><a href="chapter6.html"><i class="fa fa-check"></i><b>6</b> Multivariate Analysis of Variance Vectors</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#one-way-models"><i class="fa fa-check"></i><b>6.1</b> One Way Models</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#comparison-of-the-four-manova-test-statistics-comparison-ot-the-four-manova-test-statistics"><i class="fa fa-check"></i><b>6.2</b> Comparison of the four MANOVA test statistics comparison ot the four MANOVA test statistics</a></li>
+<li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#constrasts"><i class="fa fa-check"></i><b>6.3</b> Constrasts</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="chapter6.html"><a href="chapter6.html#univariate-contrasts"><i class="fa fa-check"></i><b>6.3.1</b> Univariate Contrasts</a></li>
+<li class="chapter" data-level="6.3.2" data-path="chapter6.html"><a href="chapter6.html#multivariate-contrasts"><i class="fa fa-check"></i><b>6.3.2</b> Multivariate Contrasts</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#tests-on-individual-variables-following-rejection-of-h_0-by-the-overall-manova-test"><i class="fa fa-check"></i><b>6.4</b> Tests on individual variables following rejection of <span class="math inline">\(H_0\)</span> by the overall MANOVA test</a></li>
+<li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#two-way-classification"><i class="fa fa-check"></i><b>6.5</b> Two-way Classification</a></li>
+<li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#other-models"><i class="fa fa-check"></i><b>6.6</b> Other Models</a></li>
+<li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#checking-on-assumptions"><i class="fa fa-check"></i><b>6.7</b> Checking on Assumptions</a></li>
+<li class="chapter" data-level="6.8" data-path="chapter6.html"><a href="chapter6.html#profile-analysis-1"><i class="fa fa-check"></i><b>6.8</b> Profile Analysis</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="chapter6.html"><a href="chapter6.html#repeated-measures-designs"><i class="fa fa-check"></i><b>6.8.1</b> Repeated Measures Designs</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="chapter6.html"><a href="chapter6.html#growth-curves"><i class="fa fa-check"></i><b>6.9</b> Growth Curves</a></li>
+<li class="chapter" data-level="6.10" data-path="chapter6.html"><a href="chapter6.html#tests-on-a-subvector"><i class="fa fa-check"></i><b>6.10</b> Tests on a Subvector</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Tests in covariance matrices</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#introduction"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter7.html"><a href="chapter7.html#testing-a-specified-pattern-for-sigma"><i class="fa fa-check"></i><b>7.2</b> Testing a specified pattern for <span class="math inline">\(\Sigma\)</span></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter7.html"><a href="chapter7.html#testing-h_0-sigmasigma_0"><i class="fa fa-check"></i><b>7.2.1</b> Testing <span class="math inline">\(H_0: \Sigma=\Sigma_0\)</span></a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter7.html"><a href="chapter7.html#testing-sphericity"><i class="fa fa-check"></i><b>7.2.2</b> Testing Sphericity</a></li>
+<li class="chapter" data-level="7.2.3" data-path="chapter7.html"><a href="chapter7.html#testing-h_0sigmasigma21-rhoirho-j"><i class="fa fa-check"></i><b>7.2.3</b> Testing <span class="math inline">\(H_0:\Sigma=\sigma^2[(1-\rho)I+\rho J]\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter7.html"><a href="chapter7.html#tests-comparing-covariance-matrices"><i class="fa fa-check"></i><b>7.3</b> Tests comparing covariance matrices</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="chapter7.html"><a href="chapter7.html#univariate-tests-of-equality-of-variances"><i class="fa fa-check"></i><b>7.3.1</b> Univariate Tests of Equality of Variances</a></li>
+<li class="chapter" data-level="7.3.2" data-path="chapter7.html"><a href="chapter7.html#multivariate-tests-of-equality-of-covariance-matrices"><i class="fa fa-check"></i><b>7.3.2</b> Multivariate Tests of Equality of Covariance Matrices</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="chapter7.html"><a href="chapter7.html#tests-of-independence"><i class="fa fa-check"></i><b>7.4</b> Tests of independence</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="chapter7.html"><a href="chapter7.html#independence-of-two-subvectors"><i class="fa fa-check"></i><b>7.4.1</b> Independence of Two Subvectors</a></li>
+<li class="chapter" data-level="7.4.2" data-path="chapter7.html"><a href="chapter7.html#independence-of-several-subvectors"><i class="fa fa-check"></i><b>7.4.2</b> Independence of Several Subvectors</a></li>
+<li class="chapter" data-level="7.4.3" data-path="chapter7.html"><a href="chapter7.html#test-for-independence-of-all-variables"><i class="fa fa-check"></i><b>7.4.3</b> Test for Independence of All Variables</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter8.html"><a href="chapter8.html"><i class="fa fa-check"></i><b>8</b> Discriminant Analysis: description of group separation</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter8.html"><a href="chapter8.html#introduction-1"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="chapter8.html"><a href="chapter8.html#discriminant-function-for-two-vectors"><i class="fa fa-check"></i><b>8.2</b> Discriminant Function for Two Vectors</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="chapter8.html"><a href="chapter8.html#example-8.2"><i class="fa fa-check"></i><b>8.2.1</b> Example 8.2</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="chapter8.html"><a href="chapter8.html#relantionship-between-two-group-discriminant-analysis-and-multiple-regression"><i class="fa fa-check"></i><b>8.3</b> Relantionship Between Two Group Discriminant Analysis and Multiple Regression</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="chapter8.html"><a href="chapter8.html#example-8.3."><i class="fa fa-check"></i><b>8.3.1</b> Example 8.3.</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="chapter8.html"><a href="chapter8.html#discriminant-analysis-for-several-groups"><i class="fa fa-check"></i><b>8.4</b> Discriminant Analysis For Several Groups</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#example-8.4.1."><i class="fa fa-check"></i><b>8.4.1</b> Example 8.4.1.</a></li>
+<li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#example-8.4.2."><i class="fa fa-check"></i><b>8.4.2</b> Example 8.4.2.</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="chapter8.html"><a href="chapter8.html#standarized-discriminant-functions"><i class="fa fa-check"></i><b>8.5</b> Standarized Discriminant Functions</a></li>
+<li class="chapter" data-level="8.6" data-path="chapter8.html"><a href="chapter8.html#test-of-significance"><i class="fa fa-check"></i><b>8.6</b> Test of Significance</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="chapter8.html"><a href="chapter8.html#example-8.6.2"><i class="fa fa-check"></i><b>8.6.1</b> Example 8.6.2</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="chapter8.html"><a href="chapter8.html#interpretation-of-discriminant-functions"><i class="fa fa-check"></i><b>8.7</b> Interpretation of Discriminant Functions</a></li>
+<li class="chapter" data-level="8.8" data-path="chapter8.html"><a href="chapter8.html#scatter-plots"><i class="fa fa-check"></i><b>8.8</b> Scatter Plots</a>
+<ul>
+<li class="chapter" data-level="8.8.1" data-path="chapter8.html"><a href="chapter8.html#example-8.8."><i class="fa fa-check"></i><b>8.8.1</b> Example 8.8.</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="chapter8.html"><a href="chapter8.html#stepwise-selection-of-variables"><i class="fa fa-check"></i><b>8.9</b> Stepwise Selection of Variables</a>
+<ul>
+<li class="chapter" data-level="8.9.1" data-path="chapter8.html"><a href="chapter8.html#example-8.9."><i class="fa fa-check"></i><b>8.9.1</b> Example 8.9.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> Classification Analysis: Allocation of Observartion Groups</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="chapter9.html"><a href="chapter9.html#introduction-2"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#classification-into-two-groups"><i class="fa fa-check"></i><b>9.2</b> Classification into Two Groups</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="chapter9.html"><a href="chapter9.html#example-9.2."><i class="fa fa-check"></i><b>9.2.1</b> Example 9.2.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#classification-into-several-groups"><i class="fa fa-check"></i><b>9.3</b> Classification into Several Groups</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="chapter9.html"><a href="chapter9.html#example-9.3"><i class="fa fa-check"></i><b>9.3.1</b> Example 9.3</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="chapter9.html"><a href="chapter9.html#estimating-misclassification-rates"><i class="fa fa-check"></i><b>9.4</b> Estimating Misclassification Rates</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="chapter9.html"><a href="chapter9.html#example-9.4.a."><i class="fa fa-check"></i><b>9.4.1</b> Example <span class="math inline">\(9.4.(a).\)</span></a></li>
+<li class="chapter" data-level="9.4.2" data-path="chapter9.html"><a href="chapter9.html#example-9.4.b"><i class="fa fa-check"></i><b>9.4.2</b> Example <span class="math inline">\(9.4.(b)\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="chapter9.html"><a href="chapter9.html#improved-estimates-of-error-rates"><i class="fa fa-check"></i><b>9.5</b> Improved Estimates of Error Rates</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="chapter9.html"><a href="chapter9.html#example-9.5.2"><i class="fa fa-check"></i><b>9.5.1</b> Example <span class="math inline">\(9.5.2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="chapter9.html"><a href="chapter9.html#subset-selection"><i class="fa fa-check"></i><b>9.6</b> Subset Selection</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="chapter9.html"><a href="chapter9.html#example-9.6.a."><i class="fa fa-check"></i><b>9.6.1</b> Example 9.6.(a).</a></li>
+<li class="chapter" data-level="9.6.2" data-path="chapter9.html"><a href="chapter9.html#example-9.6.b."><i class="fa fa-check"></i><b>9.6.2</b> Example 9.6.(b).</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="chapter9.html"><a href="chapter9.html#nonparametric-procedures"><i class="fa fa-check"></i><b>9.7</b> Nonparametric Procedures</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="chapter9.html"><a href="chapter9.html#example-9.7.2."><i class="fa fa-check"></i><b>9.7.1</b> Example 9.7.2.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>10</b> Canonical Correlation</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter11.html"><a href="chapter11.html#introduction-3"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter11.html"><a href="chapter11.html#canonical-correlations-and-canonical-variates"><i class="fa fa-check"></i><b>10.2</b> Canonical Correlations and Canonical Variates</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter11.html"><a href="chapter11.html#properties-of-canonical-correlations"><i class="fa fa-check"></i><b>10.3</b> Properties of Canonical Correlations</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="chapter11.html"><a href="chapter11.html#example-11.3"><i class="fa fa-check"></i><b>10.3.1</b> Example 11.3</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="chapter11.html"><a href="chapter11.html#tests-of-significance"><i class="fa fa-check"></i><b>10.4</b> Tests of Significance</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="chapter11.html"><a href="chapter11.html#example-11.4.1."><i class="fa fa-check"></i><b>10.4.1</b> Example 11.4.1.</a></li>
+<li class="chapter" data-level="10.4.2" data-path="chapter11.html"><a href="chapter11.html#example-11.4.2."><i class="fa fa-check"></i><b>10.4.2</b> Example 11.4.2.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="chapter11.html"><a href="chapter11.html#interpretation"><i class="fa fa-check"></i><b>10.5</b> Interpretation</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="chapter11.html"><a href="chapter11.html#example-11.5.1."><i class="fa fa-check"></i><b>10.5.1</b> Example 11.5.1.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="chapter11.html"><a href="chapter11.html#relationships-of-canonical-correlation-analysis-to-other-multivariate-techniques"><i class="fa fa-check"></i><b>10.6</b> Relationships of Canonical Correlation Analysis to Other Multivariate Techniques</a></li>
+<li class="chapter" data-level="10.7" data-path="chapter11.html"><a href="chapter11.html#references"><i class="fa fa-check"></i><b>10.7</b> References</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Multivariate and Categorical Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter11" class="section level1" number="10">
+<h1><span class="header-section-number">Chapter 10</span> Canonical Correlation</h1>
+<div id="introduction-3" class="section level2" number="10.1">
+<h2><span class="header-section-number">10.1</span> Introduction</h2>
+</div>
+<div id="canonical-correlations-and-canonical-variates" class="section level2" number="10.2">
+<h2><span class="header-section-number">10.2</span> Canonical Correlations and Canonical Variates</h2>
+</div>
+<div id="properties-of-canonical-correlations" class="section level2" number="10.3">
+<h2><span class="header-section-number">10.3</span> Properties of Canonical Correlations</h2>
+<div id="example-11.3" class="section level3" number="10.3.1">
+<h3><span class="header-section-number">10.3.1</span> Example 11.3</h3>
+<p>For the chemical data of Table <span class="math inline">\(10.1\)</span> we obtain the canonical correlations and illustrate property <span class="math inline">\(2\)</span>. We consider the extended set of nine <span class="math inline">\(x&#39;s\)</span>, as in Example <span class="math inline">\(10.5.2\)</span>. The matrix <span class="math inline">\(R_{yx}\)</span> of correlations between the <span class="math inline">\(y&#39;s\)</span> and the <span class="math inline">\(x&#39;s\)</span> is:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="chapter11.html#cb3-1"></a>experiment_number &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">19</span>)</span>
+<span id="cb3-2"><a href="chapter11.html#cb3-2"></a></span>
+<span id="cb3-3"><a href="chapter11.html#cb3-3"></a>y1 &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb3-4"><a href="chapter11.html#cb3-4"></a>  <span class="fl">41.5</span>, <span class="fl">33.8</span>, <span class="fl">27.7</span>, <span class="fl">21.7</span>, <span class="fl">19.9</span>, <span class="dv">15</span>, <span class="fl">12.2</span>, <span class="fl">4.3</span>, <span class="fl">19.3</span>, <span class="fl">6.4</span>, <span class="fl">37.6</span>, <span class="dv">18</span>, <span class="fl">26.3</span>,<span class="fl">9.9</span>, <span class="dv">25</span>, <span class="fl">14.1</span>, <span class="fl">15.2</span>, <span class="fl">15.9</span>, <span class="fl">19.6</span></span>
+<span id="cb3-5"><a href="chapter11.html#cb3-5"></a>  )</span>
+<span id="cb3-6"><a href="chapter11.html#cb3-6"></a>  </span>
+<span id="cb3-7"><a href="chapter11.html#cb3-7"></a>y2 &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb3-8"><a href="chapter11.html#cb3-8"></a>  <span class="fl">45.9</span>, <span class="fl">53.3</span>, <span class="fl">57.5</span>, <span class="fl">58.8</span>, <span class="fl">60.6</span>, <span class="dv">58</span>, <span class="fl">58.6</span>, <span class="fl">52.4</span>, <span class="fl">56.9</span>, <span class="fl">55.4</span>,<span class="fl">46.9</span>, <span class="fl">57.3</span>, <span class="dv">55</span>, <span class="fl">58.9</span>, <span class="fl">50.3</span>, <span class="fl">61.1</span>, <span class="fl">62.9</span>, <span class="dv">60</span>, <span class="fl">60.6</span></span>
+<span id="cb3-9"><a href="chapter11.html#cb3-9"></a>  )</span>
+<span id="cb3-10"><a href="chapter11.html#cb3-10"></a></span>
+<span id="cb3-11"><a href="chapter11.html#cb3-11"></a>y3 &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb3-12"><a href="chapter11.html#cb3-12"></a>  <span class="fl">11.2</span>, <span class="fl">11.2</span>, <span class="fl">12.7</span>, <span class="dv">16</span>, <span class="fl">16.2</span>, <span class="fl">22.6</span>, <span class="fl">24.5</span>, <span class="dv">38</span>, <span class="fl">21.3</span>, <span class="fl">30.8</span>, <span class="fl">14.7</span>, <span class="fl">22.2</span>, <span class="fl">18.3</span>, <span class="dv">28</span>, <span class="fl">22.1</span>, <span class="dv">23</span>, <span class="fl">20.7</span>,<span class="fl">22.1</span>, <span class="fl">19.3</span></span>
+<span id="cb3-13"><a href="chapter11.html#cb3-13"></a>)</span>
+<span id="cb3-14"><a href="chapter11.html#cb3-14"></a></span>
+<span id="cb3-15"><a href="chapter11.html#cb3-15"></a>x1 &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb3-16"><a href="chapter11.html#cb3-16"></a>  <span class="dv">162</span>, <span class="dv">162</span>, <span class="dv">162</span>, <span class="dv">162</span>, <span class="dv">172</span>, <span class="dv">172</span>, <span class="dv">172</span>, <span class="dv">172</span>, <span class="dv">167</span>, <span class="dv">177</span>, <span class="dv">157</span>, <span class="dv">167</span>, <span class="dv">167</span>, <span class="dv">167</span>, <span class="dv">167</span>,<span class="dv">177</span>,<span class="dv">177</span>, <span class="dv">160</span>, <span class="dv">160</span></span>
+<span id="cb3-17"><a href="chapter11.html#cb3-17"></a>)</span>
+<span id="cb3-18"><a href="chapter11.html#cb3-18"></a></span>
+<span id="cb3-19"><a href="chapter11.html#cb3-19"></a>x2 &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb3-20"><a href="chapter11.html#cb3-20"></a>  <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">25</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="fl">27.5</span>, <span class="fl">27.5</span>, <span class="fl">27.5</span>, <span class="fl">32.5</span>, <span class="fl">22.5</span>, <span class="fl">27.5</span>, <span class="fl">27.5</span>, <span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">34</span>, <span class="dv">34</span></span>
+<span id="cb3-21"><a href="chapter11.html#cb3-21"></a>)</span>
+<span id="cb3-22"><a href="chapter11.html#cb3-22"></a></span>
+<span id="cb3-23"><a href="chapter11.html#cb3-23"></a>x3 &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb3-24"><a href="chapter11.html#cb3-24"></a>  <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">8</span>,<span class="dv">5</span>, <span class="dv">8</span>, <span class="fl">6.5</span>, <span class="fl">6.5</span>, <span class="fl">6.5</span>, <span class="fl">6.5</span>, <span class="fl">6.5</span>, <span class="fl">9.5</span>, <span class="fl">3.5</span>, <span class="fl">6.5</span>, <span class="fl">6.5</span>, <span class="fl">7.5</span>, <span class="fl">7.5</span></span>
+<span id="cb3-25"><a href="chapter11.html#cb3-25"></a>)</span>
+<span id="cb3-26"><a href="chapter11.html#cb3-26"></a></span>
+<span id="cb3-27"><a href="chapter11.html#cb3-27"></a>x1x1 &lt;-<span class="st"> </span>x1<span class="op">*</span>x1</span>
+<span id="cb3-28"><a href="chapter11.html#cb3-28"></a>x2x2 &lt;-<span class="st"> </span>x2<span class="op">*</span>x2</span>
+<span id="cb3-29"><a href="chapter11.html#cb3-29"></a>x3x3 &lt;-<span class="st"> </span>x3<span class="op">*</span>x3</span>
+<span id="cb3-30"><a href="chapter11.html#cb3-30"></a>x1x2 &lt;-<span class="st"> </span>x1<span class="op">*</span>x2</span>
+<span id="cb3-31"><a href="chapter11.html#cb3-31"></a>x1x3 &lt;-<span class="st"> </span>x1<span class="op">*</span>x3</span>
+<span id="cb3-32"><a href="chapter11.html#cb3-32"></a>x2x3 &lt;-<span class="st"> </span>x2<span class="op">*</span>x3</span>
+<span id="cb3-33"><a href="chapter11.html#cb3-33"></a>chemicalReaction &lt;-<span class="st"> </span><span class="kw">data.frame</span>(experiment_number, y1, y2, y3, x1, x2, x3, x1x1, x2x2, x3x3, x1x2, x1x3, x2x3)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="chapter11.html#cb4-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb4-2"><a href="chapter11.html#cb4-2"></a>  chemicalReaction, <span class="dt">caption =</span> <span class="st">&#39;Chemical Reaction Data&#39;</span>,</span>
+<span id="cb4-3"><a href="chapter11.html#cb4-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
+<span id="cb4-4"><a href="chapter11.html#cb4-4"></a>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 10.1: </span>Chemical Reaction Data</caption>
+<thead>
+<tr class="header">
+<th align="right">experiment_number</th>
+<th align="right">y1</th>
+<th align="right">y2</th>
+<th align="right">y3</th>
+<th align="right">x1</th>
+<th align="right">x2</th>
+<th align="right">x3</th>
+<th align="right">x1x1</th>
+<th align="right">x2x2</th>
+<th align="right">x3x3</th>
+<th align="right">x1x2</th>
+<th align="right">x1x3</th>
+<th align="right">x2x3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">41.5</td>
+<td align="right">45.9</td>
+<td align="right">11.2</td>
+<td align="right">162</td>
+<td align="right">23.0</td>
+<td align="right">3.0</td>
+<td align="right">26244</td>
+<td align="right">529.00</td>
+<td align="right">9.00</td>
+<td align="right">3726.0</td>
+<td align="right">486.0</td>
+<td align="right">69.00</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">33.8</td>
+<td align="right">53.3</td>
+<td align="right">11.2</td>
+<td align="right">162</td>
+<td align="right">23.0</td>
+<td align="right">8.0</td>
+<td align="right">26244</td>
+<td align="right">529.00</td>
+<td align="right">64.00</td>
+<td align="right">3726.0</td>
+<td align="right">1296.0</td>
+<td align="right">184.00</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">27.7</td>
+<td align="right">57.5</td>
+<td align="right">12.7</td>
+<td align="right">162</td>
+<td align="right">30.0</td>
+<td align="right">5.0</td>
+<td align="right">26244</td>
+<td align="right">900.00</td>
+<td align="right">25.00</td>
+<td align="right">4860.0</td>
+<td align="right">810.0</td>
+<td align="right">150.00</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">21.7</td>
+<td align="right">58.8</td>
+<td align="right">16.0</td>
+<td align="right">162</td>
+<td align="right">30.0</td>
+<td align="right">8.0</td>
+<td align="right">26244</td>
+<td align="right">900.00</td>
+<td align="right">64.00</td>
+<td align="right">4860.0</td>
+<td align="right">1296.0</td>
+<td align="right">240.00</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">19.9</td>
+<td align="right">60.6</td>
+<td align="right">16.2</td>
+<td align="right">172</td>
+<td align="right">25.0</td>
+<td align="right">5.0</td>
+<td align="right">29584</td>
+<td align="right">625.00</td>
+<td align="right">25.00</td>
+<td align="right">4300.0</td>
+<td align="right">860.0</td>
+<td align="right">125.00</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">15.0</td>
+<td align="right">58.0</td>
+<td align="right">22.6</td>
+<td align="right">172</td>
+<td align="right">25.0</td>
+<td align="right">8.0</td>
+<td align="right">29584</td>
+<td align="right">625.00</td>
+<td align="right">64.00</td>
+<td align="right">4300.0</td>
+<td align="right">1376.0</td>
+<td align="right">200.00</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">12.2</td>
+<td align="right">58.6</td>
+<td align="right">24.5</td>
+<td align="right">172</td>
+<td align="right">30.0</td>
+<td align="right">5.0</td>
+<td align="right">29584</td>
+<td align="right">900.00</td>
+<td align="right">25.00</td>
+<td align="right">5160.0</td>
+<td align="right">860.0</td>
+<td align="right">150.00</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">4.3</td>
+<td align="right">52.4</td>
+<td align="right">38.0</td>
+<td align="right">172</td>
+<td align="right">30.0</td>
+<td align="right">8.0</td>
+<td align="right">29584</td>
+<td align="right">900.00</td>
+<td align="right">64.00</td>
+<td align="right">5160.0</td>
+<td align="right">1376.0</td>
+<td align="right">240.00</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">19.3</td>
+<td align="right">56.9</td>
+<td align="right">21.3</td>
+<td align="right">167</td>
+<td align="right">27.5</td>
+<td align="right">6.5</td>
+<td align="right">27889</td>
+<td align="right">756.25</td>
+<td align="right">42.25</td>
+<td align="right">4592.5</td>
+<td align="right">1085.5</td>
+<td align="right">178.75</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">6.4</td>
+<td align="right">55.4</td>
+<td align="right">30.8</td>
+<td align="right">177</td>
+<td align="right">27.5</td>
+<td align="right">6.5</td>
+<td align="right">31329</td>
+<td align="right">756.25</td>
+<td align="right">42.25</td>
+<td align="right">4867.5</td>
+<td align="right">1150.5</td>
+<td align="right">178.75</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">37.6</td>
+<td align="right">46.9</td>
+<td align="right">14.7</td>
+<td align="right">157</td>
+<td align="right">27.5</td>
+<td align="right">6.5</td>
+<td align="right">24649</td>
+<td align="right">756.25</td>
+<td align="right">42.25</td>
+<td align="right">4317.5</td>
+<td align="right">1020.5</td>
+<td align="right">178.75</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">18.0</td>
+<td align="right">57.3</td>
+<td align="right">22.2</td>
+<td align="right">167</td>
+<td align="right">32.5</td>
+<td align="right">6.5</td>
+<td align="right">27889</td>
+<td align="right">1056.25</td>
+<td align="right">42.25</td>
+<td align="right">5427.5</td>
+<td align="right">1085.5</td>
+<td align="right">211.25</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">26.3</td>
+<td align="right">55.0</td>
+<td align="right">18.3</td>
+<td align="right">167</td>
+<td align="right">22.5</td>
+<td align="right">6.5</td>
+<td align="right">27889</td>
+<td align="right">506.25</td>
+<td align="right">42.25</td>
+<td align="right">3757.5</td>
+<td align="right">1085.5</td>
+<td align="right">146.25</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="right">9.9</td>
+<td align="right">58.9</td>
+<td align="right">28.0</td>
+<td align="right">167</td>
+<td align="right">27.5</td>
+<td align="right">9.5</td>
+<td align="right">27889</td>
+<td align="right">756.25</td>
+<td align="right">90.25</td>
+<td align="right">4592.5</td>
+<td align="right">1586.5</td>
+<td align="right">261.25</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">25.0</td>
+<td align="right">50.3</td>
+<td align="right">22.1</td>
+<td align="right">167</td>
+<td align="right">27.5</td>
+<td align="right">3.5</td>
+<td align="right">27889</td>
+<td align="right">756.25</td>
+<td align="right">12.25</td>
+<td align="right">4592.5</td>
+<td align="right">584.5</td>
+<td align="right">96.25</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="right">14.1</td>
+<td align="right">61.1</td>
+<td align="right">23.0</td>
+<td align="right">177</td>
+<td align="right">20.0</td>
+<td align="right">6.5</td>
+<td align="right">31329</td>
+<td align="right">400.00</td>
+<td align="right">42.25</td>
+<td align="right">3540.0</td>
+<td align="right">1150.5</td>
+<td align="right">130.00</td>
+</tr>
+<tr class="odd">
+<td align="right">17</td>
+<td align="right">15.2</td>
+<td align="right">62.9</td>
+<td align="right">20.7</td>
+<td align="right">177</td>
+<td align="right">20.0</td>
+<td align="right">6.5</td>
+<td align="right">31329</td>
+<td align="right">400.00</td>
+<td align="right">42.25</td>
+<td align="right">3540.0</td>
+<td align="right">1150.5</td>
+<td align="right">130.00</td>
+</tr>
+<tr class="even">
+<td align="right">18</td>
+<td align="right">15.9</td>
+<td align="right">60.0</td>
+<td align="right">22.1</td>
+<td align="right">160</td>
+<td align="right">34.0</td>
+<td align="right">7.5</td>
+<td align="right">25600</td>
+<td align="right">1156.00</td>
+<td align="right">56.25</td>
+<td align="right">5440.0</td>
+<td align="right">1200.0</td>
+<td align="right">255.00</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="right">19.6</td>
+<td align="right">60.6</td>
+<td align="right">19.3</td>
+<td align="right">160</td>
+<td align="right">34.0</td>
+<td align="right">7.5</td>
+<td align="right">25600</td>
+<td align="right">1156.00</td>
+<td align="right">56.25</td>
+<td align="right">5440.0</td>
+<td align="right">1200.0</td>
+<td align="right">255.00</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="chapter11.html#cb5-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;magrittr&quot;</span>)){</span>
+<span id="cb5-2"><a href="chapter11.html#cb5-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
+<span id="cb5-3"><a href="chapter11.html#cb5-3"></a>    <span class="kw">library</span>(magrittr)</span>
+<span id="cb5-4"><a href="chapter11.html#cb5-4"></a>}</span>
+<span id="cb5-5"><a href="chapter11.html#cb5-5"></a></span>
+<span id="cb5-6"><a href="chapter11.html#cb5-6"></a></span>
+<span id="cb5-7"><a href="chapter11.html#cb5-7"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;dplyr&quot;</span>)){</span>
+<span id="cb5-8"><a href="chapter11.html#cb5-8"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb5-9"><a href="chapter11.html#cb5-9"></a>    <span class="kw">library</span>(dplyr)</span>
+<span id="cb5-10"><a href="chapter11.html#cb5-10"></a>}</span>
+<span id="cb5-11"><a href="chapter11.html#cb5-11"></a></span>
+<span id="cb5-12"><a href="chapter11.html#cb5-12"></a>Y&lt;-chemicalReaction<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>)</span>
+<span id="cb5-13"><a href="chapter11.html#cb5-13"></a>X &lt;-<span class="st"> </span>chemicalReaction<span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="dv">5</span><span class="op">:</span><span class="dv">13</span>)</span></code></pre></div>
+<blockquote>
+<p><span class="math inline">\(R_{yx}\)</span>:</p>
+</blockquote>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="chapter11.html#cb6-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;CCA&quot;</span>)){</span>
+<span id="cb6-2"><a href="chapter11.html#cb6-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;CCA&quot;</span>)</span>
+<span id="cb6-3"><a href="chapter11.html#cb6-3"></a>    <span class="kw">library</span>(CCA)</span>
+<span id="cb6-4"><a href="chapter11.html#cb6-4"></a>}</span>
+<span id="cb6-5"><a href="chapter11.html#cb6-5"></a></span>
+<span id="cb6-6"><a href="chapter11.html#cb6-6"></a>correl&lt;-<span class="kw">matcor</span>(X, Y)</span>
+<span id="cb6-7"><a href="chapter11.html#cb6-7"></a>correl<span class="op">$</span>XYcor[<span class="dv">10</span><span class="op">:</span><span class="dv">12</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]</span></code></pre></div>
+<pre><code>##            x1          x2         x3       x1x1       x2x2       x3x3
+## y1 -0.6769387 -0.22472586 -0.4525396 -0.6753103 -0.2319800 -0.4219442
+## y2  0.4039510  0.07998377  0.3927312  0.4039424  0.1192504  0.3304715
+## y3  0.5768977  0.22559034  0.3615240  0.5751086  0.2195773  0.3588194
+##          x1x2       x1x3       x2x3
+## y1 -0.4100793 -0.5475239 -0.4547819
+## y2  0.1634465  0.4399037  0.3324060
+## y3  0.3958988  0.4478048  0.3929819</code></pre>
+<p>Plotting out the <span class="math inline">\(R_{xx}\)</span>, <span class="math inline">\(R_{yy}\)</span>, <span class="math inline">\(R_{xy}\)</span> and <span class="math inline">\(R_{yx}\)</span> in that order:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="chapter11.html#cb8-1"></a><span class="kw">img.matcor</span>(correl, <span class="dt">type =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The three canonical correlations are obtain via the <code>cancor</code> package in R.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="chapter11.html#cb9-1"></a>cancor_data&lt;-stats<span class="op">::</span><span class="kw">cancor</span>(X, Y)</span>
+<span id="cb9-2"><a href="chapter11.html#cb9-2"></a>cancor_data<span class="op">$</span>cor</span></code></pre></div>
+<pre><code>## [1] 0.9899310 0.9527848 0.4625105</code></pre>
+<p>Therefore, the three canonical correlations are:</p>
+<p><span class="math display">\[ r_1= 0.9899310\]</span></p>
+<p><span class="math display">\[r_2= 0.9527848\]</span></p>
+<p><span class="math display">\[r_3=0.4625105\]</span></p>
+<p>Squares of the three canonical correlations:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="chapter11.html#cb11-1"></a>cancor_data<span class="op">$</span>cor <span class="op">*</span><span class="st"> </span>cancor_data<span class="op">$</span>cor</span></code></pre></div>
+<pre><code>## [1] 0.9799633 0.9077988 0.2139159</code></pre>
+<p>We could also use the library <code>candisc</code>to obtain the same results as as shown above:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="chapter11.html#cb13-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;candisc&quot;</span>)){</span>
+<span id="cb13-2"><a href="chapter11.html#cb13-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;candisc&quot;</span>)</span>
+<span id="cb13-3"><a href="chapter11.html#cb13-3"></a>    <span class="kw">library</span>(candisc)</span>
+<span id="cb13-4"><a href="chapter11.html#cb13-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="chapter11.html#cb14-1"></a>cca&lt;-candisc<span class="op">::</span><span class="kw">cancor</span>(X,Y)</span>
+<span id="cb14-2"><a href="chapter11.html#cb14-2"></a></span>
+<span id="cb14-3"><a href="chapter11.html#cb14-3"></a>cca <span class="op">%&gt;%</span><span class="st"> </span>summary</span></code></pre></div>
+<pre><code>## 
+## Canonical correlation analysis of:
+##   9   X  variables:  x1, x2, x3, x1x1, x2x2, x3x3, x1x2, x1x3, x2x3 
+##   with    3   Y  variables:  y1, y2, y3 
+## 
+##     CanR CanRSQ   Eigen percent    cum                          scree
+## 1 0.9899 0.9800 48.9084  82.859  82.86 ******************************
+## 2 0.9528 0.9078  9.8458  16.680  99.54 ******                        
+## 3 0.4625 0.2139  0.2721   0.461 100.00                               
+## 
+## Test of H0: The canonical correlations in the 
+## current row and all that follow are zero
+## 
+##      CanR LR test stat approx F numDF  denDF   Pr(&gt; F)    
+## 1 0.98993      0.00145   6.5366    27 21.086 2.085e-05 ***
+## 2 0.95278      0.07248   2.7145    16 16.000   0.02692 *  
+## 3 0.46251      0.78608   0.3499     7  9.000   0.90997    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Raw canonical coefficients
+## 
+##    X  variables: 
+##           Xcan1     Xcan2       Xcan3
+## x1   -0.8060287  6.159676  -2.0112121
+## x2   -1.3819664  4.186903  -5.7187343
+## x3   -1.0104388  4.880524 -20.0486124
+## x1x1  0.0012771 -0.015712   0.0023216
+## x2x2  0.0053844  0.014672   0.0470928
+## x3x3 -0.0281938 -0.043170   0.0479841
+## x1x2  0.0060346 -0.029695   0.0183799
+## x1x3  0.0084197 -0.023462   0.1144431
+## x2x3 -0.0094751 -0.014430   0.0231488
+## 
+##    Y  variables: 
+##       Ycan1   Ycan2   Ycan3
+## y1 0.154140 0.44862 0.58166
+## y2 0.044698 0.59979 0.47236
+## y3 0.069491 0.46532 0.76455</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chapter11.html#cb16-1"></a><span class="kw">heplot</span>(cca)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## Vector scale factor set to  0</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="chapter11.html#cb18-1"></a><span class="kw">barplot</span>(cancor_data<span class="op">$</span>cor, <span class="dt">main =</span> <span class="st">&quot;Canonical correlations for &#39;cancor()&#39;&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;slategray3&quot;</span>)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>For the relative size if the square canonical correlations, we would consider only the first two to be important. A hypothesis for the significance of each is carried out in Example 11.4.2.</p>
+<p>To confirm the property 2 holds in this case, we compare <span class="math inline">\(r_1=0.9899\)</span> to the individual correlations and the multiple correlations. We first note that <span class="math inline">\(0.9899\)</span> is greater than individual correlations, since (the absolute value of) the largest correlation in <span class="math inline">\(R_{yx}\)</span> is 0.68.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="chapter11.html#cb19-1"></a><span class="kw">abs</span>(correl<span class="op">$</span>XYcor[<span class="dv">10</span><span class="op">:</span><span class="dv">12</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>])<span class="op">&gt;</span>cancor_data<span class="op">$</span>cor[<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>##       x1    x2    x3  x1x1  x2x2  x3x3  x1x2  x1x3  x2x3
+## y1 FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## y2 FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## y3 FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<p>The multiple correlation <span class="math inline">\(R_{(y_j|x)}\)</span> of each <span class="math inline">\(y_j\)</span> with the <span class="math inline">\(x&#39;s\)</span> is given by:</p>
+<p><span class="math display">\[R_{(y_1|x)}=0.987\]</span>
+<span class="math display">\[R_{(y_2|x)}=0.921\]</span>
+<span class="math display">\[R_{(y_3|x)}=0.906\]</span>
+and for the multiple correlation of each <span class="math inline">\(x\)</span> with <span class="math inline">\(y&#39;s\)</span> we have:</p>
+<p><span class="math display">\[R_{(x_1|y)}=0.691\]</span>
+<span class="math display">\[R_{(x_2|y)}=0.237\]</span></p>
+<p><span class="math display">\[R_{(x_3|y)}=0.507\]</span>
+<span class="math display">\[R_{(x_1x_2|y)}=0.432\]</span>
+<span class="math display">\[R_{(x_1x_3|y)}=0.585\]</span>
+<span class="math display">\[R_{(x_2x_3|y)}=0.482\]</span>
+<span class="math display">\[R_{(x_1^2|y)}=0.690\]</span>
+<span class="math display">\[R_{(x_2^2|y)}=0.234\]</span></p>
+<p><span class="math display">\[R_{(x_3^2|y)}=0.466\]</span></p>
+<p>Then, it has been prove that the first canonical correlation <span class="math inline">\(r_1=0.9899\)</span>, exceeds all multiple correlations and property 2 is satisfied.</p>
+</div>
+</div>
+<div id="tests-of-significance" class="section level2" number="10.4">
+<h2><span class="header-section-number">10.4</span> Tests of Significance</h2>
+<div id="example-11.4.1." class="section level3" number="10.4.1">
+<h3><span class="header-section-number">10.4.1</span> Example 11.4.1.</h3>
+<p>For the chemical data of Table <span class="math inline">\(10.1\)</span> with the extended set of nine <span class="math inline">\(x&#39;s\)</span>, we obtained canonical correlations. To test the significance of these, we calculate the following four statistics and associated approximate <span class="math inline">\(F&#39;s\)</span>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="chapter11.html#cb21-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;CCP&quot;</span>)){</span>
+<span id="cb21-2"><a href="chapter11.html#cb21-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;CCP&quot;</span>)</span>
+<span id="cb21-3"><a href="chapter11.html#cb21-3"></a>    <span class="kw">library</span>(CCP)</span>
+<span id="cb21-4"><a href="chapter11.html#cb21-4"></a>}</span>
+<span id="cb21-5"><a href="chapter11.html#cb21-5"></a><span class="co"># tests of canonical dimensions</span></span>
+<span id="cb21-6"><a href="chapter11.html#cb21-6"></a>rho &lt;-<span class="st"> </span>cancor_data<span class="op">$</span>cor</span>
+<span id="cb21-7"><a href="chapter11.html#cb21-7"></a><span class="co">## Define number of observations, number of variables in first set, and number of variables in the second set.</span></span>
+<span id="cb21-8"><a href="chapter11.html#cb21-8"></a>n &lt;-<span class="st"> </span><span class="kw">dim</span>(X)[<span class="dv">1</span>]</span>
+<span id="cb21-9"><a href="chapter11.html#cb21-9"></a>p &lt;-<span class="st"> </span><span class="kw">length</span>(X)</span>
+<span id="cb21-10"><a href="chapter11.html#cb21-10"></a>q &lt;-<span class="st"> </span><span class="kw">length</span>(Y)</span>
+<span id="cb21-11"><a href="chapter11.html#cb21-11"></a></span>
+<span id="cb21-12"><a href="chapter11.html#cb21-12"></a><span class="co">## Calculate p-values using the F-approximations of different test statistics:</span></span>
+<span id="cb21-13"><a href="chapter11.html#cb21-13"></a><span class="kw">p.asym</span>(rho, n, p, q, <span class="dt">tstat =</span> <span class="st">&quot;Wilks&quot;</span>)</span></code></pre></div>
+<pre><code>## Wilks&#39; Lambda, using F-approximation (Rao&#39;s F):
+##                 stat    approx df1      df2      p.value
+## 1 to 3:  0.001452217 6.5365674  27 21.08593 2.085049e-05
+## 2 to 3:  0.072477877 2.7144735  16 16.00000 2.691722e-02
+## 3 to 3:  0.786084057 0.3498796   7  9.00000 9.099706e-01</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="chapter11.html#cb23-1"></a><span class="kw">p.asym</span>(rho, n, p, q, <span class="dt">tstat =</span> <span class="st">&quot;Pillai&quot;</span>)</span></code></pre></div>
+<pre><code>##  Pillai-Bartlett Trace, using F-approximation:
+##               stat    approx df1 df2    p.value
+## 1 to 3:  2.1016781 2.3395600  27  27 0.01551989
+## 2 to 3:  1.1217148 1.2317281  16  33 0.29662769
+## 3 to 3:  0.2139159 0.4277751   7  39 0.87887880</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="chapter11.html#cb25-1"></a><span class="kw">p.asym</span>(rho, n, p, q, <span class="dt">tstat =</span> <span class="st">&quot;Hotelling&quot;</span>)</span></code></pre></div>
+<pre><code>##  Hotelling-Lawley Trace, using F-approximation:
+##                stat     approx df1 df2      p.value
+## 1 to 3:  59.0264023 12.3882573  27  17 9.501612e-07
+## 2 to 3:  10.1179768  4.8481972  16  23 3.325760e-04
+## 3 to 3:   0.2721286  0.3757966   7  29 9.089444e-01</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="chapter11.html#cb27-1"></a><span class="kw">p.asym</span>(rho, n, p, q, <span class="dt">tstat =</span> <span class="st">&quot;Roy&quot;</span>)</span></code></pre></div>
+<pre><code>##  Roy&#39;s Largest Root, using F-approximation:
+##               stat   approx df1 df2      p.value
+## 1 to 1:  0.9799633 244.5421   3  15 5.896394e-13
+## 
+##  F statistic for Roy&#39;s Greatest Root is an upper bound.</code></pre>
+<p>The <span class="math inline">\(F\)</span> approximation for Roy’s test is, of course, an upper bound. Rejection of <span class="math inline">\(H_0\)</span> in these tests implies that at least <span class="math inline">\(r_1^2\)</span> is significantly different from zero. The question of how many <span class="math inline">\(r_i^2\)</span>’s are significant is treated in the next section.</p>
+</div>
+<div id="example-11.4.2." class="section level3" number="10.4.2">
+<h3><span class="header-section-number">10.4.2</span> Example 11.4.2.</h3>
+<p>We continue our analysis of the canonical correlations for the chemical data in Table <span class="math inline">\(10.1\)</span> with three <span class="math inline">\(y&#39;s\)</span> and nine <span class="math inline">\(x&#39;s\)</span>. The tests are summarized in Table <span class="math inline">\(11.1\)</span>.</p>
+<p>In the case of <span class="math inline">\(\Lambda_{2}\)</span>, we have discrepancy between the exact Wilks <span class="math inline">\(\Lambda\)</span>-test and the apprxoimate <span class="math inline">\(F-test\)</span>. The test based on <span class="math inline">\(\Lambda\)</span> is not significant, whereas the <span class="math inline">\(F\)</span>-test does reach significance. This illustrates the need to check critical values for exact tests whenever <span class="math inline">\(p-values\)</span> for approximate tests are close to the nominal value of <span class="math inline">\(\alpha\)</span>. From the test using <span class="math inline">\(\Lambda\)</span>, we conclude that only <span class="math inline">\(r_1=0.9899\)</span> is significant. The relative sizes of the squared canonical correlations, 0.980, 0.908 and 0.214 would indicate two dimensions of relationship, but this is not confirmed by the Wilks test, perhaps because of the small sample size relative to the number of variables (p+q=12 and n=19).</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="chapter11.html#cb29-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;yacca&quot;</span>)){</span>
+<span id="cb29-2"><a href="chapter11.html#cb29-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;yacca&quot;</span>)</span>
+<span id="cb29-3"><a href="chapter11.html#cb29-3"></a>    <span class="kw">library</span>(yacca)</span>
+<span id="cb29-4"><a href="chapter11.html#cb29-4"></a>}</span>
+<span id="cb29-5"><a href="chapter11.html#cb29-5"></a></span>
+<span id="cb29-6"><a href="chapter11.html#cb29-6"></a><span class="kw">options</span>(<span class="dt">scipen =</span> <span class="dv">999</span>)</span>
+<span id="cb29-7"><a href="chapter11.html#cb29-7"></a>cca_fit&lt;-<span class="kw">cca</span>(X, Y)</span>
+<span id="cb29-8"><a href="chapter11.html#cb29-8"></a><span class="kw">F.test.cca</span>(cca_fit)</span></code></pre></div>
+<pre><code>## 
+##  F Test for Canonical Correlations (Rao&#39;s F Approximation)
+## 
+##          Corr        F   Num df Den df     Pr(&gt;F)    
+## CV 1  0.98993  6.53657 27.00000 21.086 0.00002085 ***
+## CV 2  0.95278  2.71447 16.00000 16.000    0.02692 *  
+## CV 3  0.46251  0.34988  7.00000  9.000    0.90997    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+</div>
+<div id="interpretation" class="section level2" number="10.5">
+<h2><span class="header-section-number">10.5</span> Interpretation</h2>
+<div id="example-11.5.1." class="section level3" number="10.5.1">
+<h3><span class="header-section-number">10.5.1</span> Example 11.5.1.</h3>
+<p>For the chemical data in Table <span class="math inline">\(10.1\)</span> with the extended set of nine <span class="math inline">\(x&#39;s\)</span>, we obtain the following standarized coefficients for the three canonical variates:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="chapter11.html#cb31-1"></a>s1 &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(X))))</span>
+<span id="cb31-2"><a href="chapter11.html#cb31-2"></a>s1 <span class="op">%*%</span><span class="st"> </span>cancor_data<span class="op">$</span>xcoef</span></code></pre></div>
+<pre><code>##             [,1]       [,2]       [,3]          [,4]        [,5]       [,6]
+##  [1,] -1.1814504  9.0286502 -2.9479684 -14.571993763  1.20007588  2.2080692
+##  [2,] -1.3800569  4.1811177 -5.7108326  -0.101377273 -3.93195370 -2.7294791
+##  [3,] -0.3889181  1.8785145 -7.7167145  -0.064540957  1.04522071 -1.5240769
+##  [4,]  0.6282682 -7.7294642  1.1420793  14.551825993 -1.46002948 -3.3414417
+##  [5,]  0.2909941  0.7929275  2.5450796  -0.056222274  1.92227221  0.1885492
+##  [6,] -0.1344233 -0.2058283  0.2287803   0.008606271  0.04359554 -1.5589188
+##  [7,]  0.9241656 -4.5475598  2.8147678   0.201823493  1.99106830  2.2911128
+##  [8,]  0.5413606 -1.5085259  7.3583758   0.023096982 -1.28195927  3.0609614
+##  [9,] -0.1252998 -0.1908182  0.3061228   0.007340608  0.01162530  0.1394559
+##             [,7]       [,8]       [,9]
+##  [1,]  3.9870075 -4.9449948 -5.2241004
+##  [2,] 10.7264501 -6.0993784 -1.1153365
+##  [3,] -3.3197729  6.5208270 -1.4565874
+##  [4,] -2.7279293  4.9139060  4.4392893
+##  [5,] -3.1004724  1.4115114  1.9366800
+##  [6,]  0.1827152  0.7637862  0.9300525
+##  [7,] -6.9469420  4.2604288  1.0231819
+##  [8,]  3.0331517 -7.3505438  3.4268178
+##  [9,]  0.1435483  0.1683654 -3.7144082</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="chapter11.html#cb33-1"></a>s2 &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(Y))))</span>
+<span id="cb33-2"><a href="chapter11.html#cb33-2"></a>s2 <span class="op">%*%</span><span class="st"> </span>cancor_data<span class="op">$</span>ycoef</span></code></pre></div>
+<pre><code>##           [,1]      [,2]      [,3]
+## [1,] 0.3620315 1.0536822 1.3661468
+## [2,] 0.0496928 0.6668206 0.5251539
+## [3,] 0.1102051 0.7379579 1.2124928</code></pre>
+<p>Thus:</p>
+<p><span class="math display">\[u_1=1.54\frac{y_1-\bar{y_1}}{s_{y_1}}+0.21\frac{y_2-\bar{y}_2}{s_{y_2}}+ 0.47\frac{y_3-\bar{y}_3}{s_{y_3}}\]</span></p>
+<p><span class="math display">\[v_1=5.01\frac{x_1-\bar{x_1}}{s_{x_1}}+5.86\frac{x_2-\bar{x}_2}{s_{x_2}}+ \cdots + 0.57\frac{x_3^2-\bar{x}_3^2}{s_{x_3^2}}\]</span></p>
+<p>The variables that contribute most to the correlation between <span class="math inline">\(u_1\)</span> and <span class="math inline">\(v_1\)</span> are <span class="math inline">\(y_1\)</span> and <span class="math inline">\(x_1, x_2, x_1x_2, x_1x_3, x_1^2.\)</span> The correlation between <span class="math inline">\(u_1\)</span> and <span class="math inline">\(v_2\)</span> is due largely to all three <span class="math inline">\(y&#39;s\)</span> and <span class="math inline">\(x_1, x_2, x_1x_2, x_1^2.\)</span></p>
+</div>
+</div>
+<div id="relationships-of-canonical-correlation-analysis-to-other-multivariate-techniques" class="section level2" number="10.6">
+<h2><span class="header-section-number">10.6</span> Relationships of Canonical Correlation Analysis to Other Multivariate Techniques</h2>
+</div>
+<div id="references" class="section level2" number="10.7">
+<h2><span class="header-section-number">10.7</span> References</h2>
+
+<div id="refs" class="references hanging-indent">
+<div>
+<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/">http://yihui.name/knitr/</a>.</p>
+</div>
+<div>
+<p>———. 2020. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown">https://CRAN.R-project.org/package=bookdown</a>.</p>
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter9.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/C1587S/EMV-ejercicios/edit/master/09-chapter11.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["multivariate-statistics-R-code.pdf", "multivariate-statistics-R-code.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
