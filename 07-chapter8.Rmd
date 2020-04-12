@@ -1,31 +1,604 @@
+
 # Discriminant Analysis: description of group separation {#chapter8} 
 
 
 
 <div align="justify"> 
 
-### Introduction
+## Introduction
 
-### Discriminant Function for Two Vectors
+## Discriminant Function for Two Vectors
 
 
-**Example 8.2**
+### Example 8.2
 
 Samples of steel produced at two different rolling temperatures are compared in *Table 8.1* (Kramer and Jensen 1969a). 
+
+The variables are:
+
+$$y_1=\textit{yield point}$$
+$$y_2=\textit{ultimate strength}$$
 
 ```{r}
 # Data: Yield point and ultimate strenght of steel produced at two rolling temperatures
 
 
-y1t1 <- c(33, 36, 35, 38, 40)
-y2t1 <- c(60, 61, 64, 63, 65)
-y1t2 <- c(35, 36, 38, 39, 41, 43, 41)
-y2t2 <- c(57, 59, 59, 61, 63, 65, 59)
-
-yield_strength_t1 <-data.frame(y1t1, y2t1)
-yield_strength_t1
-
-yield_strength_t2 <-data.frame(y1t2, y2t2)
-yield_strength_t2
+y1 <- c(33, 36, 35, 38, 40)
+y2 <- c(60, 61, 64, 63, 65)
+yield_strength_t1 <-data.frame(y1, y2)
 
 ```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  yield_strength_t1, caption = 'Yield Strength T1',
+  booktabs = TRUE
+)
+```
+
+```{r}
+y1  <- c(35, 36, 38, 39, 41, 43, 41)
+y2 <- c(57, 59, 59, 61, 63, 65, 59)
+
+
+yield_strength_t2 <-data.frame(y1, y2)
+
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  yield_strength_t2, caption = 'Yield Strength T2',
+  booktabs = TRUE
+)
+
+```
+
+
+```{r message=FALSE, warning=FALSE}
+if(!require("ggplot2")){
+    install.packages("ggplot2")
+    library(ggplot2)
+  }
+ggplot(NULL, aes(y1, y2)) + 
+      geom_point(data = yield_strength_t1, colour="red") +
+      geom_point(data = yield_strength_t2)
+```
+
+If the points were proyected on either $y_1$ or $y_2$ axis, there would be considerable overlap. However it is clear from the figure above, that the two groups can be separated **if they were projected in an appropiate direction.**
+
+So, we obtain the single dimension onto which the points would be projected: the discriminant function, given by:
+
+$$z=a'y=a_1y_1+a_2y_2$$
+
+We know that $a$ is given by:
+
+$$a=S_{pl}^{-1}(\bar{y}_{1}-\bar{y}_{2})$$
+
+So, first we proceed to find:
+
+1. The means of each columns on each data frame:
+
+```{r}
+y_mean_yield_strength_t1<-as.matrix(
+  apply(
+    yield_strength_t1, 2, FUN=mean
+    )
+  )
+y_mean_yield_strength_t1
+
+```
+
+
+```{r}
+y_mean_yield_strength_t2<-as.matrix(
+  apply(
+    yield_strength_t2, 2, FUN=mean
+    )
+  )
+y_mean_yield_strength_t2
+
+```
+
+2. The common population variance:
+
+```{r}
+common_population_variance <- function(data1, data2) {
+  "
+
+  "
+  n_1= nrow(data1)
+  n_2= nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+
+  sigma_population<-(1/(n_1+n_2-2))*((n_1-1) * sigma_1 + (n_2-1) * sigma_2)
+  print("The pooled covariance matrix is:")
+  print(sigma_population)
+}
+spl_rolling_temperatures<-common_population_variance(yield_strength_t1, yield_strength_t2)
+spl_rolling_temperatures
+```
+
+Then, we have a:
+
+```{r}
+a<-as.matrix(solve(spl_rolling_temperatures)%*%(y_mean_yield_strength_t1-y_mean_yield_strength_t2))
+a
+```
+
+It follows that the discriminant function is:
+
+$$z=a'y=-1.633y_1+1.819y_2$$
+
+And the values of the projected points are:
+
+```{r}
+z_1<-a[1]*yield_strength_t1[1]+ a[2]*yield_strength_t1[2]
+z_1
+z_2 <- a[1]*yield_strength_t2[1]+ a[2]*yield_strength_t2[2]
+z_2
+```
+
+## Relantionship Between Two Group Discriminant Analysis and Multiple Regression
+### Example 8.3.
+
+In example *5.6.2*, the psychological data of $Table 5.1$, were used in an illustration of the regression approach to computation of $a$ and $T^2$. 
+
+
+```{r}
+#pyschological data of males
+
+y_1m <- c(17,	15,	15,	13,	20,	15,	15,	13,	14,	17,	17,	17,	15,	18,	18,	15,	18,	10,	18,	18,	13,	16,	11,	16,	16,	18,	16,	15,	18,	18,	17,	19)
+
+y_2m <-c(15,	17,	14,	12,	17,	21,	13,	5,	7,	15,	17,	20,	15,	19,	18,	14,	17,	14,	21,	21,	17,	16,	15,	13,	13,	18,	15,	16,	19,	16,	20,	19)
+
+y_3m <- c(32,	24,	29,	10,	26,	26,	26,	22,	30,	30,	26,	28,	29,	32,	31,	26,	33,	19,	30,	34,	30,	16,	25,	26,	23,	34,	28,	29,	32,	33,	21,	30)
+
+y_4m <- c(26,	14,	23,	16,	28,	21,	22,	22,	17,	27,	20,	24,	24,	28,	27,	21,	26,	17,	29,	26,	24,	16,	23,	16,	21,	24,	27,	24,	23,	23,	21,	28)
+```
+
+
+```{r}
+data542_male <- data.frame(
+  y_1m, y_2m, y_3m, y_4m
+  )
+
+```
+
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data542_male, caption = 'Data Male',
+  booktabs = TRUE
+)
+```
+
+
+```{r}
+#pyschological data of females
+
+y_1f <- c(
+  14,	13,	12,	12,	11, 12,	10,	10,	12,	11,	12,	14,	14,	13,	14,	13,	16,	14,	16,	13,	2,	14,	17,	16,	15,	12,	14,	13,	11,	7,	12,	6
+  )
+
+
+y_2f <-c(
+  12,	14,	19,	13,	20,	9,	13,	8,	20,	10,	18,	18,	10,	16,	8,	16,	21,	17,	16,	16,	6,	16,	17,	13,	14,	10,	17,	15,	16,	7,	15,	5
+  )
+
+y_3f <- c(
+  14,	12,	21,	10,	16,	14,	18,	13,	19,	11,	25,	13,	25,	8,	13,	23,	26,	14,	15,	23,	16,	22,	22,	16,	20,	12,	24,	18,	18,	19,	7,	6
+  )
+
+y_4f <- c(
+  26,	21,	21,	16,	16,	18,	24,	23,	23,	27,	25,	26,	28,	14,	25,	28,	26,	14,	23,	24,	21,	26,	28,	14,	26,	9,	23,	20,	28,	18,	28,	13
+  )
+```
+
+```{r}
+data542_female <- data.frame(
+  y_1f, y_2f, y_3f, y_4f
+  )
+
+
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data542_female, caption = 'Data Female',
+  booktabs = TRUE
+)
+```
+
+
+> T2
+
+```{r}
+#function for finding the T^2 in a multivariate two sample setting
+
+T2_two_sample<- function(data1, data2) {
+  "
+
+  "
+  n_1 <<- nrow(data1)
+  n_2<<- nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+  
+  y_mean_1<-as.matrix(
+  apply(data1, 2, FUN=mean
+        )
+  )
+  
+  y_mean_2<-as.matrix(
+  apply(data2, 2, FUN=mean
+        )
+  )
+  sigma_population<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  
+  sigma_population_inverse <- solve(sigma_population)
+  T2 <<- ((n_1*n_2)/(n_1+n_2))*t(y_mean_1-y_mean_2) %*% sigma_population_inverse %*% (y_mean_1-y_mean_2)
+  
+  print("The pooled covariance matrix is:")
+  print(sigma_population)
+  print("The value of T2 is:")
+  print (T2)
+}
+
+T2<-T2_two_sample(data542_female, data542_male)
+
+```
+
+```{r}
+
+discriminant_function <- function(data1, data2) {
+    "
+    This function determines the discriminat function coefficient vector
+    
+
+    Input: 
+    + data1: dataset from sample 1
+    + data2: dataset from sample 2
+
+    Output:
+    + a: discriminant function coefficient vector
+  
+    "
+  n_1 <<- nrow(data1)
+  n_2<<- nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+  
+  y_mean_1<-as.matrix(
+  apply(data1, 2, FUN=mean
+        )
+  )
+  
+  y_mean_2<-as.matrix(
+  apply(data2, 2, FUN=mean
+        )
+  )
+  sigma_population<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  
+  sigma_population_inverse <- solve(sigma_population)
+  a <- as.matrix(sigma_population_inverse%*%(y_mean_1-y_mean_2))
+  print(
+      "The discriminant coeficient vector is: "
+      )
+  print(round(a, 4))
+}
+
+a<-discriminant_function(data542_female, data542_male)
+
+```
+
+
+
+We use the same data to obtain 
+
+
+
+We define **b**, as a vector of regression coefficients when $w$ is fit to the $y´s$"
+$$b=\frac{n_1n_2}{(n_1+n_2)(n_1+n_2-2+T^2)}a$$
+, where $T^2=[n_1n_2/(n_1+n_2)](\bar{y}_{1}-\bar{y}_{2})'S_{pl}^{-1}(\bar{y}_1 - \bar{y}_2)$.
+
+From (5.20), we also know the squared multiple correlation $R^2$ is related to $T^2$ by:
+
+$$R^2=(\bar{y}_{1}- \bar{y}_{2})'b=\frac{T^2}{n_1+n_2-2+T^2}$$
+
+>b
+
+```{r}
+
+regression_coefficientes <- function(data1, data2, a, T2) {
+  "
+
+  "
+  n_1= nrow(data1)
+  n_2= nrow(data2)
+  b <- as.double((n_1*n_2)/((n_1 + n_2)*(n_1+ n_2-2+T2)))*a
+
+  #b <- as.matrix((n_1* n_2/((n_1 + n_2)%*%(n_1+ n_2-2+T2)))*a)
+  print("The vector of regression coefficientes is:")
+  print(b)
+}
+regression_coefficientes(data542_female, data542_male,a,T2)
+
+```
+
+> R2
+
+```{r}
+r2 <- function(data1, data2,T2) {
+  "
+  Function to obtain the squared multiple correlation R2
+  "
+  n_1= nrow(data1)
+  n_2= nrow(data2)
+  r2 <- round(as.double(T2/(n_1+n_2-2+T2)),4)
+  print(paste0("The squared multiple correlation (R2) is: ", r2))
+}
+r2(data542_female, data542_male, T2)
+```
+
+
+## Discriminant Analysis For Several Groups
+
+### Example 8.4.1.
+
+The data in *Table 8.3* were collected by G.R.Bryce and R. M. Baker as part of a preliminary study of possible link between football helmet design and neck injuries.
+
+Six head measurements were made on the subject. There were 30 subjects in each of the three groups: high school football players (group 1), college football playes (group 2); and nonfootball players(group 3). The six variables are:
+
+$$ wdim = \textit{head width at widest dimension}$$
+$$ circum = \textit{head circumference}$$
+$$fbeye = \textit{front-to-back measurements at eye level}$$
+
+$$eyehd = \textit{eye-to-top-of-head measurements}$$
+$$earhd = \textit{ear-to-top-of-head measurements}$$
+$$jaw = \textit{jaw width}$$
+
+
+```{r}
+footballHeads <-read.table("T8_3_FOOTBALL.DAT")
+names(footballHeads) <- c("group", "wdim", "circum", "fbeye", "eyehd", "earhd", "jaw")
+footballHeads[, 'group'] <- as.factor(footballHeads[, 'group'])
+```
+
+
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  footballHeads, caption = 'Football Heads',
+  booktabs = TRUE
+)
+```
+
+
+The eigen values of $E^-1H$ are:
+
+```{r}
+data_group <- split(footballHeads
+[,2:7], footballHeads$group)
+
+```
+
+
+
+```{r}
+data_means <- round(sapply(data_group, function(x) {
+  apply(x, 2, mean)
+}, simplify = 'data.frame'),2)
+
+data_means
+```
+
+
+```{r}
+total_means <- round(colMeans(footballHeads[,2:7]),2)
+total_means
+```
+
+```{r}
+n <- dim(footballHeads)[1] / length(unique(footballHeads$group))
+n
+```
+
+```{r}
+# Nrow: number of dependent variables
+# Ncol: number of dependent variables
+
+# H Matrix
+H = matrix(data = 0, nrow = (ncol(footballHeads)-1), ncol =(ncol(footballHeads)-1))
+for (i in 1:dim(H)[1]) {
+  for (j in 1:i) {
+    H[i,j] <- n * sum((data_means[i,] - total_means[i]) * (data_means[j,] - total_means[j]))
+    H[j,i] <- n * sum((data_means[j,] - total_means[j]) * (data_means[i,] - total_means[i]))
+  }
+}
+```
+
+
+```{r}
+# E Matrix
+E = matrix(data = 0, nrow = (ncol(footballHeads)-1), ncol =(ncol(footballHeads)-1))
+for (i in 1:dim(E)[1]) {
+  for (j in 1:i) {
+    b <- c() 
+    for (k in data_group) {
+      a <- sum((k[,i] - mean(k[,i])) * (k[,j] - mean(k[,j])))
+      b <- append(b, a)
+    }
+    E[i,j] <- sum(b)
+    E[j,i] <- sum(b)
+  }
+}
+
+```
+
+```{r}
+E <- round(E,4)
+E
+```
+
+
+```{r}
+#H <- round(H, 2)
+H
+```
+
+Then the two eigenvalues are:
+
+```{r}
+EH<-solve(E)%*%H
+round(eigen(EH)$values,3)
+```
+
+$$\lambda_1=1.919$$
+$$\lambda_2=0.116$$
+
+The corresponding eigenvectors are $LD1$ and $LD2$.
+
+```{r message=FALSE, warning=FALSE}
+if(!require("MASS")){
+    install.packages("MASS")
+    library(MASS)
+  }
+
+lda_footballHeads <- lda(group ~ ., data = footballHeads)
+lda_footballHeads$scaling
+
+```
+
+
+$LD1$:
+
+$$a_1=\begin{pmatrix}
+0.948423100 \\
+-0.003639865 \\
+-0.006439599\\
+-0.647483088\\
+-0.504360916\\
+-0.828535064
+\end{pmatrix}$$
+
+$LD2$:
+
+$$a_2=\begin{pmatrix}
+1.4067750094\\
+-0.0286176430\\
+0.5402700415\\
+-0.3839132257\\
+-1.5288556226
+\end{pmatrix}$$
+
+
+
+```{r}
+plot(lda_footballHeads)
+```
+
+
+
+The first eigenvalue accounts for a sustantial proportion of the total:
+
+```{r}
+eigen(EH)$values[1]/(eigen(EH)$values[1]+eigen(EH)$values[2])
+```
+
+Thus the mean vectors lie largely in one dimension, and one discriminant function suffices to describe most of the separation among the three groups.
+
+### Example 8.4.2.
+
+For the football data of Table 8.3, we obtain the squared canonical correlation between each of the two discriminant functions and the grouping of the variables. 
+
+```{r}
+eigen(EH)$values[1]
+```
+
+
+```{r}
+r1_2 <- eigen(EH)$values[1]/(1+eigen(EH)$values[1])
+round(r1_2, 3)
+```
+
+
+```{r}
+r2_2 <- eigen(EH)$values[2]/(1+eigen(EH)$values[2])
+round(r2_2, 3)
+```
+
+## Standarized Discriminant Functions
+
+### Example 8.5.
+
+In Example $8.4.1$, we obtained the discriminant function coefficient vectors $a_1$ and $a_2$ for the football data of Table $8.3$. Since $\lambda_1/(\lambda_1+\lambda_2)=0.94$, we concentrate on $a_1$. To standarize $a_1$, we need the within sample standard deviations of the variables. The pooled covariance matrix is given by:
+
+$S_{pl}=E/87$
+
+```{r}
+Spl <- E/87
+Spl
+```
+
+
+Using the square roots of the diagonal elements of $S_{pl}$, we obtain:
+
+
+```{r}
+lda_footballHeads$scaling
+```
+
+
+```{r}
+a1<-c(0.948423100, -0.003639865,-0.006439599,-0.647483088, -0.504360916, -0.828535064)
+a1
+```
+
+
+```{r}
+sqrt(diag(Spl))*a1
+```
+
+
+$$a_1^*=\begin{pmatrix}
+0.620641211 \\
+-0.006471485\\
+-0.004758091\\
+-0.718812156\\
+-0.396511562\\
+-0.507721826
+\end{pmatrix}$$
+
+Thus the fourth, first, sixth and fifth variables contribute de most to separating the groups, in that order. The second and thrid variables are not useful (in the presence of the others) in distinguishing groups.
+
+## Test of Significance
+
+### Example 8.6.2
+We test the significance of the two discriminant functions obtained in Example $8.4.1.$ for the football data. For the overall test we have, by $8.18$.
+
+
+Thus $p-value$ for $F
+
+## Interpretation of Discriminant Functions
+
+## Scatter Plots
+### Example 8.8.
+
+## Stepwise Selection of Variables
+
+### Example 8.9.
+

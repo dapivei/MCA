@@ -80,7 +80,7 @@ Comparing the four test statistics in terms of the eigenvalues $\lambda_1 > \lam
 + Willks' lambda $\Lambda=\prod_{i=1}^s \frac{1}{1+\lambda_i}$
 + Roy's largest root $\theta= \frac{\lambda_i}{1+\lambda_i}$
 
-**Example 6.1.7**
+### Example 6.1.7
 
 In a classical experiment carried out from $1918$ to $1934$, apple trees of different rootstocks were compared (Andrews and Herzberg 1985, pp. 357-360). The data for eight trees from each of six rootstocks are given in Table $6.2$. The variables are:
 
@@ -104,11 +104,19 @@ y4<- c(0.76,	0.821,	0.928,	1.009,	0.766,	0.726,	1.209,	0.75,	1.036,	1.094,	1.635
 
 datarootstock <- data.frame(rootstock, y1, y2, y3, y4)
 
-datarootstock
 ```
 
 
-```{r}
+```{r tidy=FALSE}
+knitr::kable(
+  datarootstock, caption = 'Rootstock',
+  booktabs = TRUE
+)
+```
+
+
+
+```{r message=FALSE, warning=FALSE}
 if(!require("gplots")){
     install.packages("gplots")
     library(gplots)
@@ -128,7 +136,6 @@ plotmeans(datarootstock$y4 ~ datarootstock$rootstock)
 data_group <- split(datarootstock
 [,2:5], datarootstock$rootstock)
 
-data_group
 
 ```
 
@@ -335,7 +342,7 @@ Roy's test statistic is givben by $\theta=0.652$, which exceeds the $0.05$ criti
 **Comparing results with those obtainted throught the package "MASS".**
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 if(!require("MASS")){
     install.packages("MASS")
@@ -371,7 +378,7 @@ For better undestanding of the results:
 |Hotelling-Lawley|2.9214| 5.4776| 20|150|2.568e-10|
 |Roys|1.8757|15.756|5|42|1.002e-08|
 
-##### Measures of Multivariate Association
+**Measures of Multivariate Association**
 
 In (one way) MANOVA, we nedd to measure the strenght of the association between several dependant variables and several independent(grouping) variables.
 Various measurements of multivariate association have been proposed.
@@ -386,7 +393,7 @@ Various measurements of multivariate association have been proposed.
 
 + $A_{LH}= \frac{\frac{U^{(s)}}{s}}{1+U^{(s)}/s}$
 
-**Example 6.1.8**
+### Example 6.1.8
 
 We illustrate some measures of association for the rootstock data in Table 6.2.
 
@@ -434,7 +441,7 @@ In **terms of power** the test are ordered $\theta \geq U^{(s)}\geq \Lambda \geq
 
 >In practice, most MANOVA software programs routinely calculate all four test statistics, and they usually reach the same conclusion. In thos cases when they differ as to acceptance or rejection of the hyphotesis, one can examine the eigenvalues and covariance matrices and evaluate the conflicting conclusions in light of the test properties discussed previously.
 
-**Example 6.2**
+### Example 6.2
 
 We inspect the eigenvalues of $E^{-1} H$ for the rootstock data of Table $6.2$ for an indication of the configur\ation of the six mean vectors in a four-dimensional space. The eigenvalues are $1.876, .791, .229, .026.$ The first eigenvalue $1.876$ constitutes a proportion:
 
@@ -453,7 +460,7 @@ of sum of the eigenvalues and thus the six mean vectors lie largely in two dimen
 
 ## Constrasts
 
-### Univariate Contrasts
+**Univariate Contrasts**
 
 A *contrast* in the population means is defined as a linear combination:
 
@@ -472,7 +479,7 @@ A contrast is often called a *comparison* among the treatment means.
 
 
 
-### Multivariate Contrasts
+**Multivariate Contrasts**
 
 There are two usages of contrasts in a multivariate setting. 
 
@@ -504,7 +511,7 @@ $$\Lambda= \frac{|E|}{|E+H_1|}$$
 
 ,which is distributed as $\Lambda_{p, 1,\nu_E}$. **Becasue $\nu_H=1$ in this case, all four MANOVA statistics and $T^2$ give the same results.
 
-**Example 6.3.2**
+### Example 6.3.2
 
 We consider the following two orthogonal constrast for the rootstock data in Tabla 6.2:
 
@@ -532,7 +539,7 @@ $$H_{02}=\mu_1=\mu_6$$.
 
 The mean vectors are given by:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 if(!require("tidyverse")){
     install.packages("tidyverse")
     library(tidyverse)
@@ -557,11 +564,11 @@ c1*mean_vectors
 ## Tests on individual variables following rejection of $H_0$ by the overall MANOVA test
 
 
-**Example 6.4**
+### Example 6.4
 
 ##  Two-way Classification
 
-**Example 6.5.2**
+### Example 6.5.2
 
 ## Other Models
 
@@ -596,7 +603,7 @@ Thus,$$\Lambda= \frac{|E_z|}{|H_z+E_z|}=\frac{|CEC'|}{|CEC'+CHC'|}=\frac{|CEC'|}
 Which is distributed as $\Lambda_{p-1,\nu_H, \nu_E}$, where $\nu_H=k-1$ and $\nu_E=k(n-1)$. The other three MANOVA test statistics can be obtained from the eigenvalues of $(CEC')^{-1}(CHC')$. The test for $H_{01}$ can easily be adjusted for unbalanced data.
 
 
-**Example 6.8**
+### Example 6.8
 
 Three vitamin E diet supplements with levels zero, low, and high were compared for their effect on growth of guinea pigs (Crowder and Hand $1990$, pp. $21-29$). Five guinea pigs received each supplement level, and their weights were recorded at the end of weeks $1, 3,4, 5, 6$, and $7$. These weights are given in Table $6.8$.
 
@@ -610,11 +617,18 @@ y3_hat<-c(497.8,534.6,579.8,571.8,588.2,623.2)
 
 ```{r}
 data68<-data.frame(y1_hat,y2_hat, y3_hat)
-data68
+
 ```
 
 
-```{r}
+```{r tidy=FALSE}
+knitr::kable(
+  data68, caption = 'Guinea Pigs',
+  booktabs = TRUE
+)
+```
+
+```{r message=FALSE, warning=FALSE}
 if(!require("dplyr")){
     install.packages("dplyr")
     library(dplyr)
@@ -623,7 +637,6 @@ if(!require("dplyr")){
 data68<-data68 %>% mutate(mean_all = apply(., 1, mean))
 data68<-data68 %>% mutate(weekday = c(1,3,4,5,6,7))
                          
-data68
 ```
 
 The overall mean vector is:
@@ -634,7 +647,7 @@ data68$mean_all
 
 A profile plot of the means $\bar{y}_1 , \bar{y}_2$, and $\bar{y}_3$ is given bellow. There is a high degree of parallelism in the three profiles, with the possible exception of week $6$ for group $1$.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 if(!require("ggplot2")){
     install.packages("ggplot2")
     library(ggplot2)
@@ -688,16 +701,23 @@ week5 <- c(504,596,597,583,528,524,484,585,637,605,622,557,555,601,524)
 week6 <- c(436,542,582,611,562,552,567,576,671,649,632,568,576,633,532)
 week7 <- c(466,587,619,612,576,597,569,677,702,675,670,609,605,649,583)
 data68_ext <- data.frame(group, animal, week1, week3, week4, week5, week6, week7)
-data68_ext
+
 ```
 
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data68_ext, caption = 'Guinea Pigs Extended',
+  booktabs = TRUE
+)
+```
 
 ```{r}
 # Splitting the data per group
 
 data68_group <- split(data68_ext[,3:8], data68_ext$group)
 
-data68_group
 
 ```
 
@@ -821,21 +841,22 @@ model
 
 
 
-### Repeated Measures Designs
+**Repeated Measures Designs**
 
-**Example 6.9.2**
+### Example 6.9.2
 
-**Example 6.9.5**
+### Example 6.9.5
 
 ## Growth Curves
-**Example 6.10.1**
+
+### Example 6.10.1
 
 
-**Example 6.10.2**
+### Example 6.10.2
 
 ## Tests on a Subvector
 
-**Example 6.11.1**
+### Example 6.11.1
 
 
 - The univariate tests completely ignore the correlations among the variables, whereas the multivariate tests make direct use of the correlations.

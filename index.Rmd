@@ -4,12 +4,15 @@ author: "Daniela Pinto Veizaga & Sebastián Cadavid Sánchez"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
+  
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: https://github.com/C1587S/EMV-ejercicios
 description: "This is a book meant to me read along side the book Multivariate Methods."
+
+---
 ---
 
 # Prerequisites

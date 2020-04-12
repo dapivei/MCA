@@ -1,0 +1,312 @@
+--- 
+title: "Multivariate and Categorical Statistics"
+author: "Daniela Pinto Veizaga & Sebastián Cadavid Sánchez"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+  
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: https://github.com/C1587S/EMV-ejercicios
+description: "This is a book meant to me read along side the book Multivariate Methods."
+
+---
+
+# Prerequisites
+
+Placeholder
+
+
+
+<!--chapter:end:index.Rmd-->
+
+# Introduction {#intro}
+
+You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+
+Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+
+```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
+par(mar = c(4, 4, .1, .1))
+plot(pressure, type = 'b', pch = 19)
+```
+
+Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+
+```{r nice-tab, tidy=FALSE}
+knitr::kable(
+  head(iris, 20), caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+```
+
+You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+
+<!--chapter:end:01-intro.Rmd-->
+
+# Literature
+
+Here is a review of existing methods.
+
+
+HEllo. 
+
+<!--chapter:end:02-literature.Rmd-->
+
+# Methods
+
+We describe our methods in this chapter.
+
+<!--chapter:end:03-method.Rmd-->
+
+
+# Test on one or two mean vectors {#chapter5}
+
+Placeholder
+
+
+## Multivariate Test for $H_{0}:\mu=\mu_{0}$ with $\Sigma$ known
+## Multivariate Test for $H_{0}:\mu=\mu_{0}$ with $\Sigma$ known
+## Multivariate Two-Sample $T^2$-test
+### 5.5 Tests on individual variables conditional on rejection of $H_{0}$ by the $T^2$-test.
+## Computation of $T^2$
+## Paired Observation Test
+## Test for Aditional Information
+## Profile Analysis
+#### Parallelism
+#### Same overall level
+#### Flatness
+
+<!--chapter:end:04-chapter5.Rmd-->
+
+
+# Multivariate Analysis of Variance Vectors {#chapter6}
+
+Placeholder
+
+
+## One Way Models
+##### Measures of Multivariate Association
+## Comparison of the four MANOVA test statistics comparison ot the four MANOVA test statistics
+## Constrasts
+### Univariate Contrasts
+### Multivariate Contrasts
+## Tests on individual variables following rejection of $H_0$ by the overall MANOVA test
+##  Two-way Classification
+## Other Models
+## Checking on Assumptions
+## Profile Analysis
+### Repeated Measures Designs
+## Growth Curves
+## Tests on a Subvector
+
+<!--chapter:end:05-chapter6.Rmd-->
+
+
+# Tests in covariance matrices {#chapter7}
+
+Placeholder
+
+
+## Introduction
+## Testing a specified pattern for $\Sigma$
+### Testing $H_0: \Sigma=\Sigma_0$
+### Testing Sphericity
+### Testing $H_0:\Sigma=\sigma^2[(1-\rho)I+\rho J]$
+## Tests comparing covariance matrices
+### Univariate Tests of Equality of Variances
+### Multivariate Tests of Equality of Covariance Matrices
+## Tests of independence
+### Independence of Two Subvectors
+### Independence of Several Subvectors
+### Test for Independence of All Variables
+
+<!--chapter:end:06-chapter7.Rmd-->
+
+
+# Discriminant Analysis: description of group separation {#chapter8} 
+
+Placeholder
+
+
+## Introduction
+## Discriminant Function for Two Vectors
+### Example 8.2
+## Relantionship Between Two Group Discriminant Analysis and Multiple Regression
+### Example 8.3.
+## Discriminant Analysis For Several Groups
+### Example 8.4.1.
+### Example 8.4.2.
+## Standarized Discriminant Functions
+## Test of Significance
+### Example 8.6.2
+## Interpretation of Discriminant Functions
+## Scatter Plots
+### Example 8.8.
+## Stepwise Selection of Variables
+### Example 8.9.
+
+<!--chapter:end:07-chapter8.Rmd-->
+
+
+# Classification Analysis: Allocation of Observartion Groups {#chapter9}
+
+Placeholder
+
+
+## Introduction
+## Classification into Two Groups
+### Example 9.2.
+## Classification into Several Groups
+### Example 9.3
+## Estimating Misclassification Rates
+### Example $9.4.(a).$ 
+### Example $9.4.(b)$ 
+## Improved Estimates of Error Rates
+### Example $9.5.2$
+## Subset Selection
+### Example 9.6.(a).
+### Example 9.6.(b).
+## Nonparametric Procedures
+### Example 9.7.2.
+
+<!--chapter:end:08-chapter9.Rmd-->
+
+# Canonical Correlation {#chapter11}
+
+
+## Introduction
+
+## Canonical Correlations and Canonical Variates
+
+## Properties of Canonical Correlations
+
+### Example 11.3
+
+For the chemical data of Table $10.1$ we obtain the canonical correlations and illustrate property $2$. We consider the extended set of nine $x's$, as in Example $10.5.2$. The matrix $R_{yx}$ of correlations between the $y's$ and the $x's$ is:
+
+```{r}
+experiment_number <- seq(1:19)
+
+y1 <- c(
+  41.5, 33.8, 27.7, 21.7, 19.9, 15, 12.2, 4.3, 19.3, 6.4, 37.6, 18, 26.3,9.9, 25, 14.1, 15.2, 15.9, 19.6
+  )
+  
+y2 <- c(
+  45.9, 53.3, 57.5, 58.8, 60.6, 58, 58.6, 52.4, 56.9, 55.4,46.9, 57.3, 55, 58.9, 50.3, 61.1, 62.9, 60, 60.6
+  )
+
+y3 <- c(
+  11.2, 11.2, 12.7, 16, 16.2, 22.6, 24.5, 38, 21.3, 30.8, 14.7, 22.2, 18.3, 28, 22.1, 23, 20.7,22.1, 19.3
+)
+
+x1 <- c(
+  162, 162, 162, 162, 172, 172, 172, 172, 167, 177, 157, 167, 167, 167, 167,177,177, 160, 160
+)
+
+x2 <- c(
+  23, 23, 30, 30, 25, 25, 30, 30, 27.5, 27.5, 27.5, 32.5, 22.5, 27.5, 27.5, 20, 20, 34, 34
+)
+
+x3 <- c(
+  3, 8, 5, 8, 5, 8,5, 8, 6.5, 6.5, 6.5, 6.5, 6.5, 9.5, 3.5, 6.5, 6.5, 7.5, 7.5
+)
+
+x1x1 <- x1*x1
+x2x2 <- x2*x2
+x3x3 <- x3*x3
+x1x2 <- x1*x2
+x1x3 <- x1*x3
+x2x3 <- x2*x3
+chemicalReaction <- data.frame(experiment_number, y1, y2, y3, x1, x2, x3, x1x1, x2x2, x3x3, x1x2, x1x3, x2x3)
+chemicalReaction
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  chemicalReaction, caption = 'Chemical Reaction Data',
+  booktabs = TRUE
+)
+```
+
+
+
+```{r}
+if(!require("magrittr")){
+    install.packages("magrittr")
+    library(magrittr)
+}
+
+
+Y<-chemicalReaction%>% select(2:4)
+X <- chemicalReaction%>% select(5:13)
+X
+```
+
+
+
+Printing out the $R_{xx}$, $R_{yy}$, $R_{xy}$ and $R_{yx}$ in that order:
+
+
+```{r}
+
+if(!require("CCA")){
+    install.packages("CCA")
+    library(CCA)
+}
+
+correl<-matcor(X, Y)
+correl
+
+
+```
+
+Plotting the correl:
+```{r}
+img.matcor(correl, type = 2)
+```
+
+
+The three canonical correlations are obtain via the `cancor` package in R.
+
+```{r}
+stats::cancor(X, Y)
+```
+
+
+
+Therefore, the three canonical correlations are:
+
+$$$$
+
+$$$$
+
+$$$$
+
+
+
+## Tests of Significance
+
+### Example 11.4.1.
+
+For the chemical data of Table $10.1$ with the extended set of nine $x's$, we obtained canonical correlations 
+### Example 11.4.2.
+
+## Interpretation
+
+### Example 11.5.1.
+
+For the chemical data in Table $10.1$ with the extended set of nine $x's$, we obtain the following standarized coefficients for the three canonical variates:
+
+
+
+## Relationships of Canonical Correlation Analysis to Other Multivariate Techniques
+
+## References
+
+
+<!--chapter:end:09-chapter11.Rmd-->
+

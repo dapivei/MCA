@@ -1,0 +1,274 @@
+# Canonical Correlation {#chapter11}
+
+
+## Introduction
+
+## Canonical Correlations and Canonical Variates
+
+## Properties of Canonical Correlations
+
+### Example 11.3
+
+For the chemical data of Table $10.1$ we obtain the canonical correlations and illustrate property $2$. We consider the extended set of nine $x's$, as in Example $10.5.2$. The matrix $R_{yx}$ of correlations between the $y's$ and the $x's$ is:
+
+```{r}
+experiment_number <- seq(1:19)
+
+y1 <- c(
+  41.5, 33.8, 27.7, 21.7, 19.9, 15, 12.2, 4.3, 19.3, 6.4, 37.6, 18, 26.3,9.9, 25, 14.1, 15.2, 15.9, 19.6
+  )
+  
+y2 <- c(
+  45.9, 53.3, 57.5, 58.8, 60.6, 58, 58.6, 52.4, 56.9, 55.4,46.9, 57.3, 55, 58.9, 50.3, 61.1, 62.9, 60, 60.6
+  )
+
+y3 <- c(
+  11.2, 11.2, 12.7, 16, 16.2, 22.6, 24.5, 38, 21.3, 30.8, 14.7, 22.2, 18.3, 28, 22.1, 23, 20.7,22.1, 19.3
+)
+
+x1 <- c(
+  162, 162, 162, 162, 172, 172, 172, 172, 167, 177, 157, 167, 167, 167, 167,177,177, 160, 160
+)
+
+x2 <- c(
+  23, 23, 30, 30, 25, 25, 30, 30, 27.5, 27.5, 27.5, 32.5, 22.5, 27.5, 27.5, 20, 20, 34, 34
+)
+
+x3 <- c(
+  3, 8, 5, 8, 5, 8,5, 8, 6.5, 6.5, 6.5, 6.5, 6.5, 9.5, 3.5, 6.5, 6.5, 7.5, 7.5
+)
+
+x1x1 <- x1*x1
+x2x2 <- x2*x2
+x3x3 <- x3*x3
+x1x2 <- x1*x2
+x1x3 <- x1*x3
+x2x3 <- x2*x3
+chemicalReaction <- data.frame(experiment_number, y1, y2, y3, x1, x2, x3, x1x1, x2x2, x3x3, x1x2, x1x3, x2x3)
+
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  chemicalReaction, caption = 'Chemical Reaction Data',
+  booktabs = TRUE
+)
+```
+
+
+
+```{r message=FALSE, warning=FALSE}
+
+if(!require("magrittr")){
+    install.packages("magrittr")
+    library(magrittr)
+}
+
+
+if(!require("dplyr")){
+    install.packages("dplyr")
+    library(dplyr)
+}
+
+Y<-chemicalReaction%>% select(2:4)
+X <- chemicalReaction%>% select(5:13)
+```
+
+
+
+> $R_{yx}$:
+
+
+```{r message=FALSE, warning=FALSE}
+
+if(!require("CCA")){
+    install.packages("CCA")
+    library(CCA)
+}
+
+correl<-matcor(X, Y)
+correl$XYcor[10:12,1:9]
+
+```
+
+Plotting out the $R_{xx}$, $R_{yy}$, $R_{xy}$ and $R_{yx}$ in that order:
+```{r}
+img.matcor(correl, type = 2)
+```
+
+
+The three canonical correlations are obtain via the `cancor` package in R.
+
+```{r}
+cancor_data<-stats::cancor(X, Y)
+cancor_data$cor
+```
+
+
+Therefore, the three canonical correlations are:
+
+$$ r_1= 0.9899310$$
+
+$$r_2= 0.9527848$$
+
+$$r_3=0.4625105$$
+
+
+Squares of the three canonical correlations:
+
+```{r}
+cancor_data$cor * cancor_data$cor
+```
+
+
+We could also use the library `candisc`to obtain the same results as as shown above:
+
+```{r message=FALSE, warning=FALSE}
+
+if(!require("candisc")){
+    install.packages("candisc")
+    library(candisc)
+}
+
+```
+
+
+```{r}
+cca<-candisc::cancor(X,Y)
+
+cca %>% summary
+```
+
+
+```{r message=FALSE, warning=FALSE}
+heplot(cca)
+```
+
+
+
+```{r}
+barplot(cancor_data$cor, main = "Canonical correlations for 'cancor()'", col = "slategray3")
+```
+
+
+For the relative size if the square canonical correlations, we would consider only the first two to be important. A hypothesis for the significance of each is carried out in Example 11.4.2.
+
+To confirm the property 2 holds in this case, we compare $r_1=0.9899$ to the individual correlations and the multiple correlations. We first note that $0.9899$ is greater than individual correlations, since (the absolute value of) the largest correlation in $R_{yx}$ is 0.68.
+
+```{r}
+abs(correl$XYcor[10:12,1:9])>cancor_data$cor[1]
+```
+
+The multiple correlation $R_{(y_j|x)}$ of each $y_j$ with the $x's$ is given by:
+
+$$R_{(y_1|x)}=0.987$$
+$$R_{(y_2|x)}=0.921$$
+$$R_{(y_3|x)}=0.906$$
+and for the multiple correlation of each $x$ with $y's$ we have:
+
+$$R_{(x_1|y)}=0.691$$
+$$R_{(x_2|y)}=0.237$$
+
+$$R_{(x_3|y)}=0.507$$
+$$R_{(x_1x_2|y)}=0.432$$
+$$R_{(x_1x_3|y)}=0.585$$
+$$R_{(x_2x_3|y)}=0.482$$
+$$R_{(x_1^2|y)}=0.690$$
+$$R_{(x_2^2|y)}=0.234$$
+
+$$R_{(x_3^2|y)}=0.466$$
+
+Then, it has been prove that the first canonical correlation $r_1=0.9899$, exceeds all multiple correlations and property 2 is satisfied.
+
+## Tests of Significance
+
+### Example 11.4.1.
+
+For the chemical data of Table $10.1$ with the extended set of nine $x's$, we obtained canonical correlations. To test the significance of these, we calculate the following four statistics and associated approximate $F's$.
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+if(!require("CCP")){
+    install.packages("CCP")
+    library(CCP)
+}
+# tests of canonical dimensions
+rho <- cancor_data$cor
+## Define number of observations, number of variables in first set, and number of variables in the second set.
+n <- dim(X)[1]
+p <- length(X)
+q <- length(Y)
+
+## Calculate p-values using the F-approximations of different test statistics:
+p.asym(rho, n, p, q, tstat = "Wilks")
+```
+
+```{r}
+p.asym(rho, n, p, q, tstat = "Pillai")
+```
+
+```{r}
+p.asym(rho, n, p, q, tstat = "Hotelling")
+
+```
+
+
+```{r}
+p.asym(rho, n, p, q, tstat = "Roy")
+
+```
+
+The $F$ approximation for Roy's test is, of course, an upper bound. Rejection of $H_0$ in these tests implies that at least $r_1^2$ is significantly different from zero. The question of how many $r_i^2$'s are significant is treated in the next section.
+
+### Example 11.4.2.
+
+We continue our analysis of the canonical correlations for the chemical data in Table $10.1$ with three $y's$ and nine $x's$. The tests are summarized in Table $11.1$.
+
+In the case of $\Lambda_{2}$, we have discrepancy between the exact Wilks $\Lambda$-test and the apprxoimate $F-test$. The test based on $\Lambda$ is not significant, whereas the $F$-test does reach significance. This illustrates the need to check critical values for exact tests whenever $p-values$ for approximate tests are close to the nominal value of $\alpha$. From the test using $\Lambda$, we conclude that only $r_1=0.9899$ is significant. The relative sizes of the squared canonical correlations, 0.980, 0.908 and 0.214 would indicate two dimensions of relationship, but this is not confirmed by the Wilks test, perhaps because of the small sample size relative to the number of variables (p+q=12 and n=19).
+
+```{r message=FALSE, warning=FALSE}
+if(!require("yacca")){
+    install.packages("yacca")
+    library(yacca)
+}
+
+options(scipen = 999)
+cca_fit<-cca(X, Y)
+F.test.cca(cca_fit)
+
+```
+
+## Interpretation
+
+### Example 11.5.1.
+
+For the chemical data in Table $10.1$ with the extended set of nine $x's$, we obtain the following standarized coefficients for the three canonical variates:
+
+
+```{r}
+s1 <- diag(sqrt(diag(cov(X))))
+s1 %*% cancor_data$xcoef
+```
+
+
+```{r}
+s2 <- diag(sqrt(diag(cov(Y))))
+s2 %*% cancor_data$ycoef
+```
+
+
+Thus:
+
+$$u_1=1.54\frac{y_1-\bar{y_1}}{s_{y_1}}+0.21\frac{y_2-\bar{y}_2}{s_{y_2}}+ 0.47\frac{y_3-\bar{y}_3}{s_{y_3}}$$
+
+
+$$v_1=5.01\frac{x_1-\bar{x_1}}{s_{x_1}}+5.86\frac{x_2-\bar{x}_2}{s_{x_2}}+ \cdots + 0.57\frac{x_3^2-\bar{x}_3^2}{s_{x_3^2}}$$
+
+The variables that contribute most to the correlation between $u_1$ and  $v_1$ are $y_1$ and $x_1, x_2, x_1x_2, x_1x_3, x_1^2.$ The correlation between $u_1$ and $v_2$ is due largely to all three $y's$ and $x_1, x_2, x_1x_2, x_1^2.$
+
+
+
+## Relationships of Canonical Correlation Analysis to Other Multivariate Techniques
+
+## References
+

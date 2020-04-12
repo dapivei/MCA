@@ -53,9 +53,9 @@ $$
 
 If $H_{0}$ is true, $Z$ is distributed as $\chi_{p}^{2}$, and we therefore reject $H_{0}$ if $Z >\chi_{\alpha}^{2}$. 
 
-**Example 5.2.2**
+### Example 5.2.2
 
-In Table 3.1, height and weight were given for a sample of 20 college-age males. Let us assume that this sample originated from the bivariate normal $N_{2}\left(\mu,\Sigma\right)$ where
+In Table 3.1, height and weight were given for a sample of 20 colleage males. Let us assume that this sample originated from the bivariate normal $N_{2}\left(\mu,\Sigma\right)$ where
 
 $$
 \Sigma=\left(\begin{array}{cc}
@@ -73,7 +73,21 @@ weight <- c(153, 175, 155, 135, 172, 150, 115, 137, 200, 130, 140, 265, 185, 112
 
 data522 <- cbind(height, weight) %>% as.data.frame 
 
-data522
+```
+
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data522, caption = 'Colleage Males, Exercise 5.22',
+  booktabs = TRUE
+)
+```
+
+
+
+
+```{r}
 # 
 mu522 <- matrix(c(70, 170), nrow = 2, ncol = 1)
 mu522
@@ -120,11 +134,25 @@ y_2 <- c( 4.9, 3.5, 30, 2.8, 2.7, 2.8, 4.6, 10.9, 8, 1.6)
 y_3 <- c( 2.7, 2.8, 4.38, 3.21, 2.73, 2.81, 2.88, 2.9, 3.28, 3.2)
 
 data532 <- as.matrix(cbind(y_1, y_2, y_3))
-data532
-# mu0
+
+
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data532, caption = 'Data Exercise 5.32',
+  booktabs = TRUE
+)
+```
+
+```{r}
+#mu0
 mu532 <- matrix(c(15.0, 6.0, 2.85), nrow = 3, ncol = 1)
 mu532
 ```
+
+
 
 ```{r}
 db <- data532
@@ -143,7 +171,7 @@ T2 <- n * t(y_hat - mu0) %*% solve(S)  %*% (y_hat - mu0)
 ```
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 test_mu_sigUnknown <- function(db, mu0, alpha){
   library(ICSNP)
   "
@@ -175,13 +203,12 @@ test_mu_sigUnknown <- function(db, mu0, alpha){
 ```
 
 ```{r}
-?pf
 test_mu_sigUnknown(db=data532, mu0=mu532, alpha=0.05)
 ```
 
 ## Multivariate Two-Sample $T^2$-test
 
-**Example 5.4.2**
+### Example 5.4.2
 
 Four psychological test were given to $32$ men and $32$ women. The data are recorded in Table $5.1$ (Beall 1945). The variables are:
 
@@ -219,7 +246,15 @@ y_4m <- c(26,	14,	23,	16,	28,	21,	22,	22,	17,	27,	20,	24,	24,	28,	27,	21,	26,	17
 data542_male <- data.frame(
   y_1m, y_2m, y_3m, y_4m
   )
-data542_male
+
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data542_male, caption = 'Data Male, Exercise 5.42',
+  booktabs = TRUE
+)
 ```
 
 
@@ -249,10 +284,18 @@ y_4f <- c(
 data542_female <- data.frame(
   y_1f, y_2f, y_3f, y_4f
   )
-data542_female
+
 
 
 ```
+
+```{r tidy=FALSE}
+knitr::kable(
+  data542_female, caption = 'Data Female, Exercise 5.42',
+  booktabs = TRUE
+)
+```
+
 
 We can also visualize the data
 
@@ -415,7 +458,7 @@ where again the dimension $p$ of the $T^2$-statistic becomes the first degree-of
 
 >5. Finally, we have the elements to integrate all mentioned above (plus some complements of the T2 statistic test) into a function that will test whether the means of the two samples are equal and compare it to existing packages in R.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 #Function for multivariate two-Sample $T^2$-test
 
 
@@ -524,13 +567,13 @@ hotelling_two_independent_samples(data542_female, data542_male, 0.05)
 ```
 
 
-### 5.5 Tests on individual variables conditional on rejection of $H_{0}$ by the $T^2$-test.
+**5.5 Tests on individual variables conditional on rejection of $H_{0}$ by the $T^2$-test.**
 
 If the hypothesis $H_{0}: \mu_{1} = \mu_{2}$ is rejected, the implication is that $\mu_{ij} \neq \mu_{2j}$ for at least one $j=1,2,...,p$. But there is no guarantee that $H_{0}: \mu_{1} = \mu_{2}$ will be rejected for some $j$ by a univariate test. However, if we consider a linear combination of the variables, $z = a'y$, then there is at least one coefficient vector \textbf{a} for which will reject the corresponding hyphotesis $H_{0}=a'\mu_{1}=a'\mu_{2}$. Thus **if** $H_{0}: \mu_{1} = \mu_{2}$ is rejected by $T^2$, the \textbf{discriminant function} $a'y$ will lead to rejection of$H_{0}=a'\mu_{1}=a'\mu_{2}$, with $a=S_{pl}^{-1}(\bar{y}_{1}-\bar{y}_{2})$. 
 
 We can then examine each $a_{j}$ in \textbf{a} for an indication of the contribution of the corresponding $y_{j}$ to rejection of $H_{0}$. 
 
-**Example 5.5**
+### Example 5.5
 
 Returning to the psychological data Table $5.1$, we obtained $\bar{y}_{1}- \bar{y}_{2}$, and $\textbf{S}_{pl}$. The discriminant function coefficiente vector is obtained as:
 
@@ -582,13 +625,13 @@ discriminant_function <- function(data1, data2) {
 
 
 ```{r}
-discriminant_function(data542_female, data542_male)
+discriminant_function(data542_male, data542_female)
 ```
 
 
 Thus the linear combination that best separates the two groups is:
 
-$$a'y= -0,5104y_{1} + 0.2033y_{2} -0.4660y_{3}+0.3097y_{4}$$
+$$a'y= 0,5104y_{1} - 0.2033y_{2} +0.4660y_{3}-0.3097y_{4}$$
 
 
 ## Computation of $T^2$
@@ -602,7 +645,7 @@ One-way MANOVA involves a comparison of mean vectors from several samples. Typic
 
 
 
-**Example: 5.6.2**
+### Example: 5.6.2
 
 We illustrate the regression approach to computation of $T^2$ using the psychological data in Table $5.1.$
 
@@ -632,7 +675,7 @@ $$T^2=\bar{d}'\begin{pmatrix}
 \end{pmatrix}^{-1}\bar{d}=n\bar{d}'S_d^{-1}\bar{d}'$$
 
 
-**Example 5.7.2**
+### Example 5.7.2
 
 To compare two types of coating for resistance to corroison, 15 pieces of pipe were coated with each type of coating. Two pipes, one with each type of coating, were buried together and left for the same length of time at $15$ different locations, providing a natural pairing of the observations. Corrosion for the first type of coating was measured by two variables:
 
@@ -666,10 +709,16 @@ omq_difference  <- (omq1-omq2)
 tedad_difference <- (tedad1-tedad2)
 data572 <- tibble(omq1, omq2, tedad1, tedad2, omq_difference, tedad_difference)
 
-data572
 ```
 
 
+
+```{r tidy=FALSE}
+knitr::kable(
+  data572, caption = 'Data Exercise 5.72',
+  booktabs = TRUE
+)
+```
 
 
 
@@ -679,7 +728,7 @@ In this section we again consider **two independent samples** in section $5.4$. 
 
 Or, we may be interested in determining **whether some of the variables we already have are redundant** in the presence of other variables in terms of separating the groups, in terms of **separating the groups**. 
 
-In short: we wish to test the hypothesis that $x_{1}$ and $x_{2}$ are **redundante** for separating the two groups: that is, that the extra $q$ variables **do no** contribute anything significant beyond the information already available in $y_{1}$ and $y_{2}$ for seperating the groups.
+In short: we wish to test the hypothesis that $x_{1}$ and $x_{2}$ are **redundant** for separating the two groups: that is, that the extra $q$ variables **do no** contribute anything significant beyond the information already available in $y_{1}$ and $y_{2}$ for seperating the groups.
 
 **Notice!** We area not asking whether $x$'s can signigicantly separate the two groups by themselves, but whether they provide additional separation beyond the separation already achieved by the $y$'s. 
 
@@ -737,7 +786,7 @@ $$
 
 Which is distributed as $F_{q, \nu-p-q+1}$, and we reject the hypothesis of redundacy if $F>= F_{\alpha, q, \nu-p-q+1}$
 
-**Example 5.8**
+### Example 5.8
 
 We use the psychological data of Table $5.1$ to illustrate tests on subvectors. We begin by testing the significance of $y_{3}$ and $y_{4}$ above and beyond $y_{1}$ and $y_{2}$ (In the notation of the present section,$y_{3}$ and $y_{4}$ become $x_{1}$ and $x_{2}$).
 
@@ -759,7 +808,7 @@ T2_reduced <- {nrow(data542_male)*nrow(data542_female)}/{nrow(data542_male)+ nro
 
 First, we get the reduced data samples.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 ##filter variables of interest from each dataset
 if(!require("tidyverse")){
   install.packages("tidyverse")
@@ -823,7 +872,7 @@ $$F=\frac{\nu-p-q-1}{q}*\frac{T^2_{p+q}-T^2_p}{v+T^2_p}$$
 
 Then, we reject $H_{0}$ if $F>=F_{\alpha, q, \nu-p-q+1}$.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 #Function to test redundancy of variables or significance of the increase from Tp^2 to Tp+q^2
 
 test_redundancy_additional_information <- function(data1, data2, data1_reduced, data2_reduced, alpha) {
@@ -978,7 +1027,7 @@ If we want to test the effect of each variable adjusted to the rest of the varia
 
 For illustration purposes we will only evaluate the effect of $y_1$ on the other three variables.
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 ##filter variables of interest from each dataset: we keep everyvariable by y_1
 if(!require("tidyverse")){
   install.packages("tidyverse")
@@ -1008,7 +1057,7 @@ In a one sample setting, the null hypothesis that all means are equal $H_{0} : \
 
 >Note that these hypotheses are the same as for ANOVA, but the analysis will be different because the columns are not assumed to be independent. Here we have a single population but are sampling correlated variables from this population.
 
-#### Parallelism
+**Parallelism**
 
 Usually the main test of interest of profile analysis. It asks whether each segment is the same across all groups.
 
@@ -1052,7 +1101,8 @@ $$
 If the largest component of $\textbf{a}$ is $a_i$, then the $i$ slope has largest violation of parallel slopes.
 
 
-#### Same overall level
+**Same overall level**
+
 A second question is whether two samples have the same overall level, ignoring possible interaction.
 
 This hyphotesis can be expressed as:
@@ -1067,10 +1117,11 @@ In this case, the test statistic is:
 $$t=\frac{j'(\bar{y}_{1}-\bar{y}_2)}{\sqrt{j'S_{pl}j(1/n_1+1/n_2)}}$$
 which has a t-distribution with $n_1 +n_2 -2$ degrees of freedom.
 
-#### Flatness
+**Flatness**
 
 A third hyphotesis is that the two profiles are both flat. Because the lack of parallelism automatically implies that at least one curve is not flat, the hypothesis that botch curves are flat is more interesting if the hyphotesis of parallelism cant be rejected. 
-**Example 5.9.2**
+
+### Example 5.9.2
 
 We use the psychological data in Table $5.1$ to illustrate two-sample profile analysis. The values of \ $\bar{y}_{1}$, $\bar{y}_{2}$ and $\textbf{S}_{pl}$ are given in Example $5.4.2$. The profiles of the two mean vectors $\bar{y}_{1}$ and $\bar{y}_{2}$  are plotted in Figure $5.8$. There appears to be a lack of parallelism.
 
@@ -1092,8 +1143,16 @@ data542_female <- data542_female %>% select(y1 = y_1f, y2=y_2f, y3=y_3f, y4=y_4f
 data542_male <- data542_male %>% select(y1 = y_1m, y2=y_2m, y3=y_3m, y4=y_4m) %>% mutate(gender="male")
 
 data542 <- rbind(data542_female, data542_male)
-data542
 ```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data542, caption = 'Data Combine Exercise 5.42',
+  booktabs = TRUE
+)
+```
+
 
 >2. Second we implement the profiling analysis, employing the package "pbg".
 

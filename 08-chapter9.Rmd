@@ -1,0 +1,469 @@
+# Classification Analysis: Allocation of Observartion Groups {#chapter9}
+
+
+## Introduction
+
+## Classification into Two Groups
+
+
+### Example 9.2.
+
+Pyschological data Table $5.1$. 
+
+>1) First we load the data required
+
+```{r}
+#pyschological data of males
+
+y_1 <- c(17,	15,	15,	13,	20,	15,	15,	13,	14,	17,	17,	17,	15,	18,	18,	15,	18,	10,	18,	18,	13,	16,	11,	16,	16,	18,	16,	15,	18,	18,	17,	19)
+
+y_2 <-c(15,	17,	14,	12,	17,	21,	13,	5,	7,	15,	17,	20,	15,	19,	18,	14,	17,	14,	21,	21,	17,	16,	15,	13,	13,	18,	15,	16,	19,	16,	20,	19)
+
+y_3 <- c(32,	24,	29,	10,	26,	26,	26,	22,	30,	30,	26,	28,	29,	32,	31,	26,	33,	19,	30,	34,	30,	16,	25,	26,	23,	34,	28,	29,	32,	33,	21,	30)
+
+y_4 <- c(26,	14,	23,	16,	28,	21,	22,	22,	17,	27,	20,	24,	24,	28,	27,	21,	26,	17,	29,	26,	24,	16,	23,	16,	21,	24,	27,	24,	23,	23,	21,	28)
+```
+
+
+```{r}
+data542_male <- data.frame(
+  y_1, y_2, y_3, y_4
+  )
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data542_male, caption = 'Pyschological Male',
+  booktabs = TRUE
+)
+
+```
+
+
+
+```{r}
+#pyschological data of females
+
+y_1 <- c(
+  14,	13,	12,	12,	11, 12,	10,	10,	12,	11,	12,	14,	14,	13,	14,	13,	16,	14,	16,	13,	2,	14,	17,	16,	15,	12,	14,	13,	11,	7,	12,	6
+  )
+
+
+y_2 <-c(
+  12,	14,	19,	13,	20,	9,	13,	8,	20,	10,	18,	18,	10,	16,	8,	16,	21,	17,	16,	16,	6,	16,	17,	13,	14,	10,	17,	15,	16,	7,	15,	5
+  )
+
+y_3 <- c(
+  14,	12,	21,	10,	16,	14,	18,	13,	19,	11,	25,	13,	25,	8,	13,	23,	26,	14,	15,	23,	16,	22,	22,	16,	20,	12,	24,	18,	18,	19,	7,	6
+  )
+
+y_4 <- c(
+  26,	21,	21,	16,	16,	18,	24,	23,	23,	27,	25,	26,	28,	14,	25,	28,	26,	14,	23,	24,	21,	26,	28,	14,	26,	9,	23,	20,	28,	18,	28,	13
+  )
+```
+
+```{r}
+data542_female <- data.frame(
+  y_1, y_2, y_3, y_4
+  )
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data542_female, caption = 'Psychological Female',
+  booktabs = TRUE
+)
+```
+
+
+> 2) Then with $\bar{y}_1, \bar{y}_2$ and $S_{pl}$ we obtain the discriminat function :
+
+
+```{r}
+discriminant_function <- function(data1, data2) {
+    "
+    This function determines the discriminat function coefficient vector
+    
+
+    Input: 
+    + data1: dataset from sample 1
+    + data2: dataset from sample 2
+
+    Output:
+    + a: discriminant function coefficient vector
+  
+    "
+
+  n_1 <<- nrow(data1)
+  n_2<<- nrow(data2)
+  sigma_1 <- cov(data1)
+  sigma_2 <- cov(data2)
+  
+  y_mean_1<<-as.matrix(
+  apply(data1, 2, FUN=mean
+        )
+  )
+  
+  y_mean_2<<-as.matrix(
+  apply(data2, 2, FUN=mean
+        )
+  )
+  sigma_population<-(
+    1/(n_1+n_2-2)
+    )*(
+    (n_1-1) * sigma_1 + (n_2-1) * sigma_2
+    )
+  
+  sigma_population_inverse <- solve(sigma_population)
+  a <- sigma_population_inverse%*%(y_mean_1-y_mean_2)
+  print(
+      "The discriminant coeficient vector is: "
+      )
+  print(round(a, 4))
+}
+```
+
+The discriminant coefficients were obtained in Example $5.5$ as:
+
+```{r}
+a<-discriminant_function(data542_male, data542_female)
+
+```
+
+
+> 3) Finding $\bar{z}$:
+
+For the male group ($G_1$):
+
+$$\bar{z}_1=a'\bar{y}_1$$
+
+
+```{r}
+z_mean_male<-round(sum(a*y_mean_1),2)
+z_mean_male
+```
+
+Similarly, for the female group ($G_2$):
+
+$$\bar{z}_2=a'\bar{y}_2$$
+
+```{r}
+z_mean_female <- round(sum(a*y_mean_2),2)
+z_mean_female
+```
+
+4) Thus, we assign observation vector $y$ to $G_1$ if:
+
+$$z=a'y>\frac{1}{2}(\bar{z}_{1}+ \bar{z}_{2})$$
+
+```{r}
+threshold<-(z_mean_female+z_mean_male)/2
+threshold
+```
+
+
+and assign observation vector $y$ to $G_2$ if $z < 7.49$.
+
+## Classification into Several Groups
+
+### Example 9.3
+
+> 1) Load Data
+
+```{r}
+group <- as.factor(rep(1:3, each=30))
+wdim <- c(
+ 13.5, 15.5, 14.5, 15.5, 14.5, 14.0, 15, 15, 15.5, 15.5, 15, 15.5, 16, 15.5, 15.5, 14, 14.5, 15, 15.5, 15, 15, 15.5, 17.5, 15.5, 15.5, 15.5, 15.5, 14.5, 15.5, 16, 15.5, 15.4, 15.1, 14.3, 14.8, 15.2, 15.4, 16.3, 15.5, 15, 15.5, 15.5, 15.7, 14.4, 14.9, 16.5, 15.5, 15.3, 14.5, 15.5, 15.2, 15.3, 15.3, 15.8, 14.8, 15.2, 15.9, 15.5, 16.5, 17.3, 14.9, 15.4, 15.3, 14.6, 16.2, 14.6, 15.9, 14.7, 15.5, 16.1, 15.2, 15.1, 15.9, 16.1, 15.7, 15.3, 15.3, 15.2, 16.6, 15.5, 15.8, 16, 15.4, 16, 15.4, 15.8, 15.4, 15.5, 15.7, 17.3
+)
+circum <- c(
+  57.2, 58.4, 55.9, 58.4, 58.4, 61, 58.4, 58.4, 59.7, 59.7, 57.2, 59.7, 57.2, 62.2, 57.2, 61, 58.4, 56.9, 59.7, 57.2, 56.9, 56.9, 63.5, 57.2, 61, 61, 63.5, 58.4, 56.9, 61, 60, 59.7, 59.7, 56.9, 58, 57.5, 58, 58, 57, 56.5, 57.2, 56.5, 57.5, 57, 54.8, 59.8, 56.1, 55, 55.6, 56.5, 55, 56.5, 56.8, 55.5, 57, 56.9, 58.8, 57.3, 58, 62.6, 56.5, 57.5, 55.4, 56, 56.5, 58, 56.7,55.8, 58.5, 60, 57.8, 56, 59.8, 57.7, 58.7, 56.9, 56.9, 58, 59.3, 58.2, 57.5, 57.2, 57, 59.2, 57.6, 60.3, 55, 58.4, 59, 61.7
+  )
+
+fbeye <- c(19.5, 21, 19, 20, 20, 21, 19.5, 21, 20.5, 20.5, 19, 21, 19, 21.5, 19.5, 20, 20, 19, 20, 19.5, 19, 19.5, 21.5, 19, 20.5, 21, 21.8, 20.5, 20, 20, 21.1, 20, 20.2, 18.9, 20.1, 18.5, 20.8, 20.1, 19.6, 19.6, 20, 19.8, 19.8, 20.4, 18.5, 20.2, 18.8, 19, 19.3, 20, 19.3, 19.3, 20.2, 19.2, 20.2,19.1, 21, 20.1, 19.5, 21.5, 20.4, 19.5, 19.2, 19.8, 19.5, 19.9, 18.7, 18.7, 19.4, 20.3, 19.9, 19.4, 20.5, 19.7, 20.7, 19.6, 19.5, 20.6, 19.9, 19.7, 18.9,19.8, 19.8, 20.8, 19.6, 20.8, 18.8, 19.8, 20.4, 20.7
+           )
+
+eyehd <- c(12.5, 12.,10, 13.5, 13, 12, 13.5, 13, 13.5, 13, 14, 13, 14, 14,13.5,15, 12, 13, 12.5, 12, 12, 14.5, 14, 13, 12, 14.5, 14.5, 13., 13.5, 12.5, 10.3, 12.8, 11.4, 11, 9.6, 9.9, 10.2, 8.8, 10.5, 10.4, 11.2,9.2, 11.8, 10.2,11.2,9.4, 9.8, 10.1, 12, 9.9, 9.9, 9.1, 8.6, 8.2, 9.8, 9.6, 8.6, 9.6, 9, 10.3, 7.4, 10.5, 9.7, 8.5, 11.5, 13, 10.8, 11.1, 11.5, 10.6, 10.4, 10, 12, 10.2, 11.3, 10.5, 9.9, 11, 12.1, 11.7, 11.8, 10.8, 11.3, 10.4, 10.2, 12.4, 10.7,13.1, 12.1, 11.9
+           )
+earhd <- c(14, 16, 13, 15, 15.5, 14, 15.5, 14, 14.5, 15, 14.5, 16, 14.5, 16, 15, 15, 14.5, 14, 14, 14, 13, 14.5, 15.5, 15.5, 13, 15.5, 16.5, 16, 14, 14.5, 13.4, 14.5, 14.1, 13.4, 11.1, 12.8, 12.8, 13, 13.9, 14.5, 13.4, 12.8, 12.6, 12.7,13.8, 14.3, 13.8, 14.2, 12.6, 13.4, 14.4, 12.8, 14.2, 13, 13.8, 13, 13.5, 14.1, 13.9, 13.8, 13, 13.8, 13.3, 12, 14.5, 13.4, 12.8, 13.9, 13.4, 13.7, 13.5, 13.1, 13.6, 13.6, 13.6, 13.5, 14, 15.1, 14.6, 13.8, 14.7, 13.9, 14, 13.8, 13.9, 13.4, 14.2, 14.5, 13, 13.3)
+
+jaw <- c(
+  11, 12, 12, 12 ,12, 13, 13, 13, 12.5, 13, 11.5, 12.5, 12, 12,12,12, 12, 12.5, 12.5, 11, 12, 13, 13.5, 12.5, 12.5, 12.5, 13.5, 10.5, 12, 12.5, 12.4, 11.3, 12.1, 11, 11.7, 11.4, 11.9, 12.9, 11.8, 12, 12.4, 12.2, 12.5, 12.4, 11.3, 12.2, 12.6, 11.6, 11.6, 11.5, 11.9, 11.7, 11.5, 12.6, 10.5, 11.2, 11.8, 12.3, 13.3, 12.8, 12, 11.5, 11.5, 11.5, 11.8, 11.5, 12.6, 11.2, 11.9, 12.2, 11.4, 10.9, 11.5, 11.5, 11.3, 12.1, 12.1, 11.7, 12.1, 12.1, 11.8, 12, 11.4, 12.2, 11.7, 12.1, 10.8, 11.7, 12.7, 13.3
+)
+footballHeads <- data.frame(group, wdim, circum, fbeye, eyehd, earhd, jaw)
+
+```
+
+
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  footballHeads, caption = 'Football Heads',
+  booktabs = TRUE
+)
+```
+
+> 2) Split into data into different groups.
+
+```{r}
+data_group <- split(footballHeads[,2:7], footballHeads$group)
+```
+
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  data_group, caption = 'Football Heads',
+  booktabs = TRUE
+)
+```
+
+> 3) Obtain the means of each group
+
+```{r}
+data_means <- sapply(data_group, function(x) {
+  apply(x, 2, mean)
+  }, simplify = 'data.frame')
+
+```
+
+
+```{r}
+#data_means <- round(data_means, 3)
+data_means
+```
+
+> 4) Plotting the observations into the linear functions.
+
+
+```{r}
+E = matrix(data = 0, nrow = 6, ncol = 6)
+for (i in 1:dim(E)[1]) {
+  for (j in 1:i) {
+    b <- c() 
+    for (k in data_group) {
+      a <- sum((k[,i] - mean(k[,i])) * (k[,j] - mean(k[,j])))
+      b <- append(b, a)
+    }
+    E[i,j] <- sum(b)
+    E[j,i] <- sum(b)
+  }
+}
+ 
+N <- dim(footballHeads)[1]
+k <- length(unique(footballHeads$group))
+sp1 <- E / (N - k)
+```
+
+
+```{r}
+sp1
+```
+
+
+
+```{r}
+li_y <- apply(footballHeads[,2:7], 1, function(y) {
+  sapply(data_group, function(x) {
+    y_bar <- as.numeric(apply(x, 2, mean))
+    y_bar %*% solve(sp1) %*% y - .5 * y_bar %*% solve(sp1) %*% y_bar
+  }, simplify = 'data.frame')
+})
+```
+
+
+```{r}
+li_y
+```
+
+> 4) Finding the group that maximized the value of $L_i(y)$ for each observation.
+
+```{r}
+footballHeads_prediction <- apply(t(li_y), 1, function(x) {
+  which(x==max(x))
+})
+```
+
+> 5) Print the classifications and the actual groups for comparison as well as a confusion matrix.
+
+```{r}
+footballHeads_prediction
+
+footballHeads$group
+
+```
+
+
+```{r}
+table(footballHeads$group, footballHeads_prediction, dnn = c('Actual Group','Predicted Group'))
+```
+
+
+> 6) Count the number of accurate classifications.
+
+```{r}
+sum(footballHeads_prediction == footballHeads$group)
+
+```
+
+
+> 7) Compare results with the function "lda",provided by the Mass package.
+
+```{r}
+
+if(!require("MASS")){
+    install.packages("MASS")
+    library(MASS)
+  }
+footballHeads_lda <- lda(group ~ ., data = footballHeads)
+footballHeads_lda_pred <- predict(footballHeads_lda)$class
+confusion_lda<-table(footballHeads$group, footballHeads_lda_pred, dnn = c('Actual Group','Predicted Group'))
+```
+
+
+## Estimating Misclassification Rates
+
+$$\textit{apparent error rate}=\frac{n_{12}+n_{21}}{n_1+n_2}$$
+Where:
+
+Of the $n_1$: observations in $G_1$:
+
++ $n_{11}$ are correctly classified into $G_1$
++ $n_{12}$ are misclassified into $G_2$
+
+Of the $n_2$: observations in $G_2$:
+
++ $n_{21}$ are correctly classified into $G_2$
++ $n_{21}$ are misclassified into $G_1$
+
+
+### Example $9.4.(a).$ 
+We use the psychological data of Table $5.1$ to illustrate the apparent error rate obtained by the resubstitution method for two groups. The hypothesis $H_0: \Sigma_1=\Sigma_2$ was not rejected in Example $7.3.2$, and we therefore classify each of the $64$ observations using the lienar classification procedure obtained in Example $9.2$: Classify as $G_1$ if $a'y>7.4927$ and as $G_2$ otherwise. The resulting classification table is given in Table $9.2$. By $9.15$.
+
+> 1) Data manipulation
+
+
+```{r}
+
+if(!require("magrittr")){
+    install.packages("magrittr")
+    library(magrittr)
+}
+
+if(!require("dplyr")){
+    install.packages("dplyr")
+    library(dplyr)
+}
+
+data542_female<-data542_female %>% mutate(gender="female")
+data542_male <- data542_male %>% mutate(gender="male")
+psychologicalData<-rbind(data542_female, data542_male)
+psychologicalData
+```
+
+> 2) Lda function to data
+
+```{r}
+
+if(!require("MASS")){
+    install.packages("MASS")
+    library(MASS)
+  }
+psychologicalData_lda <- lda(gender ~ ., data = psychologicalData)
+psychologicalData_lda_pred <- predict(psychologicalData_lda)$class
+confusion_lda<-table(psychologicalData$gender, psychologicalData_lda_pred, dnn = c('Actual Group','Predicted Group'))
+```
+
+> 3) Obtaining apparent error rate
+
+```{r}
+apparentCorrectRateLda<-round(sum(diag(confusion_lda))/sum(confusion_lda),3)
+print(paste0("The apparent correct classification rate, using lda, is: ", apparentCorrectRateLda))
+print(paste0("The apparent error rate, using lda, is: ", (1-apparentCorrectRateLda)))
+
+```
+### Example $9.4.(b)$ 
+
+We use the football data of Table $8.3$ to illustrate the use of the resubstitution method for estimating the error rate in the case of more than two groups. The sample covariance matrices for the three groups are almost significantly different, and we will use both linear and quadratic classification functions.
+The linear classification
+
+**Using Linear Discriminating Function**
+
+```{r}
+apparentCorrectRateLda<-round(sum(diag(confusion_lda))/sum(confusion_lda),3)
+print(paste0("The apparent correct classification rate, using lda, is: ", apparentCorrectRateLda))
+print(paste0("The apparent error rate, using lda, is: ", (1-apparentCorrectRateLda)))
+
+```
+
+**Using the Quadratic Classification Rules**
+
+```{r}
+footballHeads_qda <- qda(group ~ ., data = footballHeads)
+footballHeads_qda_pred <- predict(footballHeads_qda)$class
+confusion_qda<-table(footballHeads$group, footballHeads_qda_pred, dnn = c('Actual Group','Predicted Group'))
+```
+
+
+```{r}
+apparentCorrectRateQda<-round(sum(diag(confusion_qda))/sum(confusion_qda),3)
+print(paste0("The apparent correct classification rate, using qda, is: ", apparentCorrectRateQda))
+print(paste0("The apparent error rate, using qda, is: ", (1-apparentCorrectRateQda)))
+
+```
+
+## Improved Estimates of Error Rates
+
+### Example $9.5.2$
+
+We use the football data Table $8.3$ to illustrate the holdout method for estimating the error rate. Each of the $90$ observations is classified by linear classification functions based on the other $89$ observations. To begin the procedure, the first observation in group 1 $y_{11}$ is held out and the linear classification functions $L_1{(y)}, L_2{(y)}$ and $L_3{(y)}$. Then $y_{11}$ is reinserted in group $1$, and $y_{12}$ is held out. The functions $L_1{(y)}, L_2{(y)}$ and $L_3{(y)}$ are recomputed and $y_{12}$ is then classified. This procedure is followed for each of the $90$ observations, and the results are in Table $9.5$.
+
+>Here is an implementation using R:
+
+**Holdout method**
+
+```{r}
+footballHeads_cv <- lda(group ~ ., CV=TRUE, data = footballHeads)
+```
+
+
+```{r}
+confusion_cv<-table(footballHeads$group, footballHeads_cv$class, dnn = c('Actual Group','Predicted Group'))
+```
+
+```{r}
+confusion_cv
+```
+
+```{r}
+apparentCorrectRateCv<-round(sum(diag(confusion_cv))/sum(confusion_qda),3)
+print(paste0("The apparent correct classification rate, using qda, is: ", apparentCorrectRateCv))
+print(paste0("The apparent error rate, using qda, is: ", (1-apparentCorrectRateCv)))
+
+```
+
+
+As expected, the holdout error rate has increased somewhat from the apparent error rate based on resubstitution in Tables $9.3$ and $9.4$ in Example 9.4.(b).. An error rate of $.300$ is a less optimistic (more realistic) estimate of what the classification functions can do with the future samples.
+
+
+## Subset Selection
+
+
+### Example 9.6.(a).
+
+In Example 8.9, a stepwise discriminant analysis based on a partial Wilks $\Lambda$ (or partial F) was carried out fot the football data of Table $8.3$. Four variables were selected: EYEHD, WDIM, JAW and EARHD. These same four variables indicated by the coefficients in the linear classification functions in Example $9.3.1$. We now use these four variables to classify the observations using the method of resubstitution to obtain the apparent error rate.
+
+
+### Example 9.6.(b).
+
+We illustrate the error rates as an informal stopping rule in a stepwise discriminant analysis. Fifteen teacher and pupil
+
+## Nonparametric Procedures
+
+### Example 9.7.2.
+
+We illustrate the density estimation method of classification for the football data of Table $8.3$. We use the multivariate normal kernell estimator in (9.26) with $h=2$ to obtain $\hat{f}_{y_0|G_i}$, i =$1,2,3$, for the three groups.
+
+

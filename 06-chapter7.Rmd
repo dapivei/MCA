@@ -16,9 +16,9 @@ We cover three basic types of hyphotesis:
 ## Testing a specified pattern for $\Sigma$
 
 
-### Testing $H_0: \Sigma=\Sigma_0$
+**Testing $H_0: \Sigma=\Sigma_0$**
 
-### Testing Sphericity
+**Testing Sphericity**
 
 The hypothesis that the variables $y_1, y_2, \cdots, y_p$ in y are independent and have the same variance can be expressed as $$H_0; \Sigma=\sigma^2I \text{ versus } H_{1}:\Sigma \neq \sigma^2I$$
 ,where $\sigma^2$ is the unknown common variance.
@@ -30,7 +30,7 @@ Another sphericity hyphotesis of interest in repeated measures is $H_0: C\Sigma 
 
 
 
-**Example 7.2.2**
+### Example 7.2.2
 
 We use the probe word data in Table $3.6$ to illustrate tests of sphericity. The five variables appear to be commensurate, and the hypothesis $H_0: \mu_1=\mu_2 = \cdots =\mu_5$ may be of interest. We would expect the variables to be correlated, and $H_0$ would ordinarily be tested using a multivariate approach, as in Sections 5.9.1 and 6.9.2. 
 
@@ -49,8 +49,16 @@ y4<- c(35,17,37,34,14,35,25,20,25,32,26)
 y5<- c(42,27,30,27,29,40,38,16,28,36,25)
 
 probewords <-data.frame(subject_number,y1,y2,y3,y4,y5)
-probewords
 ```
+
+```{r tidy=FALSE}
+knitr::kable(
+  probewords, caption = 'Probewords Data',
+  booktabs = TRUE
+)
+
+```
+
 
 ```{r}
 # Obtaining covariance-variance matrix
@@ -100,7 +108,7 @@ any $p — 1$orthogonal contrasts among the means $\mu_1, \mu_2, \cdots, \mu_p$ 
 
 We use the following matrix of orthonormalized constrast:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 # Creating a matrix of contrasts
 C= matrix( 
@@ -125,7 +133,7 @@ C_ortho #orthonormalized contrast matrix
 Then using $CSC'$ in place of **S** and with $p-1=4$ for the four rows of **C**, we obtain:
 
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # MASS: Package required to use "ginv": to obtain the inverse of a non square matrix.
 
 if(!require(MASS)){
@@ -147,10 +155,10 @@ round(mu_prime,3)
 
 For degrees of freedom, we now have $\frac{1}{2}(p-1)(p-1+1)-1=9$ and the critical value is $\chi^2_{0.5,9}=16.92$. Hence, we do not reject $H_0:C\Sigma C'=\sigma^2I$, and a univariate *F-test* of $H_0:\mu_1=\mu=2=\cdots=\mu_5$ may be justified.
 
-### Testing $H_0:\Sigma=\sigma^2[(1-\rho)I+\rho J]$
+**Testing $H_0:\Sigma=\sigma^2[(1-\rho)I+\rho J]**
 
 
-**Example 7.2.3**
+### Example 7.2.3
 
 
 We use the cork data of Table 6.21.  In Problem 6.34,
@@ -176,7 +184,16 @@ west <-c(77,63, 58, 38, 36, 26, 27, 25, 25, 36, 28, 63, 52, 43, 75, 50, 61, 58, 
 )
 
 corkBorings <- data.frame(tree, north, east, south, west)
-corkBorings
+
+```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  corkBorings, caption = 'Cork Borings Data',
+  booktabs = TRUE
+)
+
 ```
 
 From a sample, we obtain the sample covariance matrix **S**.
@@ -257,10 +274,10 @@ Since 19.511 > $\chi^2_{0.5, 8}=15.5$, we reject $H_0$ and conclude that $\Sigma
 
 ## Tests comparing covariance matrices
 
-### Univariate Tests of Equality of Variances
-### Multivariate Tests of Equality of Covariance Matrices
+**Univariate Tests of Equality of Variances**
+**Multivariate Tests of Equality of Covariance Matrices**
 
-**Example 7.3.2**
+### Example 7.3.2
 
 We test the hypothesis $H_{0}: \Sigma_{1}=\Sigma_{2}$ for the psychological data of Table *5.1*. 
 
@@ -283,9 +300,16 @@ y_4m <- c(26,	14,	23,	16,	28,	21,	22,	22,	17,	27,	20,	24,	24,	28,	27,	21,	26,	17
 data542_male <- data.frame(
   y_1m, y_2m, y_3m, y_4m
   )
-data542_male
+
 ```
 
+```{r tidy=FALSE}
+knitr::kable(
+  data542_male, caption = 'Psychological Male Data',
+  booktabs = TRUE
+)
+
+```
 
 
 ```{r}
@@ -313,8 +337,16 @@ y_4f <- c(
 data542_female <- data.frame(
   y_1f, y_2f, y_3f, y_4f
   )
-data542_female
 
+
+
+```
+
+```{r tidy=FALSE}
+knitr::kable(
+  data542_female, caption = 'Psychological Female Data',
+  booktabs = TRUE
+)
 
 ```
 
@@ -462,9 +494,9 @@ Thus all three tests accept $H_0$.
 
 ## Tests of independence
 
-### Independence of Two Subvectors
+**Independence of Two Subvectors**
 
-**Example 7.4.1**
+### Example 7.4.1
 
 
 Suppose the observation vector is partitioned into two vectors of interest, which we label *y* and *x*, as in Section 3.9.1,where **y** is *px1* and **x** is *qx1*. By (3.46), the corresponding partitioning og the population variance matrix is:
@@ -523,10 +555,18 @@ clinical_clasification <- rep(3, 46
                               )
   
 measures <- data.frame(y1,y2,x1,x2,x3)
-measures
 
 
 ```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  measures, caption = 'Measures',
+  booktabs = TRUE
+)
+```
+
 
 There is a natural partitioning in the variables, with $y_1$ and $y_2$ of minor interest and $x_1, x_2, x_3$ of major interest. We test independence of the $y's$ and the $x's$, that is, $H_0: \Sigma_{yx}=O$. 
 
@@ -566,9 +606,9 @@ $$\Lambda=0.724 < \Lambda_{0.05, 2, 3, 40}=.730$$
 
 Thus we reject the hyphotesis of independence. Note the use of 40 in $\Lambda_{0.05, 2, 3, 40}$ in place of $n-1-q=46-1-3=42.$ This is a conservative approach that allows the use of a table value without interpolation.
 
-### Independence of Several Subvectors
+**Independence of Several Subvectors**
 
-**Example 7.4.2**
+### Example 7.4.2
 
 For **30** brands of Japanese Seishu wine, Siotani et al. (1963) studied the rela- tionship between:
 
@@ -621,10 +661,20 @@ x7 <- c(16.9, 15.80, 15.80, 15.40, 15.40, 16.78, 15.81, 16.78, 16.62, 16.70, 16.
 x8 <- c(122, 62, 139, 150, 138, 123, 172, 144, 153, 121, 176, 128, 126, 128, 99, 122.8, 114, 125, 119, 111, 68, 197, 106, 49.5, 164, 29.5, 131, 168.2, 118, 48
 )
 seishu <- data.frame(y1, y2,x1, x2, x3, x4, x5, x6, x7, x8)
-seishu
+
 
 
 ```
+
+
+```{r tidy=FALSE}
+knitr::kable(
+  seishu, caption = 'Seishu Data',
+  booktabs = TRUE
+)
+
+```
+
 
 We test independence of the following four subsets of variables:
 
@@ -743,9 +793,9 @@ mu_prime
 
 which exceeds $\chi^2_{0.001, 37}=69.35$, and we reject the hyphotesis of independence of the four subsets.
 
-### Test for Independence of All Variables
+**Test for Independence of All Variables**
 
-**Example 7.4.3**
+### Example 7.4.3
 
 For this exercise we use the probe data from table *3.6*.
 
@@ -754,9 +804,14 @@ We test the hyphotesis:
 $$H_0: \sigma_{jk}=0, j\neq k$$.
 
 
-```{r}
-probewords
+```{r tidy=FALSE}
+knitr::kable(
+  probewords, caption = 'Probewords Data',
+  booktabs = TRUE
+)
+
 ```
+
 
 First, we obtain **R**:
 
