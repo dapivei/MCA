@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Multivariate Analysis of Variance Vectors | Multivariate and Categorical Statistics</title>
+  <meta name="description" content="This is a book meant to me read along side the book Multivariate Methods." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Multivariate Analysis of Variance Vectors | Multivariate and Categorical Statistics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a book meant to me read along side the book Multivariate Methods." />
+  <meta name="github-repo" content="https://github.com/C1587S/EMV-ejercicios" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Multivariate Analysis of Variance Vectors | Multivariate and Categorical Statistics" />
+  
+  <meta name="twitter:description" content="This is a book meant to me read along side the book Multivariate Methods." />
+  
+
+<meta name="author" content="Daniela Pinto Veizaga &amp; Sebastián Cadavid Sánchez" />
+
+
+<meta name="date" content="2020-04-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter5.html"/>
+<link rel="next" href="chapter7.html"/>
+<script src="libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Multivariate and Categorical Statistics</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
+<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
+<li class="chapter" data-level="5" data-path="chapter5.html"><a href="chapter5.html"><i class="fa fa-check"></i><b>5</b> Test on one or two mean vectors</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="chapter5.html"><a href="chapter5.html#multivariate-versus-univariate-tests"><i class="fa fa-check"></i><b>5.1</b> Multivariate Versus Univariate Tests</a></li>
+<li class="chapter" data-level="5.2" data-path="chapter5.html"><a href="chapter5.html#test-on-mu-with-sigma-known"><i class="fa fa-check"></i><b>5.2</b> Test on <span class="math inline">\(\mu\)</span> with <span class="math inline">\(\Sigma\)</span> Known</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="chapter5.html"><a href="chapter5.html#example-5.2.2"><i class="fa fa-check"></i><b>5.2.1</b> Example 5.2.2</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="chapter5.html"><a href="chapter5.html#tests-on-mu-when-sigma-is-unknown"><i class="fa fa-check"></i><b>5.3</b> Tests on <span class="math inline">\(\mu\)</span> when <span class="math inline">\(\Sigma\)</span> is unknown</a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="chapter5.html"><a href="chapter5.html#example-5.3.2."><i class="fa fa-check"></i><b>5.3.1</b> Example 5.3.2.</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="chapter5.html"><a href="chapter5.html#comparing-two-mean-vectors"><i class="fa fa-check"></i><b>5.4</b> Comparing two mean vectors</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="chapter5.html"><a href="chapter5.html#example-5.4.2"><i class="fa fa-check"></i><b>5.4.1</b> Example 5.4.2</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="chapter5.html"><a href="chapter5.html#tests-on-individual-variables-conditional-on-rejection-of-h_0-by-the-t2-test."><i class="fa fa-check"></i><b>5.5</b> Tests on individual variables conditional on rejection of <span class="math inline">\(H_{0}\)</span> by the <span class="math inline">\(T^2\)</span>-test.</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="chapter5.html"><a href="chapter5.html#example-5.5"><i class="fa fa-check"></i><b>5.5.1</b> Example 5.5</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="chapter5.html"><a href="chapter5.html#computation-of-t2"><i class="fa fa-check"></i><b>5.6</b> Computation of <span class="math inline">\(T^2\)</span></a>
+<ul>
+<li class="chapter" data-level="5.6.1" data-path="chapter5.html"><a href="chapter5.html#example-5.6.2"><i class="fa fa-check"></i><b>5.6.1</b> Example: 5.6.2</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="chapter5.html"><a href="chapter5.html#paired-observation-test"><i class="fa fa-check"></i><b>5.7</b> Paired Observation Test</a>
+<ul>
+<li class="chapter" data-level="5.7.1" data-path="chapter5.html"><a href="chapter5.html#example-5.7.2"><i class="fa fa-check"></i><b>5.7.1</b> Example 5.7.2</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="chapter5.html"><a href="chapter5.html#test-for-aditional-information"><i class="fa fa-check"></i><b>5.8</b> Test for Aditional Information</a>
+<ul>
+<li class="chapter" data-level="5.8.1" data-path="chapter5.html"><a href="chapter5.html#example-5.8"><i class="fa fa-check"></i><b>5.8.1</b> Example 5.8</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="chapter5.html"><a href="chapter5.html#profile-analysis"><i class="fa fa-check"></i><b>5.9</b> Profile Analysis</a>
+<ul>
+<li class="chapter" data-level="5.9.1" data-path="chapter5.html"><a href="chapter5.html#example-5.9.2"><i class="fa fa-check"></i><b>5.9.1</b> Example 5.9.2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="chapter6.html"><a href="chapter6.html"><i class="fa fa-check"></i><b>6</b> Multivariate Analysis of Variance Vectors</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter6.html"><a href="chapter6.html#one-way-models"><i class="fa fa-check"></i><b>6.1</b> One Way Models</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="chapter6.html"><a href="chapter6.html#example-6.1.7"><i class="fa fa-check"></i><b>6.1.1</b> Example 6.1.7</a></li>
+<li class="chapter" data-level="6.1.2" data-path="chapter6.html"><a href="chapter6.html#example-6.1.8"><i class="fa fa-check"></i><b>6.1.2</b> Example 6.1.8</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="chapter6.html"><a href="chapter6.html#comparison-of-the-four-manova-test-statistics-comparison-ot-the-four-manova-test-statistics"><i class="fa fa-check"></i><b>6.2</b> Comparison of the four MANOVA test statistics comparison ot the four MANOVA test statistics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="chapter6.html"><a href="chapter6.html#example-6.2"><i class="fa fa-check"></i><b>6.2.1</b> Example 6.2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="chapter6.html"><a href="chapter6.html#constrasts"><i class="fa fa-check"></i><b>6.3</b> Constrasts</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="chapter6.html"><a href="chapter6.html#example-6.3.2"><i class="fa fa-check"></i><b>6.3.1</b> Example 6.3.2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="chapter6.html"><a href="chapter6.html#tests-on-individual-variables-following-rejection-of-h_0-by-the-overall-manova-test"><i class="fa fa-check"></i><b>6.4</b> Tests on individual variables following rejection of <span class="math inline">\(H_0\)</span> by the overall MANOVA test</a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="chapter6.html"><a href="chapter6.html#example-6.4"><i class="fa fa-check"></i><b>6.4.1</b> Example 6.4</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="chapter6.html"><a href="chapter6.html#two-way-classification"><i class="fa fa-check"></i><b>6.5</b> Two-way Classification</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="chapter6.html"><a href="chapter6.html#example-6.5.2"><i class="fa fa-check"></i><b>6.5.1</b> Example 6.5.2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="chapter6.html"><a href="chapter6.html#other-models"><i class="fa fa-check"></i><b>6.6</b> Other Models</a></li>
+<li class="chapter" data-level="6.7" data-path="chapter6.html"><a href="chapter6.html#checking-on-assumptions"><i class="fa fa-check"></i><b>6.7</b> Checking on Assumptions</a></li>
+<li class="chapter" data-level="6.8" data-path="chapter6.html"><a href="chapter6.html#profile-analysis-1"><i class="fa fa-check"></i><b>6.8</b> Profile Analysis</a>
+<ul>
+<li class="chapter" data-level="6.8.1" data-path="chapter6.html"><a href="chapter6.html#example-6.8"><i class="fa fa-check"></i><b>6.8.1</b> Example 6.8</a></li>
+<li class="chapter" data-level="6.8.2" data-path="chapter6.html"><a href="chapter6.html#example-6.9.2"><i class="fa fa-check"></i><b>6.8.2</b> Example 6.9.2</a></li>
+<li class="chapter" data-level="6.8.3" data-path="chapter6.html"><a href="chapter6.html#example-6.9.5"><i class="fa fa-check"></i><b>6.8.3</b> Example 6.9.5</a></li>
+</ul></li>
+<li class="chapter" data-level="6.9" data-path="chapter6.html"><a href="chapter6.html#growth-curves"><i class="fa fa-check"></i><b>6.9</b> Growth Curves</a>
+<ul>
+<li class="chapter" data-level="6.9.1" data-path="chapter6.html"><a href="chapter6.html#example-6.10.1"><i class="fa fa-check"></i><b>6.9.1</b> Example 6.10.1</a></li>
+<li class="chapter" data-level="6.9.2" data-path="chapter6.html"><a href="chapter6.html#example-6.10.2"><i class="fa fa-check"></i><b>6.9.2</b> Example 6.10.2</a></li>
+</ul></li>
+<li class="chapter" data-level="6.10" data-path="chapter6.html"><a href="chapter6.html#tests-on-a-subvector"><i class="fa fa-check"></i><b>6.10</b> Tests on a Subvector</a>
+<ul>
+<li class="chapter" data-level="6.10.1" data-path="chapter6.html"><a href="chapter6.html#example-6.11.1"><i class="fa fa-check"></i><b>6.10.1</b> Example 6.11.1</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter7.html"><a href="chapter7.html"><i class="fa fa-check"></i><b>7</b> Tests in covariance matrices</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter7.html"><a href="chapter7.html#introduction"><i class="fa fa-check"></i><b>7.1</b> Introduction</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter7.html"><a href="chapter7.html#testing-a-specified-pattern-for-sigma"><i class="fa fa-check"></i><b>7.2</b> Testing a specified pattern for <span class="math inline">\(\Sigma\)</span></a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="chapter7.html"><a href="chapter7.html#example-7.2.2"><i class="fa fa-check"></i><b>7.2.1</b> Example 7.2.2</a></li>
+<li class="chapter" data-level="7.2.2" data-path="chapter7.html"><a href="chapter7.html#example-7.2.3"><i class="fa fa-check"></i><b>7.2.2</b> Example 7.2.3</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="chapter7.html"><a href="chapter7.html#tests-comparing-covariance-matrices"><i class="fa fa-check"></i><b>7.3</b> Tests comparing covariance matrices</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="chapter7.html"><a href="chapter7.html#example-7.3.2"><i class="fa fa-check"></i><b>7.3.1</b> Example 7.3.2</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="chapter7.html"><a href="chapter7.html#tests-of-independence"><i class="fa fa-check"></i><b>7.4</b> Tests of independence</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="chapter7.html"><a href="chapter7.html#example-7.4.1"><i class="fa fa-check"></i><b>7.4.1</b> Example 7.4.1</a></li>
+<li class="chapter" data-level="7.4.2" data-path="chapter7.html"><a href="chapter7.html#example-7.4.2"><i class="fa fa-check"></i><b>7.4.2</b> Example 7.4.2</a></li>
+<li class="chapter" data-level="7.4.3" data-path="chapter7.html"><a href="chapter7.html#example-7.4.3"><i class="fa fa-check"></i><b>7.4.3</b> Example 7.4.3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter8.html"><a href="chapter8.html"><i class="fa fa-check"></i><b>8</b> Discriminant Analysis: description of group separation</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter8.html"><a href="chapter8.html#introduction-1"><i class="fa fa-check"></i><b>8.1</b> Introduction</a></li>
+<li class="chapter" data-level="8.2" data-path="chapter8.html"><a href="chapter8.html#discriminant-function-for-two-vectors"><i class="fa fa-check"></i><b>8.2</b> Discriminant Function for Two Vectors</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="chapter8.html"><a href="chapter8.html#example-8.2"><i class="fa fa-check"></i><b>8.2.1</b> Example 8.2</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="chapter8.html"><a href="chapter8.html#relantionship-between-two-group-discriminant-analysis-and-multiple-regression"><i class="fa fa-check"></i><b>8.3</b> Relantionship Between Two Group Discriminant Analysis and Multiple Regression</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="chapter8.html"><a href="chapter8.html#example-8.3."><i class="fa fa-check"></i><b>8.3.1</b> Example 8.3.</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="chapter8.html"><a href="chapter8.html#discriminant-analysis-for-several-groups"><i class="fa fa-check"></i><b>8.4</b> Discriminant Analysis For Several Groups</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="chapter8.html"><a href="chapter8.html#example-8.4.1."><i class="fa fa-check"></i><b>8.4.1</b> Example 8.4.1.</a></li>
+<li class="chapter" data-level="8.4.2" data-path="chapter8.html"><a href="chapter8.html#example-8.4.2."><i class="fa fa-check"></i><b>8.4.2</b> Example 8.4.2.</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="chapter8.html"><a href="chapter8.html#standarized-discriminant-functions"><i class="fa fa-check"></i><b>8.5</b> Standarized Discriminant Functions</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="chapter8.html"><a href="chapter8.html#example-8.5."><i class="fa fa-check"></i><b>8.5.1</b> Example 8.5.</a></li>
+</ul></li>
+<li class="chapter" data-level="8.6" data-path="chapter8.html"><a href="chapter8.html#test-of-significance"><i class="fa fa-check"></i><b>8.6</b> Test of Significance</a>
+<ul>
+<li class="chapter" data-level="8.6.1" data-path="chapter8.html"><a href="chapter8.html#example-8.6.2"><i class="fa fa-check"></i><b>8.6.1</b> Example 8.6.2</a></li>
+</ul></li>
+<li class="chapter" data-level="8.7" data-path="chapter8.html"><a href="chapter8.html#interpretation-of-discriminant-functions"><i class="fa fa-check"></i><b>8.7</b> Interpretation of Discriminant Functions</a></li>
+<li class="chapter" data-level="8.8" data-path="chapter8.html"><a href="chapter8.html#scatter-plots"><i class="fa fa-check"></i><b>8.8</b> Scatter Plots</a>
+<ul>
+<li class="chapter" data-level="8.8.1" data-path="chapter8.html"><a href="chapter8.html#example-8.8."><i class="fa fa-check"></i><b>8.8.1</b> Example 8.8.</a></li>
+</ul></li>
+<li class="chapter" data-level="8.9" data-path="chapter8.html"><a href="chapter8.html#stepwise-selection-of-variables"><i class="fa fa-check"></i><b>8.9</b> Stepwise Selection of Variables</a>
+<ul>
+<li class="chapter" data-level="8.9.1" data-path="chapter8.html"><a href="chapter8.html#example-8.9."><i class="fa fa-check"></i><b>8.9.1</b> Example 8.9.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chapter9.html"><a href="chapter9.html"><i class="fa fa-check"></i><b>9</b> Classification Analysis: Allocation of Observartion Groups</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="chapter9.html"><a href="chapter9.html#introduction-2"><i class="fa fa-check"></i><b>9.1</b> Introduction</a></li>
+<li class="chapter" data-level="9.2" data-path="chapter9.html"><a href="chapter9.html#classification-into-two-groups"><i class="fa fa-check"></i><b>9.2</b> Classification into Two Groups</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="chapter9.html"><a href="chapter9.html#example-9.2."><i class="fa fa-check"></i><b>9.2.1</b> Example 9.2.</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="chapter9.html"><a href="chapter9.html#classification-into-several-groups"><i class="fa fa-check"></i><b>9.3</b> Classification into Several Groups</a>
+<ul>
+<li class="chapter" data-level="9.3.1" data-path="chapter9.html"><a href="chapter9.html#example-9.3"><i class="fa fa-check"></i><b>9.3.1</b> Example 9.3</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="chapter9.html"><a href="chapter9.html#estimating-misclassification-rates"><i class="fa fa-check"></i><b>9.4</b> Estimating Misclassification Rates</a>
+<ul>
+<li class="chapter" data-level="9.4.1" data-path="chapter9.html"><a href="chapter9.html#example-9.4.a."><i class="fa fa-check"></i><b>9.4.1</b> Example <span class="math inline">\(9.4.(a).\)</span></a></li>
+<li class="chapter" data-level="9.4.2" data-path="chapter9.html"><a href="chapter9.html#example-9.4.b"><i class="fa fa-check"></i><b>9.4.2</b> Example <span class="math inline">\(9.4.(b)\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="chapter9.html"><a href="chapter9.html#improved-estimates-of-error-rates"><i class="fa fa-check"></i><b>9.5</b> Improved Estimates of Error Rates</a>
+<ul>
+<li class="chapter" data-level="9.5.1" data-path="chapter9.html"><a href="chapter9.html#example-9.5.2"><i class="fa fa-check"></i><b>9.5.1</b> Example <span class="math inline">\(9.5.2\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="chapter9.html"><a href="chapter9.html#subset-selection"><i class="fa fa-check"></i><b>9.6</b> Subset Selection</a>
+<ul>
+<li class="chapter" data-level="9.6.1" data-path="chapter9.html"><a href="chapter9.html#example-9.6.a."><i class="fa fa-check"></i><b>9.6.1</b> Example 9.6.(a).</a></li>
+<li class="chapter" data-level="9.6.2" data-path="chapter9.html"><a href="chapter9.html#example-9.6.b."><i class="fa fa-check"></i><b>9.6.2</b> Example 9.6.(b).</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="chapter9.html"><a href="chapter9.html#nonparametric-procedures"><i class="fa fa-check"></i><b>9.7</b> Nonparametric Procedures</a>
+<ul>
+<li class="chapter" data-level="9.7.1" data-path="chapter9.html"><a href="chapter9.html#example-9.7.2."><i class="fa fa-check"></i><b>9.7.1</b> Example 9.7.2.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chapter11.html"><a href="chapter11.html"><i class="fa fa-check"></i><b>10</b> Canonical Correlation</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter11.html"><a href="chapter11.html#introduction-3"><i class="fa fa-check"></i><b>10.1</b> Introduction</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter11.html"><a href="chapter11.html#canonical-correlations-and-canonical-variates"><i class="fa fa-check"></i><b>10.2</b> Canonical Correlations and Canonical Variates</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter11.html"><a href="chapter11.html#properties-of-canonical-correlations"><i class="fa fa-check"></i><b>10.3</b> Properties of Canonical Correlations</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="chapter11.html"><a href="chapter11.html#example-11.3"><i class="fa fa-check"></i><b>10.3.1</b> Example 11.3</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="chapter11.html"><a href="chapter11.html#tests-of-significance"><i class="fa fa-check"></i><b>10.4</b> Tests of Significance</a>
+<ul>
+<li class="chapter" data-level="10.4.1" data-path="chapter11.html"><a href="chapter11.html#example-11.4.1."><i class="fa fa-check"></i><b>10.4.1</b> Example 11.4.1.</a></li>
+<li class="chapter" data-level="10.4.2" data-path="chapter11.html"><a href="chapter11.html#example-11.4.2."><i class="fa fa-check"></i><b>10.4.2</b> Example 11.4.2.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="chapter11.html"><a href="chapter11.html#interpretation"><i class="fa fa-check"></i><b>10.5</b> Interpretation</a>
+<ul>
+<li class="chapter" data-level="10.5.1" data-path="chapter11.html"><a href="chapter11.html#example-11.5.1."><i class="fa fa-check"></i><b>10.5.1</b> Example 11.5.1.</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="chapter11.html"><a href="chapter11.html#relationships-of-canonical-correlation-analysis-to-other-multivariate-techniques"><i class="fa fa-check"></i><b>10.6</b> Relationships of Canonical Correlation Analysis to Other Multivariate Techniques</a></li>
+<li class="chapter" data-level="10.7" data-path="chapter11.html"><a href="chapter11.html#references"><i class="fa fa-check"></i><b>10.7</b> References</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Multivariate and Categorical Statistics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter6" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Multivariate Analysis of Variance Vectors</h1>
+<div align="justify">
+
+<div id="one-way-models" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> One Way Models</h2>
+<p>We wish to compare the mean vectors of the <span class="math inline">\(k\)</span> samples for significant differences. The hyphotesis is therefore:</p>
+<p><span class="math display">\[H_0=\mu_1=\mu_2=\cdots=\mu_k \text{ vs } H_1: \text{ at least two } \mu&#39;s \text{ are unequal.}\]</span></p>
+<p>Equality of the mean vectors implies that the k means are equal for each variables. If two means differ for just one variable, for example, <span class="math inline">\(\mu_{23}\neq \mu_{43}\)</span>, the <span class="math inline">\(H_0\)</span> is false and we wish to reject ir. We can see this by examining the elements of the population mean vectors.</p>
+<ul>
+<li><strong>Wilks’ Test Statistic</strong></li>
+</ul>
+<p>The <em>likelihood ratio</em> of <span class="math inline">\(H_0:\mu_1=\mu_2= \cdots =\mu_k\)</span> is given by
+<span class="math display">\[\Lambda=\frac{|E|}{|E+H|}\]</span></p>
+<p>,which is known as Wilks’ <span class="math inline">\(\Lambda\)</span>.</p>
+<p>We reject <span class="math inline">\(H_0\)</span> if:</p>
+<p><span class="math display">\[\Lambda \leq \Lambda_{\alpha, p, \nu_H, \nu_E}\]</span></p>
+<p>Note that rejection is for small values of .</p>
+<p>The parameters in Wilks <span class="math inline">\(\Lambda\)</span> distribution are:</p>
+<p><span class="math display">\[p: \text{number of variables(dimension)}\]</span></p>
+<p><span class="math display">\[\nu_{H}: \text{degress of freedom for hyphotesis}\]</span>
+<span class="math display">\[\nu_{E}: \text{degrees of freedom for error}\]</span>
+Some properties and characteristics of Wilks’ are as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>For determinants to be positive, the following condition must be true: <span class="math inline">\(\nu_E \geq p\)</span>.</p></li>
+<li><p>For ANY MANOVA model, the degrees of freedom <span class="math inline">\(\nu_H and \nu_E\)</span> are always the same as in the analogous univariate case.</p></li>
+<li><p>Parameters <span class="math inline">\(p\)</span> and <span class="math inline">\(\nu_H\)</span> can be interchanged; the distribution of <span class="math inline">\(\Lambda_{p,\nu_H, \nu_E}\)</span> is the same as that of <span class="math inline">\(\Lambda_{\nu_H,p, \nu_E+ \nu_H-p}\)</span></p></li>
+<li><p>Wilks’ <span class="math inline">\(\Lambda\)</span> can be expressed in terms of the eigenvalues <span class="math inline">\(\lambda_1, \lambda_2, \cdots, \lambda_s\)</span> of <span class="math inline">\(E^{-1}H\)</span>, as follows:</p></li>
+</ol>
+<p><span class="math display">\[\Lambda= \prod_{i=1}^s \frac{1}{1+\lambda_i}\]</span></p>
+<p>The number of nonzero eigenvalues of <span class="math inline">\(E^{-1}H\)</span> is:</p>
+<p><span class="math display">\[s=min(p, \nu_H)\]</span></p>
+<p>,which is the rank of <strong>H</strong>.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>When <span class="math inline">\(\lambda_H=1 \text{ or } 2\)</span> or when <span class="math inline">\(p=1 \text{ or } 2\)</span>, Wilks’ <span class="math inline">\(\Lambda\)</span> transforms to an exact <span class="math inline">\(F-statistic.\)</span>.</li>
+</ol>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameters</th>
+<th>Statistic Having F-Distribution</th>
+<th>Degrees of Freedom</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Any <span class="math inline">\(p, \nu_H=1\)</span></td>
+<td><span class="math inline">\(\frac{1-\Lambda}{\Lambda}\frac{\nu_E-p+1}{p}\)</span></td>
+<td><span class="math inline">\(p,\nu_E-p+1\)</span></td>
+</tr>
+<tr class="even">
+<td>Any <span class="math inline">\(p, \nu_H=2\)</span></td>
+<td><span class="math inline">\(\frac{1-\sqrt\Lambda}{\sqrt\Lambda}\frac{\nu_E-p+1}{p}\)</span></td>
+<td><span class="math inline">\(2p,2(\nu_E-p+1)\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p=1\)</span>, any <span class="math inline">\(\nu_H\)</span></td>
+<td><span class="math inline">\(\frac{1-\lambda}{\lambda}\frac{\nu_E}{\nu_H}\)</span></td>
+<td><span class="math inline">\(\nu_H, \nu_E\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p=2\)</span>, any <span class="math inline">\(\nu_H\)</span></td>
+<td><span class="math inline">\(\frac{1-\sqrt\lambda}{\sqrt\lambda}\frac{\nu_E-1}{\nu_H}\)</span></td>
+<td><span class="math inline">\(2\nu_H, 2(\nu_E-1)\)</span></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The hyphotesis is rejected when the transformed value of <span class="math inline">\(\Lambda\)</span> exceeds the upper <span class="math inline">\(\alpha\)</span>-level percentage point of the F-distribution, with degrees of freedoom as shown.</p>
+</blockquote>
+<ol start="8" style="list-style-type: decimal">
+<li>For values of <span class="math inline">\(p \text{ and } \nu_H\)</span> other than those mention before, an <strong>approximate</strong> F-statistic is given by:</li>
+</ol>
+<p><span class="math display">\[F=\frac{1-\Lambda^{1/t}}{\Lambda^{1/t}}\frac{df_2}{df_1}\]</span>
+,with <span class="math inline">\(df_1\)</span> and <span class="math inline">\(df_2\)</span> degrees of freedom, where:</p>
+<p><span class="math display">\[df_1=p\nu_H\]</span>
+<span class="math display">\[df_2=wt-\frac{1}{2}(p\nu_H-2)\]</span></p>
+<p><span class="math display">\[w=\nu_E+\nu_H-\frac{1}{2}(p+\nu_H+1)\]</span>
+<span class="math display">\[t=\sqrt{\frac{p^2-\nu_H^2-4}{p^2+\nu_H^2-5}}\]</span>
+<strong>Four Tests and Relantionship to <span class="math inline">\(T^2\)</span></strong></p>
+<p>Comparing the four test statistics in terms of the eigenvalues <span class="math inline">\(\lambda_1 &gt; \lambda_2 &gt; \cdots &gt;\lambda_s\)</span> of <span class="math inline">\(E^{-1}H\)</span>, where s=min(<span class="math inline">\(\nu_H, p\)</span>):</p>
+<ul>
+<li>Pillai <span class="math inline">\(V^{(s)}=\sum_{i=1}^s \frac{\lambda_i}{1+\lambda_i}\)</span></li>
+<li>Lawley-Hotelling <span class="math inline">\(U^{(s)}=\sum_{i=1}^s \lambda_i\)</span></li>
+<li>Willks’ lambda <span class="math inline">\(\Lambda=\prod_{i=1}^s \frac{1}{1+\lambda_i}\)</span></li>
+<li>Roy’s largest root <span class="math inline">\(\theta= \frac{\lambda_i}{1+\lambda_i}\)</span></li>
+</ul>
+<div id="example-6.1.7" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Example 6.1.7</h3>
+<p>In a classical experiment carried out from <span class="math inline">\(1918\)</span> to <span class="math inline">\(1934\)</span>, apple trees of different rootstocks were compared (Andrews and Herzberg 1985, pp. 357-360). The data for eight trees from each of six rootstocks are given in Table <span class="math inline">\(6.2\)</span>. The variables are:</p>
+<p><span class="math inline">\(y_1 = \text{trunk girth at 4 years (mm x 100)}\)</span>
+<span class="math inline">\(y_2 =\text{extension growth at 4 years (m)}\)</span>
+<span class="math inline">\(y_3 = \text{trunk girth at 15 years (mm x 100)}\)</span>
+<span class="math inline">\(y_4 = \text{weight of tree above ground at 15 years (lb x 1000)}\)</span></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="chapter6.html#cb3-1"></a><span class="co">#Data</span></span>
+<span id="cb3-2"><a href="chapter6.html#cb3-2"></a>rootstock &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,   <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">2</span>,  <span class="dv">3</span>,  <span class="dv">3</span>,  <span class="dv">3</span>,  <span class="dv">3</span>,  <span class="dv">3</span>,  <span class="dv">3</span>, <span class="dv">3</span>,   <span class="dv">3</span>,  <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>,    <span class="dv">4</span>,  <span class="dv">4</span>,  <span class="dv">4</span>,  <span class="dv">4</span>,  <span class="dv">4</span>,  <span class="dv">5</span>,  <span class="dv">5</span>,  <span class="dv">5</span>,  <span class="dv">5</span>,  <span class="dv">5</span>,  <span class="dv">5</span>,  <span class="dv">5</span>,  <span class="dv">5</span>,  <span class="dv">6</span>,  <span class="dv">6</span>,  <span class="dv">6</span>, <span class="dv">6</span>,   <span class="dv">6</span>,  <span class="dv">6</span>,  <span class="dv">6</span>,  <span class="dv">6</span>)</span>
+<span id="cb3-3"><a href="chapter6.html#cb3-3"></a></span>
+<span id="cb3-4"><a href="chapter6.html#cb3-4"></a>y1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.11</span>,   <span class="fl">1.19</span>,   <span class="fl">1.09</span>,   <span class="fl">1.25</span>,   <span class="fl">1.11</span>,   <span class="fl">1.08</span>,   <span class="fl">1.11</span>,   <span class="fl">1.16</span>,   <span class="fl">1.05</span>,   <span class="fl">1.17</span>,   <span class="fl">1.11</span>,   <span class="fl">1.25</span>,   <span class="fl">1.17</span>,   <span class="fl">1.15</span>,   <span class="fl">1.17</span>,   <span class="fl">1.19</span>,   <span class="fl">1.07</span>,   <span class="fl">0.99</span>,   <span class="fl">1.06</span>,   <span class="fl">1.02</span>,   <span class="fl">1.15</span>,   <span class="fl">1.2</span>,    <span class="fl">1.2</span>,    <span class="fl">1.17</span>,   <span class="fl">1.22</span>,   <span class="fl">1.03</span>,   <span class="fl">1.14</span>,   <span class="fl">1.01</span>,   <span class="fl">0.99</span>,   <span class="fl">1.11</span>,   <span class="fl">1.2</span>,    <span class="fl">1.08</span>,   <span class="fl">0.91</span>,   <span class="fl">1.15</span>,   <span class="fl">1.14</span>,   <span class="fl">1.05</span>,   <span class="fl">0.99</span>,   <span class="fl">1.22</span>,   <span class="fl">1.05</span>,   <span class="fl">1.13</span>,   <span class="fl">1.11</span>,   <span class="fl">0.75</span>,   <span class="fl">1.05</span>,   <span class="fl">1.02</span>,   <span class="fl">1.05</span>,   <span class="fl">1.07</span>,   <span class="fl">1.13</span>,   <span class="fl">1.11</span>)</span>
+<span id="cb3-5"><a href="chapter6.html#cb3-5"></a></span>
+<span id="cb3-6"><a href="chapter6.html#cb3-6"></a>y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">2.569</span>,  <span class="fl">2.928</span>,  <span class="fl">2.865</span>,  <span class="fl">3.844</span>,  <span class="fl">3.027</span>,  <span class="fl">2.336</span>,  <span class="fl">3.211</span>,  <span class="fl">3.037</span>,  <span class="fl">2.074</span>,  <span class="fl">2.885</span>,  <span class="fl">3.378</span>,  <span class="fl">3.906</span>,  <span class="fl">2.782</span>,  <span class="fl">3.018</span>,  <span class="fl">3.383</span>,  <span class="fl">3.447</span>,  <span class="fl">2.505</span>,  <span class="fl">2.315</span>,  <span class="fl">2.667</span>,  <span class="fl">2.39</span>,   <span class="fl">3.021</span>,  <span class="fl">3.085</span>,  <span class="fl">3.308</span>,  <span class="fl">3.231</span>,  <span class="fl">2.838</span>,  <span class="fl">2.351</span>,  <span class="fl">3.001</span>,  <span class="fl">2.439</span>,  <span class="fl">2.199</span>,  <span class="fl">3.318</span>,  <span class="fl">3.601</span>,  <span class="fl">3.291</span>,  <span class="fl">1.532</span>,  <span class="fl">2.552</span>,  <span class="fl">3.083</span>,  <span class="fl">2.33</span>,   <span class="fl">2.079</span>,  <span class="fl">3.366</span>,  <span class="fl">2.416</span>,  <span class="fl">3.1</span>,    <span class="fl">2.813</span>,  <span class="fl">0.84</span>,   <span class="fl">2.199</span>,  <span class="fl">2.132</span>,  <span class="fl">1.949</span>,  <span class="fl">2.251</span>,  <span class="fl">3.064</span>,  <span class="fl">2.469</span>)</span>
+<span id="cb3-7"><a href="chapter6.html#cb3-7"></a></span>
+<span id="cb3-8"><a href="chapter6.html#cb3-8"></a>y3 &lt;-<span class="kw">c</span>(<span class="fl">3.58</span>,    <span class="fl">3.75</span>,   <span class="fl">3.93</span>,   <span class="fl">3.94</span>,   <span class="fl">3.6</span>,    <span class="fl">3.51</span>,   <span class="fl">3.98</span>,   <span class="fl">3.62</span>,   <span class="fl">4.09</span>,   <span class="fl">4.06</span>,   <span class="fl">4.87</span>,   <span class="fl">4.98</span>,   <span class="fl">4.38</span>,   <span class="fl">4.65</span>,   <span class="fl">4.69</span>,   <span class="fl">4.4</span>,    <span class="fl">3.76</span>,   <span class="fl">4.44</span>,   <span class="fl">4.38</span>,   <span class="fl">4.67</span>,   <span class="fl">4.48</span>,   <span class="fl">4.78</span>,   <span class="fl">4.57</span>,   <span class="fl">4.56</span>,   <span class="fl">3.89</span>,   <span class="fl">4.05</span>,   <span class="fl">4.05</span>,   <span class="fl">3.92</span>,   <span class="fl">3.27</span>,   <span class="fl">3.95</span>,   <span class="fl">4.27</span>,   <span class="fl">3.85</span>,   <span class="fl">4.04</span>,   <span class="fl">4.16</span>,   <span class="fl">4.79</span>,   <span class="fl">4.42</span>,   <span class="fl">3.47</span>,   <span class="fl">4.41</span>,   <span class="fl">4.64</span>,   <span class="fl">4.57</span>,   <span class="fl">3.76</span>,   <span class="fl">3.14</span>,   <span class="fl">3.75</span>,   <span class="fl">3.99</span>,   <span class="fl">3.34</span>,   <span class="fl">3.21</span>,   <span class="fl">3.63</span>,   <span class="fl">3.95</span>)</span>
+<span id="cb3-9"><a href="chapter6.html#cb3-9"></a></span>
+<span id="cb3-10"><a href="chapter6.html#cb3-10"></a>y4&lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.76</span>,    <span class="fl">0.821</span>,  <span class="fl">0.928</span>,  <span class="fl">1.009</span>,  <span class="fl">0.766</span>,  <span class="fl">0.726</span>,  <span class="fl">1.209</span>,  <span class="fl">0.75</span>,   <span class="fl">1.036</span>,  <span class="fl">1.094</span>,  <span class="fl">1.635</span>,  <span class="fl">1.517</span>,  <span class="fl">1.197</span>,  <span class="fl">1.244</span>,  <span class="fl">1.495</span>,  <span class="fl">1.026</span>,  <span class="fl">0.912</span>,  <span class="fl">1.398</span>,  <span class="fl">1.197</span>,  <span class="fl">1.613</span>,  <span class="fl">1.476</span>,  <span class="fl">1.571</span>,  <span class="fl">1.506</span>,  <span class="fl">1.458</span>,  <span class="fl">0.944</span>,  <span class="fl">1.241</span>,  <span class="fl">1.023</span>,  <span class="fl">1.067</span>,  <span class="fl">0.693</span>,  <span class="fl">1.085</span>,  <span class="fl">1.242</span>,  <span class="fl">1.017</span>,  <span class="fl">1.084</span>,  <span class="fl">1.151</span>,  <span class="fl">1.381</span>,  <span class="fl">1.242</span>,  <span class="fl">0.673</span>,  <span class="fl">1.137</span>,  <span class="fl">1.455</span>,  <span class="fl">1.325</span>,  <span class="fl">0.8</span>,    <span class="fl">0.606</span>,  <span class="fl">0.79</span>,   <span class="fl">0.853</span>,  <span class="fl">0.61</span>,   <span class="fl">0.562</span>,  <span class="fl">0.707</span>,  <span class="fl">0.952</span>)</span>
+<span id="cb3-11"><a href="chapter6.html#cb3-11"></a></span>
+<span id="cb3-12"><a href="chapter6.html#cb3-12"></a></span>
+<span id="cb3-13"><a href="chapter6.html#cb3-13"></a>datarootstock &lt;-<span class="st"> </span><span class="kw">data.frame</span>(rootstock, y1, y2, y3, y4)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="chapter6.html#cb4-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb4-2"><a href="chapter6.html#cb4-2"></a>  datarootstock, <span class="dt">caption =</span> <span class="st">&#39;Rootstock&#39;</span>,</span>
+<span id="cb4-3"><a href="chapter6.html#cb4-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
+<span id="cb4-4"><a href="chapter6.html#cb4-4"></a>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 6.1: </span>Rootstock</caption>
+<thead>
+<tr class="header">
+<th align="right">rootstock</th>
+<th align="right">y1</th>
+<th align="right">y2</th>
+<th align="right">y3</th>
+<th align="right">y4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1.11</td>
+<td align="right">2.569</td>
+<td align="right">3.58</td>
+<td align="right">0.760</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1.19</td>
+<td align="right">2.928</td>
+<td align="right">3.75</td>
+<td align="right">0.821</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1.09</td>
+<td align="right">2.865</td>
+<td align="right">3.93</td>
+<td align="right">0.928</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1.25</td>
+<td align="right">3.844</td>
+<td align="right">3.94</td>
+<td align="right">1.009</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1.11</td>
+<td align="right">3.027</td>
+<td align="right">3.60</td>
+<td align="right">0.766</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1.08</td>
+<td align="right">2.336</td>
+<td align="right">3.51</td>
+<td align="right">0.726</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1.11</td>
+<td align="right">3.211</td>
+<td align="right">3.98</td>
+<td align="right">1.209</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">1.16</td>
+<td align="right">3.037</td>
+<td align="right">3.62</td>
+<td align="right">0.750</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">1.05</td>
+<td align="right">2.074</td>
+<td align="right">4.09</td>
+<td align="right">1.036</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1.17</td>
+<td align="right">2.885</td>
+<td align="right">4.06</td>
+<td align="right">1.094</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">1.11</td>
+<td align="right">3.378</td>
+<td align="right">4.87</td>
+<td align="right">1.635</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1.25</td>
+<td align="right">3.906</td>
+<td align="right">4.98</td>
+<td align="right">1.517</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">1.17</td>
+<td align="right">2.782</td>
+<td align="right">4.38</td>
+<td align="right">1.197</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1.15</td>
+<td align="right">3.018</td>
+<td align="right">4.65</td>
+<td align="right">1.244</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">1.17</td>
+<td align="right">3.383</td>
+<td align="right">4.69</td>
+<td align="right">1.495</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1.19</td>
+<td align="right">3.447</td>
+<td align="right">4.40</td>
+<td align="right">1.026</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1.07</td>
+<td align="right">2.505</td>
+<td align="right">3.76</td>
+<td align="right">0.912</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">0.99</td>
+<td align="right">2.315</td>
+<td align="right">4.44</td>
+<td align="right">1.398</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1.06</td>
+<td align="right">2.667</td>
+<td align="right">4.38</td>
+<td align="right">1.197</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">1.02</td>
+<td align="right">2.390</td>
+<td align="right">4.67</td>
+<td align="right">1.613</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1.15</td>
+<td align="right">3.021</td>
+<td align="right">4.48</td>
+<td align="right">1.476</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">1.20</td>
+<td align="right">3.085</td>
+<td align="right">4.78</td>
+<td align="right">1.571</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">1.20</td>
+<td align="right">3.308</td>
+<td align="right">4.57</td>
+<td align="right">1.506</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">1.17</td>
+<td align="right">3.231</td>
+<td align="right">4.56</td>
+<td align="right">1.458</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">1.22</td>
+<td align="right">2.838</td>
+<td align="right">3.89</td>
+<td align="right">0.944</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1.03</td>
+<td align="right">2.351</td>
+<td align="right">4.05</td>
+<td align="right">1.241</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">1.14</td>
+<td align="right">3.001</td>
+<td align="right">4.05</td>
+<td align="right">1.023</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1.01</td>
+<td align="right">2.439</td>
+<td align="right">3.92</td>
+<td align="right">1.067</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">0.99</td>
+<td align="right">2.199</td>
+<td align="right">3.27</td>
+<td align="right">0.693</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1.11</td>
+<td align="right">3.318</td>
+<td align="right">3.95</td>
+<td align="right">1.085</td>
+</tr>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">1.20</td>
+<td align="right">3.601</td>
+<td align="right">4.27</td>
+<td align="right">1.242</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">1.08</td>
+<td align="right">3.291</td>
+<td align="right">3.85</td>
+<td align="right">1.017</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">0.91</td>
+<td align="right">1.532</td>
+<td align="right">4.04</td>
+<td align="right">1.084</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="right">1.15</td>
+<td align="right">2.552</td>
+<td align="right">4.16</td>
+<td align="right">1.151</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">1.14</td>
+<td align="right">3.083</td>
+<td align="right">4.79</td>
+<td align="right">1.381</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="right">1.05</td>
+<td align="right">2.330</td>
+<td align="right">4.42</td>
+<td align="right">1.242</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">0.99</td>
+<td align="right">2.079</td>
+<td align="right">3.47</td>
+<td align="right">0.673</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="right">1.22</td>
+<td align="right">3.366</td>
+<td align="right">4.41</td>
+<td align="right">1.137</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">1.05</td>
+<td align="right">2.416</td>
+<td align="right">4.64</td>
+<td align="right">1.455</td>
+</tr>
+<tr class="even">
+<td align="right">5</td>
+<td align="right">1.13</td>
+<td align="right">3.100</td>
+<td align="right">4.57</td>
+<td align="right">1.325</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">1.11</td>
+<td align="right">2.813</td>
+<td align="right">3.76</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">0.75</td>
+<td align="right">0.840</td>
+<td align="right">3.14</td>
+<td align="right">0.606</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">1.05</td>
+<td align="right">2.199</td>
+<td align="right">3.75</td>
+<td align="right">0.790</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">1.02</td>
+<td align="right">2.132</td>
+<td align="right">3.99</td>
+<td align="right">0.853</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">1.05</td>
+<td align="right">1.949</td>
+<td align="right">3.34</td>
+<td align="right">0.610</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">1.07</td>
+<td align="right">2.251</td>
+<td align="right">3.21</td>
+<td align="right">0.562</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">1.13</td>
+<td align="right">3.064</td>
+<td align="right">3.63</td>
+<td align="right">0.707</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">1.11</td>
+<td align="right">2.469</td>
+<td align="right">3.95</td>
+<td align="right">0.952</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="chapter6.html#cb5-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;gplots&quot;</span>)){</span>
+<span id="cb5-2"><a href="chapter6.html#cb5-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;gplots&quot;</span>)</span>
+<span id="cb5-3"><a href="chapter6.html#cb5-3"></a>    <span class="kw">library</span>(gplots)</span>
+<span id="cb5-4"><a href="chapter6.html#cb5-4"></a>  }</span>
+<span id="cb5-5"><a href="chapter6.html#cb5-5"></a></span>
+<span id="cb5-6"><a href="chapter6.html#cb5-6"></a><span class="co">#visualize means by rootstock</span></span>
+<span id="cb5-7"><a href="chapter6.html#cb5-7"></a><span class="kw">plotmeans</span>(datarootstock<span class="op">$</span>y1 <span class="op">~</span><span class="st"> </span>datarootstock<span class="op">$</span>rootstock)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="chapter6.html#cb6-1"></a><span class="kw">plotmeans</span>(datarootstock<span class="op">$</span>y2 <span class="op">~</span><span class="st"> </span>datarootstock<span class="op">$</span>rootstock)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="chapter6.html#cb7-1"></a><span class="kw">plotmeans</span>(datarootstock<span class="op">$</span>y3 <span class="op">~</span><span class="st"> </span>datarootstock<span class="op">$</span>rootstock)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-3-3.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="chapter6.html#cb8-1"></a><span class="kw">plotmeans</span>(datarootstock<span class="op">$</span>y4 <span class="op">~</span><span class="st"> </span>datarootstock<span class="op">$</span>rootstock)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-3-4.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="chapter6.html#cb9-1"></a><span class="co"># Splitting the data into groups (in this particular case, six groups)</span></span>
+<span id="cb9-2"><a href="chapter6.html#cb9-2"></a></span>
+<span id="cb9-3"><a href="chapter6.html#cb9-3"></a>data_group &lt;-<span class="st"> </span><span class="kw">split</span>(datarootstock</span>
+<span id="cb9-4"><a href="chapter6.html#cb9-4"></a>[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>], datarootstock<span class="op">$</span>rootstock)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="chapter6.html#cb10-1"></a><span class="co"># Function to get the mean per group and variable (this case, six groups and four variables)</span></span>
+<span id="cb10-2"><a href="chapter6.html#cb10-2"></a></span>
+<span id="cb10-3"><a href="chapter6.html#cb10-3"></a>data_means &lt;-<span class="st"> </span><span class="kw">sapply</span>(data_group, <span class="cf">function</span>(x) {</span>
+<span id="cb10-4"><a href="chapter6.html#cb10-4"></a>  <span class="kw">apply</span>(x, <span class="dv">2</span>, mean)</span>
+<span id="cb10-5"><a href="chapter6.html#cb10-5"></a>}, <span class="dt">simplify =</span> <span class="st">&#39;data.frame&#39;</span>)</span>
+<span id="cb10-6"><a href="chapter6.html#cb10-6"></a></span>
+<span id="cb10-7"><a href="chapter6.html#cb10-7"></a>data_means</span></code></pre></div>
+<pre><code>##           1        2        3       4       5        6
+## y1 1.137500 1.157500 1.107500 1.09750 1.08000 1.036250
+## y2 2.977125 3.109125 2.815250 2.87975 2.55725 2.214625
+## y3 3.738750 4.515000 4.455000 3.90625 4.31250 3.596250
+## y4 0.871125 1.280500 1.391375 1.03900 1.18100 0.735000</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="chapter6.html#cb12-1"></a><span class="co"># Obtaining &quot;n&quot;</span></span>
+<span id="cb12-2"><a href="chapter6.html#cb12-2"></a>n &lt;-<span class="st"> </span><span class="kw">dim</span>(datarootstock)[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(datarootstock<span class="op">$</span>rootstock))</span>
+<span id="cb12-3"><a href="chapter6.html#cb12-3"></a>n</span></code></pre></div>
+<pre><code>## [1] 8</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="chapter6.html#cb14-1"></a><span class="co"># Total Mean Per Group</span></span>
+<span id="cb14-2"><a href="chapter6.html#cb14-2"></a>total_means &lt;-<span class="st"> </span><span class="kw">colMeans</span>(datarootstock[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</span>
+<span id="cb14-3"><a href="chapter6.html#cb14-3"></a>total_means</span></code></pre></div>
+<pre><code>##       y1       y2       y3       y4 
+## 1.102708 2.758854 4.087292 1.083000</code></pre>
+<p>The matrices <span class="math inline">\(\textbf{H}, \textbf{E}\)</span>, and <span class="math inline">\(\textbf{E+H}\)</span> are given by:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chapter6.html#cb16-1"></a><span class="co"># Nrow: number of dependent varibles</span></span>
+<span id="cb16-2"><a href="chapter6.html#cb16-2"></a><span class="co"># Ncol: number of dependent varibles</span></span>
+<span id="cb16-3"><a href="chapter6.html#cb16-3"></a></span>
+<span id="cb16-4"><a href="chapter6.html#cb16-4"></a><span class="co"># H Matrix</span></span>
+<span id="cb16-5"><a href="chapter6.html#cb16-5"></a>H =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb16-6"><a href="chapter6.html#cb16-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(H)[<span class="dv">1</span>]) {</span>
+<span id="cb16-7"><a href="chapter6.html#cb16-7"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb16-8"><a href="chapter6.html#cb16-8"></a>    H[i,j] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]) <span class="op">*</span><span class="st"> </span>(data_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]))</span>
+<span id="cb16-9"><a href="chapter6.html#cb16-9"></a>    H[j,i] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]) <span class="op">*</span><span class="st"> </span>(data_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]))</span>
+<span id="cb16-10"><a href="chapter6.html#cb16-10"></a>  }</span>
+<span id="cb16-11"><a href="chapter6.html#cb16-11"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="chapter6.html#cb17-1"></a><span class="co"># E Matrix</span></span>
+<span id="cb17-2"><a href="chapter6.html#cb17-2"></a>E =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb17-3"><a href="chapter6.html#cb17-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(E)[<span class="dv">1</span>]) {</span>
+<span id="cb17-4"><a href="chapter6.html#cb17-4"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb17-5"><a href="chapter6.html#cb17-5"></a>    b &lt;-<span class="st"> </span><span class="kw">c</span>() </span>
+<span id="cb17-6"><a href="chapter6.html#cb17-6"></a>    <span class="cf">for</span> (k <span class="cf">in</span> data_group) {</span>
+<span id="cb17-7"><a href="chapter6.html#cb17-7"></a>      a &lt;-<span class="st"> </span><span class="kw">sum</span>((k[,i] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,i])) <span class="op">*</span><span class="st"> </span>(k[,j] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,j])))</span>
+<span id="cb17-8"><a href="chapter6.html#cb17-8"></a>      b &lt;-<span class="st"> </span><span class="kw">append</span>(b, a)</span>
+<span id="cb17-9"><a href="chapter6.html#cb17-9"></a>    }</span>
+<span id="cb17-10"><a href="chapter6.html#cb17-10"></a>    E[i,j] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
+<span id="cb17-11"><a href="chapter6.html#cb17-11"></a>    E[j,i] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
+<span id="cb17-12"><a href="chapter6.html#cb17-12"></a>  }</span>
+<span id="cb17-13"><a href="chapter6.html#cb17-13"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="chapter6.html#cb18-1"></a><span class="kw">print</span>(<span class="st">&quot;El valor de la matrix H es:&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;El valor de la matrix H es:&quot;</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="chapter6.html#cb20-1"></a><span class="kw">print</span>(<span class="kw">round</span>(H,<span class="dv">3</span>))</span></code></pre></div>
+<pre><code>##       [,1]  [,2]  [,3]  [,4]
+## [1,] 0.074 0.537 0.332 0.208
+## [2,] 0.537 4.200 2.355 1.637
+## [3,] 0.332 2.355 6.114 3.781
+## [4,] 0.208 1.637 3.781 2.493</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="chapter6.html#cb22-1"></a><span class="kw">print</span>(<span class="st">&quot;El valor de la matrix E es:&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;El valor de la matrix E es:&quot;</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="chapter6.html#cb24-1"></a><span class="kw">print</span>(<span class="kw">round</span>(E,<span class="dv">3</span>))</span></code></pre></div>
+<pre><code>##       [,1]   [,2]  [,3]  [,4]
+## [1,] 0.320  1.697 0.554 0.217
+## [2,] 1.697 12.143 4.364 2.110
+## [3,] 0.554  4.364 4.291 2.482
+## [4,] 0.217  2.110 2.482 1.723</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="chapter6.html#cb26-1"></a><span class="co"># E+H</span></span>
+<span id="cb26-2"><a href="chapter6.html#cb26-2"></a>EH &lt;-E<span class="op">+</span>H</span>
+<span id="cb26-3"><a href="chapter6.html#cb26-3"></a><span class="kw">print</span>(<span class="kw">round</span>(EH, <span class="dv">3</span>))</span></code></pre></div>
+<pre><code>##       [,1]   [,2]   [,3]  [,4]
+## [1,] 0.394  2.234  0.886 0.426
+## [2,] 2.234 16.342  6.719 3.747
+## [3,] 0.886  6.719 10.405 6.263
+## [4,] 0.426  3.747  6.263 4.216</code></pre>
+<blockquote>
+<p><strong>Wilks Lambda</strong></p>
+</blockquote>
+<p>We can compare the mean vectors for significant differences using <strong>Wilks’ lambda</strong>:</p>
+<p><span class="math display">\[\Lambda=\frac{|E|}{|E+H|}\]</span></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="chapter6.html#cb28-1"></a><span class="co"># Willks&#39; Lambda</span></span>
+<span id="cb28-2"><a href="chapter6.html#cb28-2"></a></span>
+<span id="cb28-3"><a href="chapter6.html#cb28-3"></a>willksLambda &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">det</span>(E)<span class="op">/</span><span class="kw">det</span>(E<span class="op">+</span>H),<span class="dv">3</span>)</span>
+<span id="cb28-4"><a href="chapter6.html#cb28-4"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Willks&#39; Lambda: &quot;</span>,willksLambda))</span></code></pre></div>
+<pre><code>## [1] &quot;Willks&#39; Lambda: 0.154&quot;</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="chapter6.html#cb30-1"></a><span class="co"># Paramteres of Willks Lambda</span></span>
+<span id="cb30-2"><a href="chapter6.html#cb30-2"></a></span>
+<span id="cb30-3"><a href="chapter6.html#cb30-3"></a>p=<span class="kw">ncol</span>(datarootstock[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>]) <span class="co">#number of variables (dimension)</span></span>
+<span id="cb30-4"><a href="chapter6.html#cb30-4"></a>k=<span class="dv">6</span> <span class="co">#number of groups</span></span>
+<span id="cb30-5"><a href="chapter6.html#cb30-5"></a>n &lt;-<span class="st"> </span><span class="kw">dim</span>(datarootstock)[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(datarootstock<span class="op">$</span>rootstock))</span>
+<span id="cb30-6"><a href="chapter6.html#cb30-6"></a>nu_H=k<span class="dv">-1</span> <span class="co">#degrees of freedom for hyphotesis</span></span>
+<span id="cb30-7"><a href="chapter6.html#cb30-7"></a>nu_E=k<span class="op">*</span>(n<span class="dv">-1</span>) <span class="co">#degrees of freedom for error</span></span>
+<span id="cb30-8"><a href="chapter6.html#cb30-8"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Number of variables: &quot;</span>,p))</span></code></pre></div>
+<pre><code>## [1] &quot;Number of variables: 4&quot;</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="chapter6.html#cb32-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Degrees of freedom for hyphotesis: &quot;</span>,nu_H))</span></code></pre></div>
+<pre><code>## [1] &quot;Degrees of freedom for hyphotesis: 5&quot;</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="chapter6.html#cb34-1"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Degrees of freedom for error: &quot;</span>,nu_E))</span></code></pre></div>
+<pre><code>## [1] &quot;Degrees of freedom for error: 42&quot;</code></pre>
+<p>Since:
+<span class="math display">\[\Lambda=0.154 &lt; \Lambda_{.05,4,5,40}=.455\]</span></p>
+<p>We <strong>reject</strong> <span class="math inline">\(H_0\)</span>.</p>
+<p>Note the use of <span class="math inline">\(\nu_E=40\)</span> in plance of <span class="math inline">\(\nu_E=42\)</span>.</p>
+<p><strong>Obtaining the approximate F</strong></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="chapter6.html#cb36-1"></a><span class="co"># Approximating F</span></span>
+<span id="cb36-2"><a href="chapter6.html#cb36-2"></a></span>
+<span id="cb36-3"><a href="chapter6.html#cb36-3"></a>t &lt;-<span class="st"> </span><span class="kw">sqrt</span>(((p<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>(nu_H<span class="op">**</span><span class="dv">2</span>)<span class="op">-</span><span class="dv">4</span>)<span class="op">/</span>((p<span class="op">**</span><span class="dv">2</span>)<span class="op">+</span>(nu_H<span class="op">**</span><span class="dv">2</span>)<span class="op">-</span><span class="dv">5</span>))</span>
+<span id="cb36-4"><a href="chapter6.html#cb36-4"></a></span>
+<span id="cb36-5"><a href="chapter6.html#cb36-5"></a>w &lt;-<span class="st"> </span>nu_E<span class="op">+</span>nu_H<span class="op">-</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>(p<span class="op">+</span>nu_H<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb36-6"><a href="chapter6.html#cb36-6"></a>df1&lt;-<span class="st"> </span>p<span class="op">*</span>nu_H</span>
+<span id="cb36-7"><a href="chapter6.html#cb36-7"></a>df2 &lt;-<span class="st"> </span>w<span class="op">*</span>t<span class="fl">-0.5</span><span class="op">*</span>(p<span class="op">*</span>nu_H<span class="dv">-2</span>)</span>
+<span id="cb36-8"><a href="chapter6.html#cb36-8"></a></span>
+<span id="cb36-9"><a href="chapter6.html#cb36-9"></a>F=<span class="kw">round</span>(((<span class="dv">1</span><span class="op">-</span>willksLambda<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span>t))<span class="op">/</span>(willksLambda<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span>t)))<span class="op">*</span>(df2<span class="op">/</span>df1),<span class="dv">3</span>)</span>
+<span id="cb36-10"><a href="chapter6.html#cb36-10"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Approximate F: &quot;</span>,F))</span></code></pre></div>
+<pre><code>## [1] &quot;Approximate F: 4.937&quot;</code></pre>
+<p>Note that <span class="math inline">\(F\)</span> exceeds <span class="math inline">\(F_{0.001,20,120}=2.53\)</span>, and we reject <span class="math inline">\(H_0\)</span>.</p>
+<p>Next, in order to obtain the other three test statistics, we proceed to obtain the eigenvalues of <span class="math inline">\(E^{-1}H\)</span>:</p>
+<blockquote>
+<p><strong>Pillai’s statistic</strong></p>
+</blockquote>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="chapter6.html#cb38-1"></a><span class="co"># Pillai Statistic: First way</span></span>
+<span id="cb38-2"><a href="chapter6.html#cb38-2"></a>eigenvalues&lt;-<span class="kw">eigen</span>(<span class="kw">solve</span>(E) <span class="op">%*%</span><span class="st"> </span>H)</span>
+<span id="cb38-3"><a href="chapter6.html#cb38-3"></a>eigenvalues&lt;-<span class="kw">as.matrix</span>(eigenvalues<span class="op">$</span>values)</span>
+<span id="cb38-4"><a href="chapter6.html#cb38-4"></a>eigenvalues</span></code></pre></div>
+<pre><code>##            [,1]
+## [1,] 1.87567112
+## [2,] 0.79069454
+## [3,] 0.22904907
+## [4,] 0.02595357</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="chapter6.html#cb40-1"></a>pillai =<span class="dv">0</span></span>
+<span id="cb40-2"><a href="chapter6.html#cb40-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(eigenvalues)[<span class="dv">1</span>]){</span>
+<span id="cb40-3"><a href="chapter6.html#cb40-3"></a>  pillai[i] &lt;-<span class="kw">sum</span>(eigenvalues[i]<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>eigenvalues[i]))</span>
+<span id="cb40-4"><a href="chapter6.html#cb40-4"></a>}</span>
+<span id="cb40-5"><a href="chapter6.html#cb40-5"></a>pillai_statistic&lt;-<span class="kw">round</span>(<span class="kw">apply</span>(<span class="kw">as.matrix</span>(pillai), <span class="dt">MARGIN=</span> <span class="dv">2</span>, sum),<span class="dv">3</span>)</span>
+<span id="cb40-6"><a href="chapter6.html#cb40-6"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The pillai statistic is: &quot;</span>, pillai_statistic))</span></code></pre></div>
+<pre><code>## [1] &quot;The pillai statistic is: 1.305&quot;</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="chapter6.html#cb42-1"></a><span class="co">#Obtaining the eigenvalues</span></span>
+<span id="cb42-2"><a href="chapter6.html#cb42-2"></a>eigenvalues&lt;-<span class="st"> </span><span class="kw">eigen</span>(<span class="kw">solve</span>(E) <span class="op">%*%</span><span class="st"> </span>H)</span>
+<span id="cb42-3"><a href="chapter6.html#cb42-3"></a><span class="kw">print</span>(<span class="st">&quot;The eigenvalues are: &quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;The eigenvalues are: &quot;</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapter6.html#cb44-1"></a>eigenvalues<span class="op">$</span>values</span></code></pre></div>
+<pre><code>## [1] 1.87567112 0.79069454 0.22904907 0.02595357</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="chapter6.html#cb46-1"></a><span class="co"># Pillai Statistic: second way</span></span>
+<span id="cb46-2"><a href="chapter6.html#cb46-2"></a>pillaiStatistic&lt;-<span class="kw">sum</span>(eigenvalues<span class="op">$</span>values <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>eigenvalues<span class="op">$</span>values))</span>
+<span id="cb46-3"><a href="chapter6.html#cb46-3"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The pillai statistic is: &quot;</span>, pillaiStatistic))</span></code></pre></div>
+<pre><code>## [1] &quot;The pillai statistic is: 1.3054724154814&quot;</code></pre>
+<p>To find the critical value for <span class="math inline">\(V^{(s)}\)</span> in <strong>Table A.11</strong>, we need:</p>
+<p><span class="math display">\[s=min(\nu_H, p)=4\]</span></p>
+<p><span class="math display">\[m=\frac{1}{2}(|\nu_H-p|-1)=0\]</span>
+<span class="math display">\[N=\frac{1}{2}(\nu_E-p-1)=18.5\]</span></p>
+<p>Then <span class="math inline">\(V_{0.5}^{(s)}=0.645\)</span> (by interpolation). Since <span class="math inline">\(1.305 &gt; 0.645\)</span>, we reject <span class="math inline">\(H_0\)</span>.</p>
+<blockquote>
+<p><strong>Lawley-Hotelling statistic</strong></p>
+</blockquote>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="chapter6.html#cb48-1"></a><span class="co"># Lawley-Hotelling</span></span>
+<span id="cb48-2"><a href="chapter6.html#cb48-2"></a></span>
+<span id="cb48-3"><a href="chapter6.html#cb48-3"></a>lawleyHotelling&lt;-<span class="kw">round</span>(<span class="kw">sum</span>(eigenvalues<span class="op">$</span>values) ,<span class="dv">4</span>)</span>
+<span id="cb48-4"><a href="chapter6.html#cb48-4"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Lawley-Hotelling Statistic: &quot;</span>, lawleyHotelling))<span class="co">#the lawley-hotelling  statistic or hotelling generalized T^2 statistc</span></span></code></pre></div>
+<pre><code>## [1] &quot;Lawley-Hotelling Statistic: 2.9214&quot;</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="chapter6.html#cb50-1"></a>lawleyHotellingTest &lt;-<span class="st"> </span><span class="kw">round</span>(lawleyHotelling<span class="op">*</span>nu_E<span class="op">/</span>nu_H, <span class="dv">4</span>)</span>
+<span id="cb50-2"><a href="chapter6.html#cb50-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Lawley Hotelling Test Statistic: &quot;</span>, lawleyHotellingTest))</span></code></pre></div>
+<pre><code>## [1] &quot;Lawley Hotelling Test Statistic: 24.5398&quot;</code></pre>
+<p>The <span class="math inline">\(0.05\)</span> critical value for <span class="math inline">\(\nu_{E}U^{(s)}/\nu_H\)</span> is given in Table A.12 as <span class="math inline">\(7.6188\)</span> (using <span class="math inline">\(\nu_E = 40\)</span>), and we therefore reject <span class="math inline">\(H_0\)</span>.</p>
+<blockquote>
+<p><strong>Roy’s test</strong></p>
+</blockquote>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="chapter6.html#cb52-1"></a><span class="co"># Roys</span></span>
+<span id="cb52-2"><a href="chapter6.html#cb52-2"></a>lambda1&lt;-eigenvalues<span class="op">$</span>values[<span class="dv">1</span>]</span>
+<span id="cb52-3"><a href="chapter6.html#cb52-3"></a></span>
+<span id="cb52-4"><a href="chapter6.html#cb52-4"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The largest eigenvalue or Roys Statistic is: &quot;</span>, <span class="kw">round</span>(lambda1,<span class="dv">4</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;The largest eigenvalue or Roys Statistic is: 1.8757&quot;</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter6.html#cb54-1"></a>roysLargestRootTest &lt;-<span class="kw">round</span>(lambda1<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>lambda1), <span class="dv">3</span>)</span>
+<span id="cb54-2"><a href="chapter6.html#cb54-2"></a><span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;Roy&#39;s Largest Root Test Statistic: &quot;</span>, roysLargestRootTest))</span></code></pre></div>
+<pre><code>## [1] &quot;Roy&#39;s Largest Root Test Statistic: 0.652&quot;</code></pre>
+<p>Roy’s test statistic is givben by <span class="math inline">\(\theta=0.652\)</span>, which exceeds the <span class="math inline">\(0.05\)</span> critical value <span class="math inline">\(0.377\)</span> obtained(by interpolation) from Table <span class="math inline">\(A.10\)</span>, and we reject <span class="math inline">\(H_0\)</span>.</p>
+<p><strong>Comparing results with those obtainted throught the package “MASS”.</strong></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter6.html#cb56-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;MASS&quot;</span>)){</span>
+<span id="cb56-2"><a href="chapter6.html#cb56-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb56-3"><a href="chapter6.html#cb56-3"></a>    <span class="kw">library</span>(MASS)</span>
+<span id="cb56-4"><a href="chapter6.html#cb56-4"></a>  }</span>
+<span id="cb56-5"><a href="chapter6.html#cb56-5"></a><span class="co"># Converting to factor de variable that determines the groups (k)</span></span>
+<span id="cb56-6"><a href="chapter6.html#cb56-6"></a>datarootstock<span class="op">$</span>rootstock &lt;-<span class="st"> </span><span class="kw">as.factor</span>(datarootstock<span class="op">$</span>rootstock)</span>
+<span id="cb56-7"><a href="chapter6.html#cb56-7"></a>dependent_vars &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(datarootstock[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])</span>
+<span id="cb56-8"><a href="chapter6.html#cb56-8"></a></span>
+<span id="cb56-9"><a href="chapter6.html#cb56-9"></a><span class="co"># Employing MANOVA package </span></span>
+<span id="cb56-10"><a href="chapter6.html#cb56-10"></a>rootstock_tests&lt;-<span class="kw">manova</span>(dependent_vars<span class="op">~</span>datarootstock<span class="op">$</span>rootstock, <span class="dt">data=</span>datarootstock)</span>
+<span id="cb56-11"><a href="chapter6.html#cb56-11"></a></span>
+<span id="cb56-12"><a href="chapter6.html#cb56-12"></a><span class="co"># H</span></span>
+<span id="cb56-13"><a href="chapter6.html#cb56-13"></a><span class="kw">summary</span>(rootstock_tests, <span class="dt">test=</span><span class="st">&quot;Pillai&quot;</span>)<span class="op">$</span>SS[<span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## $`datarootstock$rootstock`
+##            y1        y2        y3       y4
+## y1 0.07356042 0.5373852 0.3322646 0.208470
+## y2 0.53738521 4.1996619 2.3553885 1.637108
+## y3 0.33226458 2.3553885 6.1139354 3.781044
+## y4 0.20847000 1.6371084 3.7810437 2.493091</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="chapter6.html#cb58-1"></a><span class="co"># E</span></span>
+<span id="cb58-2"><a href="chapter6.html#cb58-2"></a><span class="kw">summary</span>(rootstock_tests, <span class="dt">test=</span><span class="st">&quot;Pillai&quot;</span>)<span class="op">$</span>SS[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## $Residuals
+##           y1        y2        y3       y4
+## y1 0.3199875  1.696564 0.5540875 0.217140
+## y2 1.6965637 12.142790 4.3636125 2.110214
+## y3 0.5540875  4.363612 4.2908125 2.481656
+## y4 0.2171400  2.110214 2.4816562 1.722525</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="chapter6.html#cb60-1"></a><span class="co">#Tests</span></span>
+<span id="cb60-2"><a href="chapter6.html#cb60-2"></a><span class="kw">summary</span>(rootstock_tests, <span class="dt">test=</span><span class="st">&quot;Pillai&quot;</span>)</span></code></pre></div>
+<pre><code>##                         Df Pillai approx F num Df den Df    Pr(&gt;F)    
+## datarootstock$rootstock  5 1.3055   4.0697     20    168 1.983e-07 ***
+## Residuals               42                                            
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="chapter6.html#cb62-1"></a><span class="kw">summary</span>(rootstock_tests, <span class="dt">test=</span><span class="st">&quot;Wilks&quot;</span>)</span></code></pre></div>
+<pre><code>##                         Df   Wilks approx F num Df den Df    Pr(&gt;F)    
+## datarootstock$rootstock  5 0.15401   4.9369     20  130.3 7.714e-09 ***
+## Residuals               42                                             
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chapter6.html#cb64-1"></a><span class="kw">summary</span>(rootstock_tests, <span class="dt">test=</span><span class="st">&quot;Hotelling-Lawley&quot;</span>)</span></code></pre></div>
+<pre><code>##                         Df Hotelling-Lawley approx F num Df den Df    Pr(&gt;F)
+## datarootstock$rootstock  5           2.9214   5.4776     20    150 2.568e-10
+## Residuals               42                                                  
+##                            
+## datarootstock$rootstock ***
+## Residuals                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="chapter6.html#cb66-1"></a><span class="kw">summary</span>(rootstock_tests, <span class="dt">test=</span><span class="st">&quot;Roy&quot;</span>)</span></code></pre></div>
+<pre><code>##                         Df    Roy approx F num Df den Df    Pr(&gt;F)    
+## datarootstock$rootstock  5 1.8757   15.756      5     42 1.002e-08 ***
+## Residuals               42                                            
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>For better undestanding of the results:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Statistic</th>
+<th>Approximantion F</th>
+<th><span class="math inline">\(Df_1\)</span></th>
+<th><span class="math inline">\(Df_2\)</span></th>
+<th>P-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pillai</td>
+<td>1.3055</td>
+<td>4.0697</td>
+<td>20</td>
+<td>168</td>
+<td>1.983e-07</td>
+</tr>
+<tr class="even">
+<td>Wilks</td>
+<td>0.15401</td>
+<td>4.9369</td>
+<td>20</td>
+<td>130.3</td>
+<td>7.714e-09</td>
+</tr>
+<tr class="odd">
+<td>Hotelling-Lawley</td>
+<td>2.9214</td>
+<td>5.4776</td>
+<td>20</td>
+<td>150</td>
+<td>2.568e-10</td>
+</tr>
+<tr class="even">
+<td>Roys</td>
+<td>1.8757</td>
+<td>15.756</td>
+<td>5</td>
+<td>42</td>
+<td>1.002e-08</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Measures of Multivariate Association</strong></p>
+<p>In (one way) MANOVA, we nedd to measure the strenght of the association between several dependant variables and several independent(grouping) variables.
+Various measurements of multivariate association have been proposed.</p>
+<ul>
+<li><p>Wilks suggested a “generalized <span class="math inline">\(\eta^2\)</span>”: MANOVA <span class="math inline">\(\eta^2=\eta^2_{\Lambda}=1- \Lambda\)</span>, based on the use of <strong>|E|</strong> and <strong>|E+H|</strong> as generalizations of sums of squares. We use <span class="math inline">\(1-\Lambda\)</span> because <span class="math inline">\(\Lambda\)</span> is small if the spread in the means is large.</p></li>
+<li><p>We now consider an <span class="math inline">\(\eta^2\)</span> based on Roy’s statistic, <span class="math inline">\(\theta=\frac{\lambda_1}{1+\lambda_1}=\eta_{\theta}^2\)</span></p></li>
+<li><p><span class="math inline">\(A_\Lambda=1-\Lambda^{1/s}\)</span></p></li>
+<li><p><span class="math inline">\(A_P= \frac{V^{(s)}}{s}\)</span></p></li>
+<li><p><span class="math inline">\(A_{LH}= \frac{\frac{U^{(s)}}{s}}{1+U^{(s)}/s}\)</span></p></li>
+</ul>
+</div>
+<div id="example-6.1.8" class="section level3" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Example 6.1.8</h3>
+<p>We illustrate some measures of association for the rootstock data in Table 6.2.</p>
+<blockquote>
+<p><span class="math inline">\(\eta_{\Lambda}^2\)</span>:</p>
+</blockquote>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="chapter6.html#cb68-1"></a>etaLambda2 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="dv">1</span><span class="op">-</span>willksLambda,<span class="dv">3</span>)</span>
+<span id="cb68-2"><a href="chapter6.html#cb68-2"></a><span class="kw">print</span>(etaLambda2)</span></code></pre></div>
+<pre><code>## [1] 0.846</code></pre>
+<blockquote>
+<p><span class="math inline">\(\eta_{\theta}^2\)</span>:</p>
+</blockquote>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chapter6.html#cb70-1"></a>etaTheta2 &lt;-<span class="st"> </span><span class="kw">round</span>(roysLargestRootTest,<span class="dv">3</span>)</span>
+<span id="cb70-2"><a href="chapter6.html#cb70-2"></a><span class="kw">print</span>(etaTheta2)</span></code></pre></div>
+<pre><code>## [1] 0.652</code></pre>
+<blockquote>
+<p><span class="math inline">\(A_{\Lambda}:\)</span></p>
+</blockquote>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="chapter6.html#cb72-1"></a>aLambda &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="dv">1</span><span class="op">-</span><span class="st"> </span>willksLambda<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>),<span class="dv">3</span>)</span>
+<span id="cb72-2"><a href="chapter6.html#cb72-2"></a><span class="kw">print</span>(aLambda)</span></code></pre></div>
+<pre><code>## [1] 0.374</code></pre>
+<blockquote>
+<p><span class="math inline">\(A_{P}:\)</span></p>
+</blockquote>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="chapter6.html#cb74-1"></a>aP &lt;-<span class="st"> </span><span class="kw">round</span>(pillaiStatistic<span class="op">/</span>p,<span class="dv">3</span>)</span>
+<span id="cb74-2"><a href="chapter6.html#cb74-2"></a><span class="kw">print</span>(aP)</span></code></pre></div>
+<pre><code>## [1] 0.326</code></pre>
+<blockquote>
+<p><span class="math inline">\(A_{LH}:\)</span></p>
+</blockquote>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="chapter6.html#cb76-1"></a>aLh &lt;-<span class="st"> </span><span class="kw">round</span>((lawleyHotelling<span class="op">/</span>p)<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span>lawleyHotelling<span class="op">/</span>p),<span class="dv">3</span>)</span>
+<span id="cb76-2"><a href="chapter6.html#cb76-2"></a><span class="kw">print</span>(aLh)</span></code></pre></div>
+<pre><code>## [1] 0.422</code></pre>
+</div>
+</div>
+<div id="comparison-of-the-four-manova-test-statistics-comparison-ot-the-four-manova-test-statistics" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Comparison of the four MANOVA test statistics comparison ot the four MANOVA test statistics</h2>
+<p>When <span class="math inline">\(H_0: \mu_1= \mu_2=\cdots=\mu_k\)</span> is true, all four MANOVA test statistics have the same probability of rejection. However, when <span class="math inline">\(H_0\)</span> is false, the four tests have different probabilities of rejection.</p>
+<p>In <strong>terms of power</strong> the test are ordered <span class="math inline">\(\theta \geq U^{(s)}\geq \Lambda \geq V^{(s)}\)</span> for the collinear case. In the diffuse case and for intermediate structure between collinera and diffuse, the ordering of power is reversed, <span class="math inline">\(V^{(s)}\geq\Lambda\geq U^{(s)}\geq\theta\)</span>.</p>
+<blockquote>
+<p>In practice, most MANOVA software programs routinely calculate all four test statistics, and they usually reach the same conclusion. In thos cases when they differ as to acceptance or rejection of the hyphotesis, one can examine the eigenvalues and covariance matrices and evaluate the conflicting conclusions in light of the test properties discussed previously.</p>
+</blockquote>
+<div id="example-6.2" class="section level3" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Example 6.2</h3>
+<p>We inspect the eigenvalues of <span class="math inline">\(E^{-1} H\)</span> for the rootstock data of Table <span class="math inline">\(6.2\)</span> for an indication of the configurof the six mean vectors in a four-dimensional space. The eigenvalues are <span class="math inline">\(1.876, .791, .229, .026.\)</span> The first eigenvalue <span class="math inline">\(1.876\)</span> constitutes a proportion:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="chapter6.html#cb78-1"></a><span class="kw">round</span>(lambda1<span class="op">/</span>lawleyHotelling,<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 0.642</code></pre>
+<p>of the sum of the eigenvalues. Therefore, the first eigenvalue does not dominate the others and the mean vectors are not colinear. The first two eigenvalues account for a proporpotion:</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="chapter6.html#cb80-1"></a>lambda2 &lt;-<span class="st"> </span>eigenvalues<span class="op">$</span>values[<span class="dv">2</span>]</span>
+<span id="cb80-2"><a href="chapter6.html#cb80-2"></a><span class="kw">round</span>((lambda1<span class="op">+</span>lambda2)<span class="op">/</span>lawleyHotelling,<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## [1] 0.913</code></pre>
+<p>of sum of the eigenvalues and thus the six mean vectors lie largely in two dimensions. Since the mean vectors are not collinear, the test statistics <span class="math inline">\(\Lambda, V^{(s)}\)</span> and <span class="math inline">\(U^{(s)}\)</span> will be more appropiate than <span class="math inline">\(\theta\)</span> in this case.</p>
+</div>
+</div>
+<div id="constrasts" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Constrasts</h2>
+<p><strong>Univariate Contrasts</strong></p>
+<p>A <em>contrast</em> in the population means is defined as a linear combination:</p>
+<p><span class="math display">\[\delta=c_1\mu_1+ c_2 \mu_2+ \cdots + c_k \mu_k\]</span></p>
+<p>where the coefficients satisfy:</p>
+<p><span class="math display">\[\sum_{i=1}^k=0\]</span></p>
+<p>The usual hyphotesis to be tested by a contrast is:</p>
+<p><span class="math display">\[H_{0}: \delta =c_1\mu_1+ c_2\mu_2+ \cdots + c_k\mu_k=0\]</span></p>
+<p>A contrast is often called a <em>comparison</em> among the treatment means.</p>
+<p><strong>Multivariate Contrasts</strong></p>
+<p>There are two usages of contrasts in a multivariate setting.</p>
+<blockquote>
+<p>We have previously encountered one use in Section 5.9.1, where we considered the hypothesis <span class="math inline">\(H_{0}: = C\mu=0\)</span> with <strong>Cj=0</strong>. Each row of <strong>C</strong> sums to zero, and <span class="math inline">\(C\mu\)</span> is therefore a set of contrasts comparing the elements <span class="math inline">\(\mu_1,\mu_2,\cdots, \mu_p\)</span> of <span class="math inline">\(\mu\)</span> with each other.</p>
+</blockquote>
+<blockquote>
+<p>In this section, on the other hand, we consider contrasts comparing several mean vectors, not the elements within a vector.
+A contrast among the population mean vectors is defined as:</p>
+</blockquote>
+<p><span class="math display">\[\delta =c_1\mu_1+ c_2\mu_2+ \cdots + c_k \mu_k\]</span>
+, where <span class="math inline">\(\sum_{i=1}^kc_i=0\)</span>. An unbiased estimator of <span class="math inline">\(\delta\)</span> is given by the corresponding constrast in the sample mean vectors:</p>
+<p><span class="math display">\[\hat{\delta} =c_1\bar{y}_1+ c_2\bar{y}_2+ \cdots + c_k\bar{y}_k\]</span></p>
+<p>The sample mean vectors <span class="math inline">\(\bar{y}_1,\bar{y}_2, \cdots,\bar{y}_k\)</span> as defined in Section <span class="math inline">\(6.1.2\)</span> were assumed to be independent and have common covariance matrix, cov(<span class="math inline">\(\bar{y}_i)=\sum/n\)</span>. Thus the covariance matrix for <span class="math inline">\(\hat{\delta}\)</span> is given by:</p>
+<p><span class="math display">\[cov(\hat{\delta}= c_1^2\frac{\Sigma}{n}+c_2^2\frac{\Sigma}{n}+ \cdots+ c_3^2\frac{\Sigma}{n}=\frac{\Sigma}{n}\sum_{i=1}^{k}c_i^2\]</span>
+, which can be estimated by:</p>
+<p><span class="math display">\[\frac{S_{pl}}{n}\sum_{i=1}^kc_i^2= \Big(\frac{E}{\nu_E}\Big)\Big(\frac{\sum_{i=1}^{k}c_i^2}{n})\]</span>
+, where <span class="math inline">\(S_{pl}=E/\nu_E\)</span> is an unbiased estimator of <span class="math inline">\(\Sigma\)</span>. The hypothesis <span class="math inline">\(H_{0} : \delta= 0 or H_0: c_1\mu_1 + c_2\mu_2+\cdots+c_k\mu_k=0\)</span> makes comparisons among the population mean vectors.</p>
+<p>An equivalent test of <span class="math inline">\(H_0\)</span> can be made with Wilks’ <span class="math inline">\(\Lambda\)</span>. By analogy with the numerator of (6.57), the hyphotesis matrix due to the contrast is given by:</p>
+<p><span class="math display">\[H_1=\frac{n}{\sum_{i=1}^k c_i^2}\Big(\sum_{i=1}^kc_i\bar{y}_i\Big)\Big(\sum_{i=1}^kc_i\bar{y}_i\Big)&#39;\]</span></p>
+<p>The rank of <span class="math inline">\(H_1\)</span> is 1, and the test statistic is:
+<span class="math display">\[\Lambda= \frac{|E|}{|E+H_1|}\]</span></p>
+<p>,which is distributed as <span class="math inline">\(\Lambda_{p, 1,\nu_E}\)</span>. **Becasue <span class="math inline">\(\nu_H=1\)</span> in this case, all four MANOVA statistics and <span class="math inline">\(T^2\)</span> give the same results.</p>
+<div id="example-6.3.2" class="section level3" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Example 6.3.2</h3>
+<p>We consider the following two orthogonal constrast for the rootstock data in Tabla 6.2:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="chapter6.html#cb82-1"></a>c1&lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">-1</span>, <span class="dv">-1</span>, <span class="dv">-1</span>,<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb82-2"><a href="chapter6.html#cb82-2"></a>c1</span></code></pre></div>
+<pre><code>## [1]  2 -1 -1 -1 -1  2</code></pre>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="chapter6.html#cb84-1"></a>c2&lt;-<span class="st"> </span><span class="kw">c</span>( <span class="dv">1</span>, <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb84-2"><a href="chapter6.html#cb84-2"></a>c2</span></code></pre></div>
+<pre><code>## [1]  1  0  0  0  0 -1</code></pre>
+<p>The first compares <span class="math inline">\(\mu_1\)</span> and <span class="math inline">\(\mu_6\)</span> with the other four mean vectors. The second compares <span class="math inline">\(\mu_1\)</span> vs <span class="math inline">\(\mu_6\)</span>. Thus <span class="math inline">\(H_01:2\mu_1-\mu_2-\mu_3-\mu_4-\mu_5+2\mu_6=0\)</span> can be written as:</p>
+<p><span class="math display">\[H_{01}:2\mu_1+2\mu_6=\mu_2+\mu_3+\mu_4+\mu_5\]</span></p>
+<p>Dividing both sides by 4 so as to express this in terms of averages, we obtain:</p>
+<p><span class="math display">\[H_{01}:\frac{1}{2}\mu_1+\frac{1}{2}\mu_6=\frac{1}{4}(\mu_2+\mu_3+\mu_4+\mu_5).\]</span></p>
+<p>Similarly, the hypothesis for the second contrast can be expressed as:</p>
+<p><span class="math display">\[H_{02}=\mu_1=\mu_6\]</span>.</p>
+<p>The mean vectors are given by:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="chapter6.html#cb86-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;tidyverse&quot;</span>)){</span>
+<span id="cb86-2"><a href="chapter6.html#cb86-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb86-3"><a href="chapter6.html#cb86-3"></a>    <span class="kw">library</span>(tidyverse)</span>
+<span id="cb86-4"><a href="chapter6.html#cb86-4"></a>  }</span>
+<span id="cb86-5"><a href="chapter6.html#cb86-5"></a></span>
+<span id="cb86-6"><a href="chapter6.html#cb86-6"></a>data &lt;-<span class="st"> </span>datarootstock <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb86-7"><a href="chapter6.html#cb86-7"></a><span class="st">  </span><span class="kw">group_by</span>(rootstock) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise_at</span>(<span class="kw">vars</span>(<span class="kw">c</span>(y1,y2,y3,y4)),               </span>
+<span id="cb86-8"><a href="chapter6.html#cb86-8"></a>               <span class="kw">list</span>(mean)</span>
+<span id="cb86-9"><a href="chapter6.html#cb86-9"></a>               ) </span>
+<span id="cb86-10"><a href="chapter6.html#cb86-10"></a>data &lt;-<span class="st"> </span><span class="kw">t</span>(data[, <span class="dv">-1</span>])</span></code></pre></div>
+<p>For the first constrast, we obtain <span class="math inline">\(H_1=\frac{n}{\sum_i c_i^2}\Big(\sum_i c_i\bar{y}_i\Big)\Big(\sum_i c_i\bar{y}_i\Big)&#39;\)</span></p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="chapter6.html#cb87-1"></a>n &lt;-<span class="st"> </span><span class="dv">8</span> <span class="co"># número de observaciones por grupo</span></span>
+<span id="cb87-2"><a href="chapter6.html#cb87-2"></a></span>
+<span id="cb87-3"><a href="chapter6.html#cb87-3"></a>H_<span class="dv">1</span>&lt;-<span class="st"> </span>(n<span class="op">/</span><span class="kw">sum</span>(c1<span class="op">^</span><span class="dv">2</span>))<span class="op">*</span>(data<span class="op">%*%</span>c1)<span class="op">%*%</span><span class="kw">t</span>(data<span class="op">%*%</span>c1)</span>
+<span id="cb87-4"><a href="chapter6.html#cb87-4"></a>H_<span class="dv">1</span></span></code></pre></div>
+<pre><code>##             y1         y2        y3        y4
+## y1 0.006016667 0.06193208 0.1595208 0.1063762
+## y2 0.061932083 0.63749301 1.6420151 1.0949755
+## y3 0.159520833 1.64201510 4.2294010 2.8203703
+## y4 0.106376250 1.09497553 2.8203703 1.8807601</code></pre>
+<p>Then,</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="chapter6.html#cb89-1"></a>lambda &lt;-<span class="st"> </span><span class="kw">det</span>(E)<span class="op">/</span>(<span class="kw">det</span>(E<span class="op">+</span>H_<span class="dv">1</span>))</span>
+<span id="cb89-2"><a href="chapter6.html#cb89-2"></a>lambda</span></code></pre></div>
+<pre><code>## [1] 0.4432769</code></pre>
+<p>which is less than <span class="math inline">\(\Lambda_{0.5,4,1,40}=0.779\)</span> from Table <span class="math inline">\(A.9\)</span>. We therefore reject <span class="math inline">\(H_{01}\)</span></p>
+<p>To test the significance of the second contrast, we have:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="chapter6.html#cb91-1"></a>H_<span class="dv">2</span>&lt;-<span class="st"> </span>(n<span class="op">/</span><span class="kw">sum</span>(c2<span class="op">^</span><span class="dv">2</span>))<span class="op">*</span>(data<span class="op">%*%</span>c2)<span class="op">%*%</span><span class="kw">t</span>(data<span class="op">%*%</span>c2)</span>
+<span id="cb91-2"><a href="chapter6.html#cb91-2"></a>H_<span class="dv">2</span></span></code></pre></div>
+<pre><code>##            y1        y2         y3         y4
+## y1 0.04100625 0.3088125 0.05771250 0.05513062
+## y2 0.30881250 2.3256250 0.43462500 0.41518125
+## y3 0.05771250 0.4346250 0.08122500 0.07759125
+## y4 0.05513062 0.4151813 0.07759125 0.07412006</code></pre>
+<p>Then,</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="chapter6.html#cb93-1"></a>lambda_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">det</span>(E)<span class="op">/</span>(<span class="kw">det</span>(E<span class="op">+</span>H_<span class="dv">2</span>))</span>
+<span id="cb93-2"><a href="chapter6.html#cb93-2"></a>lambda_<span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 0.7503653</code></pre>
+<p>which is less than <span class="math inline">\(\Lambda_{0.5,4,1,40}=0.779\)</span> from Table <span class="math inline">\(A.9\)</span>. We therefore reject <span class="math inline">\(H_{02}\)</span>.</p>
+</div>
+</div>
+<div id="tests-on-individual-variables-following-rejection-of-h_0-by-the-overall-manova-test" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Tests on individual variables following rejection of <span class="math inline">\(H_0\)</span> by the overall MANOVA test</h2>
+<div id="example-6.4" class="section level3" number="6.4.1">
+<h3><span class="header-section-number">6.4.1</span> Example 6.4</h3>
+</div>
+</div>
+<div id="two-way-classification" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> Two-way Classification</h2>
+<div id="example-6.5.2" class="section level3" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> Example 6.5.2</h3>
+</div>
+</div>
+<div id="other-models" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> Other Models</h2>
+</div>
+<div id="checking-on-assumptions" class="section level2" number="6.7">
+<h2><span class="header-section-number">6.7</span> Checking on Assumptions</h2>
+</div>
+<div id="profile-analysis-1" class="section level2" number="6.8">
+<h2><span class="header-section-number">6.8</span> Profile Analysis</h2>
+<p>The two sample profile analysis of Section <span class="math inline">\(5.9.2\)</span> can be extended to <span class="math inline">\(k\)</span> groups.</p>
+<p>The basic model is the balanced one-way MANOVA.</p>
+<p><span class="math display">\[y_{ij}=\mu_i +\epsilon_{ij}, i=1, 2, \cdots, k, j=1, 2, \cdots, n.\]</span></p>
+<p>To test <span class="math inline">\(H_0:\mu_1=\mu_2=\cdots=\mu_k\)</span>, we use the usual <span class="math inline">\(\textbf{H}\)</span> and <span class="math inline">\(\textbf{E}\)</span> matrices given in (6.9) and (6.10).</p>
+<blockquote>
+<p>If the variables are commensurate, we can be more specific and extend <span class="math inline">\(H_0\)</span> to an examination of the <span class="math inline">\(k\)</span> profiles obtained byt plotting the <span class="math inline">\(p\)</span> values <span class="math inline">\(\mu_{i1}, \mu_{i2}, \cdots, \mu_{ip}\)</span> in <span class="math inline">\(\mu_i\)</span>, as was done with two _i’s in Section <span class="math inline">\(5.9.2\)</span>. We are intereseted in the same three hyphotesis as before:</p>
+</blockquote>
+<p><span class="math display">\[H_{01}:\text{ The profiles are parallel}.\]</span>
+<span class="math display">\[H_{02}:\text{ The profiles are all the same level}.\]</span>
+<span class="math display">\[H_{03}:\text{ The profiles are flat.}\]</span></p>
+<p>For k groups, the hypothesis of parallelism for two groups is expressed as:</p>
+<p><span class="math display">\[H_{01}: C\mu_1=C\mu_1=\cdots=C\mu_k\]</span></p>
+<p>The hyphotesis and error matrices for testing <span class="math inline">\(H_01\)</span> are:</p>
+<p><span class="math display">\[H_z=CHC&#39;, E_z=CEC&#39;\]</span></p>
+<p>Thus,<span class="math display">\[\Lambda= \frac{|E_z|}{|H_z+E_z|}=\frac{|CEC&#39;|}{|CEC&#39;+CHC&#39;|}=\frac{|CEC&#39;|}{|C(E+H)C&#39;|}\]</span></p>
+<p>Which is distributed as <span class="math inline">\(\Lambda_{p-1,\nu_H, \nu_E}\)</span>, where <span class="math inline">\(\nu_H=k-1\)</span> and <span class="math inline">\(\nu_E=k(n-1)\)</span>. The other three MANOVA test statistics can be obtained from the eigenvalues of <span class="math inline">\((CEC&#39;)^{-1}(CHC&#39;)\)</span>. The test for <span class="math inline">\(H_{01}\)</span> can easily be adjusted for unbalanced data.</p>
+<div id="example-6.8" class="section level3" number="6.8.1">
+<h3><span class="header-section-number">6.8.1</span> Example 6.8</h3>
+<p>Three vitamin E diet supplements with levels zero, low, and high were compared for their effect on growth of guinea pigs (Crowder and Hand <span class="math inline">\(1990\)</span>, pp. <span class="math inline">\(21-29\)</span>). Five guinea pigs received each supplement level, and their weights were recorded at the end of weeks <span class="math inline">\(1, 3,4, 5, 6\)</span>, and <span class="math inline">\(7\)</span>. These weights are given in Table <span class="math inline">\(6.8\)</span>.</p>
+<p>The three mean vectors are:</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="chapter6.html#cb95-1"></a>y1_hat&lt;-<span class="kw">c</span>(<span class="fl">466.4</span>,<span class="fl">519.4</span>,<span class="fl">568.8</span>,<span class="fl">561.6</span>,<span class="fl">546.6</span>,<span class="fl">572.0</span>)</span>
+<span id="cb95-2"><a href="chapter6.html#cb95-2"></a>y2_hat&lt;-<span class="kw">c</span>(<span class="fl">494.4</span>,<span class="fl">551.0</span>,<span class="fl">574.2</span>,<span class="fl">567.0</span>,<span class="fl">603.0</span>,<span class="fl">644.0</span>)</span>
+<span id="cb95-3"><a href="chapter6.html#cb95-3"></a>y3_hat&lt;-<span class="kw">c</span>(<span class="fl">497.8</span>,<span class="fl">534.6</span>,<span class="fl">579.8</span>,<span class="fl">571.8</span>,<span class="fl">588.2</span>,<span class="fl">623.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="chapter6.html#cb96-1"></a>data68&lt;-<span class="kw">data.frame</span>(y1_hat,y2_hat, y3_hat)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="chapter6.html#cb97-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb97-2"><a href="chapter6.html#cb97-2"></a>  data68, <span class="dt">caption =</span> <span class="st">&#39;Guinea Pigs&#39;</span>,</span>
+<span id="cb97-3"><a href="chapter6.html#cb97-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
+<span id="cb97-4"><a href="chapter6.html#cb97-4"></a>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-36">Table 6.2: </span>Guinea Pigs</caption>
+<thead>
+<tr class="header">
+<th align="right">y1_hat</th>
+<th align="right">y2_hat</th>
+<th align="right">y3_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">466.4</td>
+<td align="right">494.4</td>
+<td align="right">497.8</td>
+</tr>
+<tr class="even">
+<td align="right">519.4</td>
+<td align="right">551.0</td>
+<td align="right">534.6</td>
+</tr>
+<tr class="odd">
+<td align="right">568.8</td>
+<td align="right">574.2</td>
+<td align="right">579.8</td>
+</tr>
+<tr class="even">
+<td align="right">561.6</td>
+<td align="right">567.0</td>
+<td align="right">571.8</td>
+</tr>
+<tr class="odd">
+<td align="right">546.6</td>
+<td align="right">603.0</td>
+<td align="right">588.2</td>
+</tr>
+<tr class="even">
+<td align="right">572.0</td>
+<td align="right">644.0</td>
+<td align="right">623.2</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="chapter6.html#cb98-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;dplyr&quot;</span>)){</span>
+<span id="cb98-2"><a href="chapter6.html#cb98-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb98-3"><a href="chapter6.html#cb98-3"></a>    <span class="kw">library</span>(dplyr)</span>
+<span id="cb98-4"><a href="chapter6.html#cb98-4"></a>  }</span>
+<span id="cb98-5"><a href="chapter6.html#cb98-5"></a></span>
+<span id="cb98-6"><a href="chapter6.html#cb98-6"></a>data68&lt;-data68 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">mean_all =</span> <span class="kw">apply</span>(., <span class="dv">1</span>, mean))</span>
+<span id="cb98-7"><a href="chapter6.html#cb98-7"></a>data68&lt;-data68 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">weekday =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>))</span></code></pre></div>
+<p>The overall mean vector is:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="chapter6.html#cb99-1"></a>data68<span class="op">$</span>mean_all</span></code></pre></div>
+<pre><code>## [1] 486.2000 535.0000 574.2667 566.8000 579.2667 613.0667</code></pre>
+<p>A profile plot of the means <span class="math inline">\(\bar{y}_1 , \bar{y}_2\)</span>, and <span class="math inline">\(\bar{y}_3\)</span> is given bellow. There is a high degree of parallelism in the three profiles, with the possible exception of week <span class="math inline">\(6\)</span> for group <span class="math inline">\(1\)</span>.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="chapter6.html#cb101-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;ggplot2&quot;</span>)){</span>
+<span id="cb101-2"><a href="chapter6.html#cb101-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb101-3"><a href="chapter6.html#cb101-3"></a>    <span class="kw">library</span>(ggplot2)</span>
+<span id="cb101-4"><a href="chapter6.html#cb101-4"></a>  }</span>
+<span id="cb101-5"><a href="chapter6.html#cb101-5"></a></span>
+<span id="cb101-6"><a href="chapter6.html#cb101-6"></a>colors &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Mean Group 1&quot;</span>=<span class="st"> &quot;blue&quot;</span>,<span class="st">&quot;Mean Group 2&quot;</span> =<span class="st"> &quot;red&quot;</span>, <span class="st">&quot;Mean Group 3&quot;</span> =<span class="st"> &quot;orange&quot;</span>)</span>
+<span id="cb101-7"><a href="chapter6.html#cb101-7"></a><span class="kw">ggplot</span>(data68, <span class="kw">aes</span>(<span class="dt">x=</span>weekday)) <span class="op">+</span></span>
+<span id="cb101-8"><a href="chapter6.html#cb101-8"></a><span class="st">      </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y1_hat, <span class="dt">color=</span><span class="st">&quot;Mean Group 1&quot;</span>), <span class="dt">size =</span> <span class="dv">1</span>)<span class="op">+</span><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y2_hat, <span class="dt">color=</span><span class="st">&quot;Mean Group 2&quot;</span> ), <span class="dt">size =</span> <span class="dv">1</span>)<span class="op">+</span><span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">y =</span> y3_hat, <span class="dt">color=</span><span class="st">&quot;Mean Group 3&quot;</span>), <span class="dt">size =</span> <span class="dv">1</span>)<span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Mean Per Group&quot;</span>, <span class="dt">x =</span> <span class="st">&quot;Weekday&quot;</span>, <span class="dt">title=</span> <span class="st">&quot;Profile Plot&quot;</span>,  <span class="dt">color =</span> <span class="st">&quot;Legend&quot;</span>)<span class="op">+</span><span class="st">   </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> colors)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p>In a univariate case we have “between” and “within” sums of squares <span class="math inline">\(SSH\)</span> and <span class="math inline">\(SSE\)</span>. By analogy, in the multivariate case, we have “between” and “within” matrices  and , defined as:</p>
+<p><span class="math display">\[H=n\sum^k_{i=1} (\bar{y}_{i.}-\bar{y})(\bar{y}_{i.}-\bar{y})&#39;\]</span>
+<span class="math display">\[H=\frac{1}{n} \sum^k_{i=1} y_{i.}y_{i.}&#39;- \frac{1}{kn}y_{..}y_{..}&#39;\]</span></p>
+<p><span class="math display">\[E=\sum_{ij}y_{ij}y&#39;_{ij}-\sum_{i}\frac{1}{n}y_{i.}y_{i.}&#39;\]</span>
+<span class="math display">\[E=\sum_{i=1}^k\sum_{j=i}^n(y_{ij}-\bar{y}_{i.})(y_{ij}-\bar{y}_{i.})&#39;\]</span></p>
+<p>The <span class="math inline">\(E\)</span> and <span class="math inline">\(H\)</span> matrices are as follows:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="chapter6.html#cb102-1"></a><span class="co"># H matrix</span></span>
+<span id="cb102-2"><a href="chapter6.html#cb102-2"></a>n &lt;-<span class="st"> </span><span class="dv">5</span> <span class="co">#number of guinea pigs tested.</span></span>
+<span id="cb102-3"><a href="chapter6.html#cb102-3"></a></span>
+<span id="cb102-4"><a href="chapter6.html#cb102-4"></a>H&lt;-<span class="kw">as.matrix</span>(</span>
+<span id="cb102-5"><a href="chapter6.html#cb102-5"></a>  (</span>
+<span id="cb102-6"><a href="chapter6.html#cb102-6"></a>    ((data68<span class="op">$</span>y1_hat<span class="op">-</span>data68<span class="op">$</span>mean_all) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(data68<span class="op">$</span>y1_hat<span class="op">-</span>data68<span class="op">$</span>mean_all)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb102-7"><a href="chapter6.html#cb102-7"></a><span class="st">      </span>((data68<span class="op">$</span>y2_hat<span class="op">-</span>data68<span class="op">$</span>mean_all) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(data68<span class="op">$</span>y2_hat<span class="op">-</span>data68<span class="op">$</span>mean_all)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb102-8"><a href="chapter6.html#cb102-8"></a><span class="st">      </span>((data68<span class="op">$</span>y3_hat<span class="op">-</span>data68<span class="op">$</span>mean_all) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(data68<span class="op">$</span>y3_hat<span class="op">-</span>data68<span class="op">$</span>mean_all))</span>
+<span id="cb102-9"><a href="chapter6.html#cb102-9"></a>    )</span>
+<span id="cb102-10"><a href="chapter6.html#cb102-10"></a>  <span class="op">*</span>n</span>
+<span id="cb102-11"><a href="chapter6.html#cb102-11"></a>  )</span>
+<span id="cb102-12"><a href="chapter6.html#cb102-12"></a></span>
+<span id="cb102-13"><a href="chapter6.html#cb102-13"></a>H</span></code></pre></div>
+<pre><code>##        [,1]   [,2]      [,3]   [,4]      [,5]      [,6]
+## [1,] 2969.2 2177.2  859.4000  813.0  4725.200  5921.600
+## [2,] 2177.2 2497.6  410.0000  411.6  4428.800  5657.600
+## [3,]  859.4  410.0  302.5333  280.4  1132.133  1392.533
+## [4,]  813.0  411.6  280.4000  260.4  1096.400  1352.000
+## [5,] 4725.2 4428.8 1132.1333 1096.4  8550.933 10830.933
+## [6,] 5921.6 5657.6 1392.5333 1352.0 10830.933 13730.133</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="chapter6.html#cb104-1"></a>group &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">5</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">5</span>), <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">5</span>))</span>
+<span id="cb104-2"><a href="chapter6.html#cb104-2"></a>animal &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>)</span>
+<span id="cb104-3"><a href="chapter6.html#cb104-3"></a>week1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">455</span>, <span class="dv">467</span>,<span class="dv">445</span>,<span class="dv">485</span>,<span class="dv">480</span>,<span class="dv">514</span>,<span class="dv">440</span>,<span class="dv">495</span>,<span class="dv">520</span>,<span class="dv">503</span>,<span class="dv">496</span>,<span class="dv">498</span>,<span class="dv">478</span>,<span class="dv">545</span>,<span class="dv">472</span>)</span>
+<span id="cb104-4"><a href="chapter6.html#cb104-4"></a>week3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">460</span>,<span class="dv">565</span>,<span class="dv">530</span>,<span class="dv">542</span>,<span class="dv">500</span>,<span class="dv">560</span>,<span class="dv">480</span>,<span class="dv">570</span>,<span class="dv">590</span>,<span class="dv">555</span>,<span class="dv">560</span>,<span class="dv">540</span>,<span class="dv">510</span>,<span class="dv">565</span>,<span class="dv">498</span>)</span>
+<span id="cb104-5"><a href="chapter6.html#cb104-5"></a>week4 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">510</span>, <span class="dv">610</span>,<span class="dv">580</span>, <span class="dv">594</span>, <span class="dv">550</span>, <span class="dv">565</span>,<span class="dv">536</span>,<span class="dv">569</span>,<span class="dv">610</span>,<span class="dv">591</span>,<span class="dv">622</span>,<span class="dv">589</span>,<span class="dv">568</span>,<span class="dv">580</span>,<span class="dv">540</span>)</span>
+<span id="cb104-6"><a href="chapter6.html#cb104-6"></a>  </span>
+<span id="cb104-7"><a href="chapter6.html#cb104-7"></a>week5 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">504</span>,<span class="dv">596</span>,<span class="dv">597</span>,<span class="dv">583</span>,<span class="dv">528</span>,<span class="dv">524</span>,<span class="dv">484</span>,<span class="dv">585</span>,<span class="dv">637</span>,<span class="dv">605</span>,<span class="dv">622</span>,<span class="dv">557</span>,<span class="dv">555</span>,<span class="dv">601</span>,<span class="dv">524</span>)</span>
+<span id="cb104-8"><a href="chapter6.html#cb104-8"></a>week6 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">436</span>,<span class="dv">542</span>,<span class="dv">582</span>,<span class="dv">611</span>,<span class="dv">562</span>,<span class="dv">552</span>,<span class="dv">567</span>,<span class="dv">576</span>,<span class="dv">671</span>,<span class="dv">649</span>,<span class="dv">632</span>,<span class="dv">568</span>,<span class="dv">576</span>,<span class="dv">633</span>,<span class="dv">532</span>)</span>
+<span id="cb104-9"><a href="chapter6.html#cb104-9"></a>week7 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">466</span>,<span class="dv">587</span>,<span class="dv">619</span>,<span class="dv">612</span>,<span class="dv">576</span>,<span class="dv">597</span>,<span class="dv">569</span>,<span class="dv">677</span>,<span class="dv">702</span>,<span class="dv">675</span>,<span class="dv">670</span>,<span class="dv">609</span>,<span class="dv">605</span>,<span class="dv">649</span>,<span class="dv">583</span>)</span>
+<span id="cb104-10"><a href="chapter6.html#cb104-10"></a>data68_ext &lt;-<span class="st"> </span><span class="kw">data.frame</span>(group, animal, week1, week3, week4, week5, week6, week7)</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="chapter6.html#cb105-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb105-2"><a href="chapter6.html#cb105-2"></a>  data68_ext, <span class="dt">caption =</span> <span class="st">&#39;Guinea Pigs Extended&#39;</span>,</span>
+<span id="cb105-3"><a href="chapter6.html#cb105-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
+<span id="cb105-4"><a href="chapter6.html#cb105-4"></a>)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-42">Table 6.3: </span>Guinea Pigs Extended</caption>
+<thead>
+<tr class="header">
+<th align="right">group</th>
+<th align="right">animal</th>
+<th align="right">week1</th>
+<th align="right">week3</th>
+<th align="right">week4</th>
+<th align="right">week5</th>
+<th align="right">week6</th>
+<th align="right">week7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">455</td>
+<td align="right">460</td>
+<td align="right">510</td>
+<td align="right">504</td>
+<td align="right">436</td>
+<td align="right">466</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">467</td>
+<td align="right">565</td>
+<td align="right">610</td>
+<td align="right">596</td>
+<td align="right">542</td>
+<td align="right">587</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">3</td>
+<td align="right">445</td>
+<td align="right">530</td>
+<td align="right">580</td>
+<td align="right">597</td>
+<td align="right">582</td>
+<td align="right">619</td>
+</tr>
+<tr class="even">
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">485</td>
+<td align="right">542</td>
+<td align="right">594</td>
+<td align="right">583</td>
+<td align="right">611</td>
+<td align="right">612</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">480</td>
+<td align="right">500</td>
+<td align="right">550</td>
+<td align="right">528</td>
+<td align="right">562</td>
+<td align="right">576</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">6</td>
+<td align="right">514</td>
+<td align="right">560</td>
+<td align="right">565</td>
+<td align="right">524</td>
+<td align="right">552</td>
+<td align="right">597</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">7</td>
+<td align="right">440</td>
+<td align="right">480</td>
+<td align="right">536</td>
+<td align="right">484</td>
+<td align="right">567</td>
+<td align="right">569</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">495</td>
+<td align="right">570</td>
+<td align="right">569</td>
+<td align="right">585</td>
+<td align="right">576</td>
+<td align="right">677</td>
+</tr>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">9</td>
+<td align="right">520</td>
+<td align="right">590</td>
+<td align="right">610</td>
+<td align="right">637</td>
+<td align="right">671</td>
+<td align="right">702</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">10</td>
+<td align="right">503</td>
+<td align="right">555</td>
+<td align="right">591</td>
+<td align="right">605</td>
+<td align="right">649</td>
+<td align="right">675</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">11</td>
+<td align="right">496</td>
+<td align="right">560</td>
+<td align="right">622</td>
+<td align="right">622</td>
+<td align="right">632</td>
+<td align="right">670</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">12</td>
+<td align="right">498</td>
+<td align="right">540</td>
+<td align="right">589</td>
+<td align="right">557</td>
+<td align="right">568</td>
+<td align="right">609</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">13</td>
+<td align="right">478</td>
+<td align="right">510</td>
+<td align="right">568</td>
+<td align="right">555</td>
+<td align="right">576</td>
+<td align="right">605</td>
+</tr>
+<tr class="even">
+<td align="right">3</td>
+<td align="right">14</td>
+<td align="right">545</td>
+<td align="right">565</td>
+<td align="right">580</td>
+<td align="right">601</td>
+<td align="right">633</td>
+<td align="right">649</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">15</td>
+<td align="right">472</td>
+<td align="right">498</td>
+<td align="right">540</td>
+<td align="right">524</td>
+<td align="right">532</td>
+<td align="right">583</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="chapter6.html#cb106-1"></a><span class="co"># Splitting the data per group</span></span>
+<span id="cb106-2"><a href="chapter6.html#cb106-2"></a></span>
+<span id="cb106-3"><a href="chapter6.html#cb106-3"></a>data68_group &lt;-<span class="st"> </span><span class="kw">split</span>(data68_ext[,<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>], data68_ext<span class="op">$</span>group)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="chapter6.html#cb107-1"></a><span class="co"># Function to get the mean per group and week</span></span>
+<span id="cb107-2"><a href="chapter6.html#cb107-2"></a>data68_means &lt;-<span class="st"> </span><span class="kw">sapply</span>(data68_group, <span class="cf">function</span>(x) {</span>
+<span id="cb107-3"><a href="chapter6.html#cb107-3"></a>  <span class="kw">apply</span>(x, <span class="dv">2</span>, mean)</span>
+<span id="cb107-4"><a href="chapter6.html#cb107-4"></a>}, <span class="dt">simplify =</span> <span class="st">&#39;data.frame&#39;</span>)</span>
+<span id="cb107-5"><a href="chapter6.html#cb107-5"></a></span>
+<span id="cb107-6"><a href="chapter6.html#cb107-6"></a>data68_means</span></code></pre></div>
+<pre><code>##           1     2     3
+## week1 466.4 494.4 497.8
+## week3 519.4 551.0 534.6
+## week4 568.8 574.2 579.8
+## week5 561.6 567.0 571.8
+## week6 546.6 603.0 588.2
+## week7 572.0 644.0 623.2</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="chapter6.html#cb109-1"></a><span class="co"># Getting &quot;n&quot;</span></span>
+<span id="cb109-2"><a href="chapter6.html#cb109-2"></a>n &lt;-<span class="st"> </span><span class="kw">dim</span>(data68_ext)[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(data68_ext<span class="op">$</span>group))</span>
+<span id="cb109-3"><a href="chapter6.html#cb109-3"></a>n</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="chapter6.html#cb111-1"></a><span class="co"># Total Mean Per Group</span></span>
+<span id="cb111-2"><a href="chapter6.html#cb111-2"></a>total_means &lt;-<span class="st"> </span><span class="kw">colMeans</span>(data68_ext[,<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>])</span>
+<span id="cb111-3"><a href="chapter6.html#cb111-3"></a>total_means</span></code></pre></div>
+<pre><code>##    week1    week3    week4    week5    week6    week7 
+## 486.2000 535.0000 574.2667 566.8000 579.2667 613.0667</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="chapter6.html#cb113-1"></a><span class="co"># H Matrix</span></span>
+<span id="cb113-2"><a href="chapter6.html#cb113-2"></a>H =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">6</span>, <span class="dt">ncol =</span> <span class="dv">6</span>)</span>
+<span id="cb113-3"><a href="chapter6.html#cb113-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(H)[<span class="dv">1</span>]) {</span>
+<span id="cb113-4"><a href="chapter6.html#cb113-4"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb113-5"><a href="chapter6.html#cb113-5"></a>    H[i,j] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data68_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]) <span class="op">*</span><span class="st"> </span>(data68_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]))</span>
+<span id="cb113-6"><a href="chapter6.html#cb113-6"></a>    H[j,i] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data68_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]) <span class="op">*</span><span class="st"> </span>(data68_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]))</span>
+<span id="cb113-7"><a href="chapter6.html#cb113-7"></a>  }</span>
+<span id="cb113-8"><a href="chapter6.html#cb113-8"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="chapter6.html#cb114-1"></a><span class="co"># E Matrix</span></span>
+<span id="cb114-2"><a href="chapter6.html#cb114-2"></a>E =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">6</span>, <span class="dt">ncol =</span> <span class="dv">6</span>)</span>
+<span id="cb114-3"><a href="chapter6.html#cb114-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(E)[<span class="dv">1</span>]) {</span>
+<span id="cb114-4"><a href="chapter6.html#cb114-4"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb114-5"><a href="chapter6.html#cb114-5"></a>    b &lt;-<span class="st"> </span><span class="kw">c</span>() </span>
+<span id="cb114-6"><a href="chapter6.html#cb114-6"></a>    <span class="cf">for</span> (k <span class="cf">in</span> data68_group) {</span>
+<span id="cb114-7"><a href="chapter6.html#cb114-7"></a>      a &lt;-<span class="st"> </span><span class="kw">sum</span>((k[,i] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,i])) <span class="op">*</span><span class="st"> </span>(k[,j] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,j])))</span>
+<span id="cb114-8"><a href="chapter6.html#cb114-8"></a>      b &lt;-<span class="st"> </span><span class="kw">append</span>(b, a)</span>
+<span id="cb114-9"><a href="chapter6.html#cb114-9"></a>    }</span>
+<span id="cb114-10"><a href="chapter6.html#cb114-10"></a>    E[i,j] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
+<span id="cb114-11"><a href="chapter6.html#cb114-11"></a>    E[j,i] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
+<span id="cb114-12"><a href="chapter6.html#cb114-12"></a>  }</span>
+<span id="cb114-13"><a href="chapter6.html#cb114-13"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="chapter6.html#cb115-1"></a><span class="kw">print</span>(<span class="st">&quot;El valor de la matrix H es:&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;El valor de la matrix H es:&quot;</code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="chapter6.html#cb117-1"></a>H</span></code></pre></div>
+<pre><code>##        [,1]   [,2]      [,3]   [,4]      [,5]      [,6]
+## [1,] 2969.2 2177.2  859.4000  813.0  4725.200  5921.600
+## [2,] 2177.2 2497.6  410.0000  411.6  4428.800  5657.600
+## [3,]  859.4  410.0  302.5333  280.4  1132.133  1392.533
+## [4,]  813.0  411.6  280.4000  260.4  1096.400  1352.000
+## [5,] 4725.2 4428.8 1132.1333 1096.4  8550.933 10830.933
+## [6,] 5921.6 5657.6 1392.5333 1352.0 10830.933 13730.133</code></pre>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="chapter6.html#cb119-1"></a><span class="kw">print</span>(<span class="st">&quot;El valor de la matrix E es:&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;El valor de la matrix E es:&quot;</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="chapter6.html#cb121-1"></a>E</span></code></pre></div>
+<pre><code>##        [,1]    [,2]    [,3]    [,4]    [,5]    [,6]
+## [1,] 8481.2  8538.8  4819.8  8513.6  8710.0  8468.2
+## [2,] 8538.8 17170.4 13293.0 19476.4 17034.2 20035.4
+## [3,] 4819.8 13293.0 12992.4 17077.4 17287.8 17697.2
+## [4,] 8513.6 19476.4 17077.4 28906.0 26226.4 28625.2
+## [5,] 8710.0 17034.2 17287.8 26226.4 36898.0 31505.8
+## [6,] 8468.2 20035.4 17697.2 28625.2 31505.8 33538.8</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="chapter6.html#cb123-1"></a><span class="kw">sum</span>((<span class="kw">eigen</span>(<span class="kw">solve</span>(E) <span class="op">%*%</span><span class="st"> </span>H)<span class="op">$</span>values) <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw">eigen</span>(<span class="kw">solve</span>(E) <span class="op">%*%</span><span class="st"> </span>H)<span class="op">$</span>values))</span></code></pre></div>
+<pre><code>## [1] 1.40331+0i</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="chapter6.html#cb125-1"></a><span class="co"># Creating &quot;C&quot;</span></span>
+<span id="cb125-2"><a href="chapter6.html#cb125-2"></a>y1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb125-3"><a href="chapter6.html#cb125-3"></a>y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb125-4"><a href="chapter6.html#cb125-4"></a>y3 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb125-5"><a href="chapter6.html#cb125-5"></a>y4 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb125-6"><a href="chapter6.html#cb125-6"></a>y5 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">-1</span>,<span class="dv">1</span>)</span>
+<span id="cb125-7"><a href="chapter6.html#cb125-7"></a>y6 &lt;-<span class="st"> </span><span class="kw">c</span>( <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>, <span class="dv">-1</span>)</span>
+<span id="cb125-8"><a href="chapter6.html#cb125-8"></a>C &lt;-<span class="st"> </span><span class="kw">data.frame</span>(y1, y2, y3,y4,y5, y6)</span>
+<span id="cb125-9"><a href="chapter6.html#cb125-9"></a>C&lt;-<span class="kw">as.matrix</span>(C)</span>
+<span id="cb125-10"><a href="chapter6.html#cb125-10"></a>C</span></code></pre></div>
+<pre><code>##      y1 y2 y3 y4 y5 y6
+## [1,]  1 -1  0  0  0  0
+## [2,]  0  1 -1  0  0  0
+## [3,]  0  0  1 -1  0  0
+## [4,]  0  0  0  1 -1  0
+## [5,]  0  0  0  0  1 -1</code></pre>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="chapter6.html#cb127-1"></a><span class="co"># Testing for parallelism</span></span>
+<span id="cb127-2"><a href="chapter6.html#cb127-2"></a>Lambda&lt;-<span class="kw">round</span>(<span class="kw">det</span>(C <span class="op">%*%</span><span class="st"> </span>E <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(C))<span class="op">/</span><span class="kw">det</span>(C<span class="op">%*%</span>(E<span class="op">+</span>H)<span class="op">%*%</span><span class="kw">t</span>(C)),<span class="dv">4</span>)</span>
+<span id="cb127-3"><a href="chapter6.html#cb127-3"></a>Lambda</span></code></pre></div>
+<pre><code>## [1] 0.1791</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="chapter6.html#cb129-1"></a><span class="co"># Testing for same level</span></span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="chapter6.html#cb130-1"></a><span class="co"># Testing for flatness</span></span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="chapter6.html#cb131-1"></a><span class="co"># Using manova function, to compare outcomes</span></span>
+<span id="cb131-2"><a href="chapter6.html#cb131-2"></a><span class="co">#!!!!!!Revisar, los resultados no están bien aún</span></span>
+<span id="cb131-3"><a href="chapter6.html#cb131-3"></a>dependent_vars &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(data68_ext[<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>])</span>
+<span id="cb131-4"><a href="chapter6.html#cb131-4"></a>model &lt;-<span class="st"> </span><span class="kw">manova</span>(dependent_vars <span class="op">~</span><span class="kw">as.factor</span>(data68_ext<span class="op">$</span>group))</span>
+<span id="cb131-5"><a href="chapter6.html#cb131-5"></a>model &lt;-<span class="kw">summary</span>(model,<span class="dt">test=</span><span class="st">&quot;Wilks&quot;</span>) <span class="co">#here we can specify whatever test we&#39;d like: Wilks, Pillai, Hotelling-Lawley or Roy</span></span>
+<span id="cb131-6"><a href="chapter6.html#cb131-6"></a>H&lt;-model<span class="op">$</span>SS[<span class="dv">1</span>] <span class="co">#to access matrix H</span></span>
+<span id="cb131-7"><a href="chapter6.html#cb131-7"></a>E&lt;-<span class="st"> </span>model<span class="op">$</span>SS[<span class="dv">2</span>] <span class="co">#to acces matrix E</span></span>
+<span id="cb131-8"><a href="chapter6.html#cb131-8"></a></span>
+<span id="cb131-9"><a href="chapter6.html#cb131-9"></a><span class="kw">print</span>(<span class="st">&quot;El valor de la matrix H es:&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;El valor de la matrix H es:&quot;</code></pre>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="chapter6.html#cb133-1"></a>H</span></code></pre></div>
+<pre><code>## $`as.factor(data68_ext$group)`
+##        week1  week3     week4  week5     week6     week7
+## week1 2969.2 2177.2  859.4000  813.0  4725.200  5921.600
+## week3 2177.2 2497.6  410.0000  411.6  4428.800  5657.600
+## week4  859.4  410.0  302.5333  280.4  1132.133  1392.533
+## week5  813.0  411.6  280.4000  260.4  1096.400  1352.000
+## week6 4725.2 4428.8 1132.1333 1096.4  8550.933 10830.933
+## week7 5921.6 5657.6 1392.5333 1352.0 10830.933 13730.133</code></pre>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="chapter6.html#cb135-1"></a><span class="kw">print</span>(<span class="st">&quot;El valor de la matrix E es:&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;El valor de la matrix E es:&quot;</code></pre>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="chapter6.html#cb137-1"></a>E</span></code></pre></div>
+<pre><code>## $Residuals
+##        week1   week3   week4   week5   week6   week7
+## week1 8481.2  8538.8  4819.8  8513.6  8710.0  8468.2
+## week3 8538.8 17170.4 13293.0 19476.4 17034.2 20035.4
+## week4 4819.8 13293.0 12992.4 17077.4 17287.8 17697.2
+## week5 8513.6 19476.4 17077.4 28906.0 26226.4 28625.2
+## week6 8710.0 17034.2 17287.8 26226.4 36898.0 31505.8
+## week7 8468.2 20035.4 17697.2 28625.2 31505.8 33538.8</code></pre>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="chapter6.html#cb139-1"></a><span class="kw">print</span>(<span class="st">&quot;Test&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Test&quot;</code></pre>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="chapter6.html#cb141-1"></a>model</span></code></pre></div>
+<pre><code>##                             Df   Wilks approx F num Df den Df Pr(&gt;F)  
+## as.factor(data68_ext$group)  2 0.08793   2.7677     12     14 0.0363 *
+## Residuals                   12                                        
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><strong>Repeated Measures Designs</strong></p>
+</div>
+<div id="example-6.9.2" class="section level3" number="6.8.2">
+<h3><span class="header-section-number">6.8.2</span> Example 6.9.2</h3>
+</div>
+<div id="example-6.9.5" class="section level3" number="6.8.3">
+<h3><span class="header-section-number">6.8.3</span> Example 6.9.5</h3>
+</div>
+</div>
+<div id="growth-curves" class="section level2" number="6.9">
+<h2><span class="header-section-number">6.9</span> Growth Curves</h2>
+<div id="example-6.10.1" class="section level3" number="6.9.1">
+<h3><span class="header-section-number">6.9.1</span> Example 6.10.1</h3>
+</div>
+<div id="example-6.10.2" class="section level3" number="6.9.2">
+<h3><span class="header-section-number">6.9.2</span> Example 6.10.2</h3>
+</div>
+</div>
+<div id="tests-on-a-subvector" class="section level2" number="6.10">
+<h2><span class="header-section-number">6.10</span> Tests on a Subvector</h2>
+<div id="example-6.11.1" class="section level3" number="6.10.1">
+<h3><span class="header-section-number">6.10.1</span> Example 6.11.1</h3>
+<ul>
+<li><p>The univariate tests completely ignore the correlations among the variables, whereas the multivariate tests make direct use of the correlations.</p></li>
+<li><p>The multivariate test is more powerful in many cases. The power of a test is the probability of rejecting HQ when it is false. In some cases, all p of the univariate tests fail to reach significance, but the multivariate test is significant because small effects on some of the variables combine to jointly indicate significance. However, for a given sample size, there is a limit to the number of variables a multivariate test can handle without losing power. This is discussed further in Section 5.3.2.</p></li>
+<li><p>Many multivariate tests involving means have as a by-product the construction of a linear combination of variables that reveals more about how the variables unite to reject the hypothesis.</p></li>
+</ul>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="chapter6.html#cb143-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<p><span class="math display">\[
+H_{0}:\left(\begin{array}{c}
+\mu_{1}\\
+\mu_{2}\\
+\vdots\\
+\mu_{p}
+\end{array}\right)=\left(\begin{array}{c}
+\mu_{01}\\
+\mu_{02}\\
+\vdots\\
+\mu_{0p}
+\end{array}\right),\qquad H_{0}:\left(\begin{array}{c}
+\mu_{1}\\
+\mu_{2}\\
+\vdots\\
+\mu_{p}
+\end{array}\right)\neq\left(\begin{array}{c}
+\mu_{01}\\
+\mu_{02}\\
+\vdots\\
+\mu_{0p}
+\end{array}\right)
+\]</span>
+To test <span class="math inline">\(H_{0}\)</span>, we use a random sample of n observation vectors <span class="math inline">\(y_{1}, y_{2}, ...,y_{n}\)</span> from <span class="math inline">\(Ν_{p}(\mu, \Sigma)\)</span>, with <span class="math inline">\(\Sigma\)</span> known, and calculate <span class="math inline">\(\bar{y}=\sum_{i=1}^{n}y_{i}/n\)</span>. The test statistic is:</p>
+<p><span class="math display">\[Z^{2}=n\left(\bar{y}-\mu_{0}\right)^{&#39;}\Sigma^{-1}\left(\bar{y}-\mu_{0}\right)\]</span></p>
+<p>If <span class="math inline">\(H_{0}\)</span> is true, <span class="math inline">\(Z\)</span> is distributed as <span class="math inline">\(\chi_{p}^{2}\)</span>, and we therefore reject <span class="math inline">\(H_{0}\)</span> if <span class="math inline">\(Z &gt;\chi_{\alpha}^{2}\)</span>.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter5.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter7.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/C1587S/EMV-ejercicios/edit/master/05-chapter6.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["multivariate-statistics-R-code.pdf", "multivariate-statistics-R-code.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
