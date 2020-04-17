@@ -24,7 +24,7 @@
 <meta name="author" content="Daniela Pinto Veizaga &amp; Sebastián Cadavid Sánchez" />
 
 
-<meta name="date" content="2020-04-12" />
+<meta name="date" content="2020-04-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -347,10 +347,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="math display">\[y_2=\textit{ultimate strength}\]</span></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="chapter8.html#cb3-1"></a><span class="co"># Data: Yield point and ultimate strenght of steel produced at two rolling temperatures</span></span>
 <span id="cb3-2"><a href="chapter8.html#cb3-2"></a></span>
-<span id="cb3-3"><a href="chapter8.html#cb3-3"></a></span>
-<span id="cb3-4"><a href="chapter8.html#cb3-4"></a>y1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">33</span>, <span class="dv">36</span>, <span class="dv">35</span>, <span class="dv">38</span>, <span class="dv">40</span>)</span>
-<span id="cb3-5"><a href="chapter8.html#cb3-5"></a>y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">61</span>, <span class="dv">64</span>, <span class="dv">63</span>, <span class="dv">65</span>)</span>
-<span id="cb3-6"><a href="chapter8.html#cb3-6"></a>yield_strength_t1 &lt;-<span class="kw">data.frame</span>(y1, y2)</span></code></pre></div>
+<span id="cb3-3"><a href="chapter8.html#cb3-3"></a>y1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">33</span>, <span class="dv">36</span>, <span class="dv">35</span>, <span class="dv">38</span>, <span class="dv">40</span>)</span>
+<span id="cb3-4"><a href="chapter8.html#cb3-4"></a>y2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">60</span>, <span class="dv">61</span>, <span class="dv">64</span>, <span class="dv">63</span>, <span class="dv">65</span>)</span>
+<span id="cb3-5"><a href="chapter8.html#cb3-5"></a>yield_strength_t1 &lt;-<span class="kw">data.frame</span>(y1, y2)</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="chapter8.html#cb4-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
 <span id="cb4-2"><a href="chapter8.html#cb4-2"></a>  yield_strength_t1, <span class="dt">caption =</span> <span class="st">&#39;Yield Strength T1&#39;</span>,</span>
 <span id="cb4-3"><a href="chapter8.html#cb4-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
@@ -474,45 +473,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="chapter8.html#cb12-1"></a>common_population_variance &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2) {</span>
 <span id="cb12-2"><a href="chapter8.html#cb12-2"></a>  <span class="st">&quot;</span></span>
-<span id="cb12-3"><a href="chapter8.html#cb12-3"></a></span>
-<span id="cb12-4"><a href="chapter8.html#cb12-4"></a><span class="st">  &quot;</span></span>
-<span id="cb12-5"><a href="chapter8.html#cb12-5"></a>  n_<span class="dv">1</span>=<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
-<span id="cb12-6"><a href="chapter8.html#cb12-6"></a>  n_<span class="dv">2</span>=<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
-<span id="cb12-7"><a href="chapter8.html#cb12-7"></a>  sigma_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data1)</span>
-<span id="cb12-8"><a href="chapter8.html#cb12-8"></a>  sigma_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data2)</span>
-<span id="cb12-9"><a href="chapter8.html#cb12-9"></a></span>
-<span id="cb12-10"><a href="chapter8.html#cb12-10"></a>  sigma_population&lt;-(<span class="dv">1</span><span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2-2</span>))<span class="op">*</span>((n_<span class="dv">1-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(n_<span class="dv">2-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">2</span>)</span>
-<span id="cb12-11"><a href="chapter8.html#cb12-11"></a>  <span class="kw">print</span>(<span class="st">&quot;The pooled covariance matrix is:&quot;</span>)</span>
-<span id="cb12-12"><a href="chapter8.html#cb12-12"></a>  <span class="kw">print</span>(sigma_population)</span>
-<span id="cb12-13"><a href="chapter8.html#cb12-13"></a>}</span>
-<span id="cb12-14"><a href="chapter8.html#cb12-14"></a>spl_rolling_temperatures&lt;-<span class="kw">common_population_variance</span>(yield_strength_t1, yield_strength_t2)</span></code></pre></div>
-<pre><code>## [1] &quot;The pooled covariance matrix is:&quot;
-##      y1       y2
-## y1 7.92 5.680000
-## y2 5.68 6.291429</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="chapter8.html#cb14-1"></a>spl_rolling_temperatures</span></code></pre></div>
+<span id="cb12-3"><a href="chapter8.html#cb12-3"></a><span class="st">  Function for calculating the common population matrix considering p variables measured on each sampling unit in two    samples. See Section 5.4.2. from the book. </span></span>
+<span id="cb12-4"><a href="chapter8.html#cb12-4"></a><span class="st">  * Inputs:</span></span>
+<span id="cb12-5"><a href="chapter8.html#cb12-5"></a><span class="st">  - </span></span>
+<span id="cb12-6"><a href="chapter8.html#cb12-6"></a><span class="st">  * Outputs:</span></span>
+<span id="cb12-7"><a href="chapter8.html#cb12-7"></a><span class="st">  &quot;</span></span>
+<span id="cb12-8"><a href="chapter8.html#cb12-8"></a>  n_<span class="dv">1</span>=<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
+<span id="cb12-9"><a href="chapter8.html#cb12-9"></a>  n_<span class="dv">2</span>=<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
+<span id="cb12-10"><a href="chapter8.html#cb12-10"></a>  sigma_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data1)</span>
+<span id="cb12-11"><a href="chapter8.html#cb12-11"></a>  sigma_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data2)</span>
+<span id="cb12-12"><a href="chapter8.html#cb12-12"></a></span>
+<span id="cb12-13"><a href="chapter8.html#cb12-13"></a>  sigma_population&lt;-(<span class="dv">1</span><span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2-2</span>))<span class="op">*</span>((n_<span class="dv">1-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(n_<span class="dv">2-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">2</span>)</span>
+<span id="cb12-14"><a href="chapter8.html#cb12-14"></a>  <span class="co">#print(&quot;The pooled covariance matrix is:&quot;)</span></span>
+<span id="cb12-15"><a href="chapter8.html#cb12-15"></a>  <span class="co">#print(sigma_population)</span></span>
+<span id="cb12-16"><a href="chapter8.html#cb12-16"></a>}</span>
+<span id="cb12-17"><a href="chapter8.html#cb12-17"></a>spl_rolling_temperatures&lt;-<span class="kw">common_population_variance</span>(yield_strength_t1, yield_strength_t2)</span>
+<span id="cb12-18"><a href="chapter8.html#cb12-18"></a><span class="co">#spl_rolling_temperatures</span></span></code></pre></div>
+<p>Then, we have a:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="chapter8.html#cb13-1"></a>a&lt;-<span class="kw">as.matrix</span>(<span class="kw">solve</span>(spl_rolling_temperatures)<span class="op">%*%</span>(y_mean_yield_strength_t1<span class="op">-</span>y_mean_yield_strength_t2))</span>
+<span id="cb13-2"><a href="chapter8.html#cb13-2"></a>a</span></code></pre></div>
+<pre><code>##         [,1]
+## y1 -1.633377
+## y2  1.819779</code></pre>
+<p>Let’s compute a function for calculating the optimum directing given by <span class="math inline">\(a=S_{pl}^{-1}(\bar{y_1}-\bar{y_2})\)</span> (see equation 8.2 from the book).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="chapter8.html#cb15-1"></a>optim_dir &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2){</span>
+<span id="cb15-2"><a href="chapter8.html#cb15-2"></a>  mean_vec_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">apply</span>(data1, <span class="dv">2</span>, <span class="dt">FUN=</span>mean))</span>
+<span id="cb15-3"><a href="chapter8.html#cb15-3"></a>  mean_vec_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">apply</span>(data2, <span class="dv">2</span>, <span class="dt">FUN=</span>mean))</span>
+<span id="cb15-4"><a href="chapter8.html#cb15-4"></a>  Sp &lt;-<span class="st"> </span><span class="kw">common_population_variance</span>(data1, data2)</span>
+<span id="cb15-5"><a href="chapter8.html#cb15-5"></a>  <span class="kw">as.matrix</span>(<span class="kw">solve</span>(Sp)<span class="op">%*%</span>(mean_vec_<span class="dv">1</span><span class="op">-</span>mean_vec_<span class="dv">2</span>))</span>
+<span id="cb15-6"><a href="chapter8.html#cb15-6"></a>}</span></code></pre></div>
+<p>Let’s check the generated functions:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chapter8.html#cb16-1"></a><span class="kw">print</span>(<span class="st">&quot;The pooled covariance matrix is:&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;The pooled covariance matrix is:&quot;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="chapter8.html#cb18-1"></a>spl_rolling_temperatures&lt;-<span class="kw">common_population_variance</span>(yield_strength_t1, yield_strength_t2)</span>
+<span id="cb18-2"><a href="chapter8.html#cb18-2"></a><span class="kw">print</span>(spl_rolling_temperatures)</span></code></pre></div>
 <pre><code>##      y1       y2
 ## y1 7.92 5.680000
 ## y2 5.68 6.291429</code></pre>
-<p>Then, we have a:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="chapter8.html#cb16-1"></a>a&lt;-<span class="kw">as.matrix</span>(<span class="kw">solve</span>(spl_rolling_temperatures)<span class="op">%*%</span>(y_mean_yield_strength_t1<span class="op">-</span>y_mean_yield_strength_t2))</span>
-<span id="cb16-2"><a href="chapter8.html#cb16-2"></a>a</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="chapter8.html#cb20-1"></a>a &lt;-<span class="st"> </span><span class="kw">optim_dir</span>(yield_strength_t1, yield_strength_t2)</span>
+<span id="cb20-2"><a href="chapter8.html#cb20-2"></a><span class="kw">print</span>(<span class="st">&quot;The optimum direction is:&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;The optimum direction is:&quot;</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="chapter8.html#cb22-1"></a><span class="kw">print</span>(a)</span></code></pre></div>
 <pre><code>##         [,1]
 ## y1 -1.633377
 ## y2  1.819779</code></pre>
 <p>It follows that the discriminant function is:</p>
 <p><span class="math display">\[z=a&#39;y=-1.633y_1+1.819y_2\]</span></p>
-<p>And the values of the projected points are:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="chapter8.html#cb18-1"></a>z_<span class="dv">1</span>&lt;-a[<span class="dv">1</span>]<span class="op">*</span>yield_strength_t1[<span class="dv">1</span>]<span class="op">+</span><span class="st"> </span>a[<span class="dv">2</span>]<span class="op">*</span>yield_strength_t1[<span class="dv">2</span>]</span>
-<span id="cb18-2"><a href="chapter8.html#cb18-2"></a>z_<span class="dv">1</span></span></code></pre></div>
+<p>And the associated values of the projected points (See table 8.2) are :</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="chapter8.html#cb24-1"></a>z_<span class="dv">1</span>&lt;-a[<span class="dv">1</span>]<span class="op">*</span>yield_strength_t1[<span class="dv">1</span>]<span class="op">+</span><span class="st"> </span>a[<span class="dv">2</span>]<span class="op">*</span>yield_strength_t1[<span class="dv">2</span>]</span>
+<span id="cb24-2"><a href="chapter8.html#cb24-2"></a>z_<span class="dv">1</span></span></code></pre></div>
 <pre><code>##         y1
 ## 1 55.28530
 ## 2 52.20494
 ## 3 59.29766
 ## 4 52.57775
 ## 5 52.95055</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="chapter8.html#cb20-1"></a>z_<span class="dv">2</span> &lt;-<span class="st"> </span>a[<span class="dv">1</span>]<span class="op">*</span>yield_strength_t2[<span class="dv">1</span>]<span class="op">+</span><span class="st"> </span>a[<span class="dv">2</span>]<span class="op">*</span>yield_strength_t2[<span class="dv">2</span>]</span>
-<span id="cb20-2"><a href="chapter8.html#cb20-2"></a>z_<span class="dv">2</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="chapter8.html#cb26-1"></a>z_<span class="dv">2</span> &lt;-<span class="st"> </span>a[<span class="dv">1</span>]<span class="op">*</span>yield_strength_t2[<span class="dv">1</span>]<span class="op">+</span><span class="st"> </span>a[<span class="dv">2</span>]<span class="op">*</span>yield_strength_t2[<span class="dv">2</span>]</span>
+<span id="cb26-2"><a href="chapter8.html#cb26-2"></a>z_<span class="dv">2</span></span></code></pre></div>
 <pre><code>##         y1
 ## 1 46.55921
 ## 2 48.56539
@@ -521,31 +538,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 47.67762
 ## 6 48.05042
 ## 7 40.39850</code></pre>
+<p>Now, using the table above, the separation provided by the discriminant function is clearly evident!</p>
 </div>
 </div>
 <div id="relantionship-between-two-group-discriminant-analysis-and-multiple-regression" class="section level2" number="8.3">
 <h2><span class="header-section-number">8.3</span> Relantionship Between Two Group Discriminant Analysis and Multiple Regression</h2>
+<p>Let w be a grouping variable (identifying groups 1 and 2) such that <span class="math inline">\(w = 0\)</span> and define <span class="math inline">\(b = (b\, b2,..., bp)&#39;\)</span> as the vector of regression coefficients when <span class="math inline">\(w\)</span> is fit to the <span class="math inline">\(y\)</span>’s. Then by (5.21), b is proportional to the discriminant function coefficient vector <span class="math inline">\(a=S_{pl}^{-1}(\bar{y_1}-\bar{y_2})\)</span>:</p>
+<p><span class="math display">\[
+b = a\frac{n_1n_2}{(n_1+n_2)(n_1+n_2-2+T^{2})}
+\]</span></p>
+<p>where <span class="math inline">\(T^{2}=[(\bar{y_1}-\bar{y_2})^{&#39;}S_{pl}^{-1}(\bar{y_1}-\bar{y_2})]\frac{n_1n_2}{(n_1+n_2)}\)</span> as in (5.2).</p>
+<p>Function for calculating <span class="math inline">\(T^{2}\)</span>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="chapter8.html#cb28-1"></a>y_mean_yield_strength_t2&lt;-<span class="kw">as.matrix</span>(</span>
+<span id="cb28-2"><a href="chapter8.html#cb28-2"></a>  <span class="kw">apply</span>(</span>
+<span id="cb28-3"><a href="chapter8.html#cb28-3"></a>    yield_strength_t2, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
+<span id="cb28-4"><a href="chapter8.html#cb28-4"></a>    )</span>
+<span id="cb28-5"><a href="chapter8.html#cb28-5"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="chapter8.html#cb29-1"></a>calc_T2 &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2){</span>
+<span id="cb29-2"><a href="chapter8.html#cb29-2"></a>  n1 &lt;-<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
+<span id="cb29-3"><a href="chapter8.html#cb29-3"></a>  n2 &lt;-<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
+<span id="cb29-4"><a href="chapter8.html#cb29-4"></a>  aux &lt;-<span class="st"> </span>n1<span class="op">*</span>n2<span class="op">/</span>(n1<span class="op">+</span>n2)</span>
+<span id="cb29-5"><a href="chapter8.html#cb29-5"></a>  mean_vec_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">apply</span>(data1, <span class="dv">2</span>, <span class="dt">FUN=</span>mean))</span>
+<span id="cb29-6"><a href="chapter8.html#cb29-6"></a>  mean_vec_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">apply</span>(data2, <span class="dv">2</span>, <span class="dt">FUN=</span>mean))</span>
+<span id="cb29-7"><a href="chapter8.html#cb29-7"></a>  com_pvar_<span class="dv">1</span>_<span class="dv">2</span> &lt;-<span class="st">  </span><span class="kw">common_population_variance</span>(data1, data2)  </span>
+<span id="cb29-8"><a href="chapter8.html#cb29-8"></a>  <span class="co"># compute T2</span></span>
+<span id="cb29-9"><a href="chapter8.html#cb29-9"></a>  T2 &lt;-<span class="st"> </span>aux <span class="op">*</span><span class="st"> </span><span class="kw">t</span>(mean_vec_<span class="dv">1</span><span class="op">-</span>mean_vec_<span class="dv">2</span>) <span class="op">%*%</span><span class="st"> </span><span class="kw">solve</span>(com_pvar_<span class="dv">1</span>_<span class="dv">2</span>)  <span class="op">%*%</span><span class="st"> </span>(mean_vec_<span class="dv">1</span><span class="op">-</span>mean_vec_<span class="dv">2</span>)</span>
+<span id="cb29-10"><a href="chapter8.html#cb29-10"></a>  </span>
+<span id="cb29-11"><a href="chapter8.html#cb29-11"></a>}</span></code></pre></div>
+<p>From (5.20), the squared multiple correlation <span class="math inline">\(R^{2}\)</span> is related to <span class="math inline">\(T^{2}\)</span> by:</p>
+<p><span class="math display">\[
+R^{2} = (\bar{y_1}-\bar{y_2})^{&#39;}b=\frac{T^{2}}{n_1+n_2-2+T^{2}}
+\]</span>
+The test statistic (5.29) for the hypothesis that q of the p + q variables are redundant
+for separating the groups can also be obtained in terms of regression by (5.31) as</p>
+<p><span class="math display">\[
+F = \frac{n_1+n_2-p-q-1}{q} \frac{R_{p+q}^{2}}{1-R_{p+q}^{2}}
+\]</span>
+where <span class="math inline">\(R_{p+q}^{2}\)</span> and <span class="math inline">\(R_{p}^{2}\)</span> are from regressions with p + q and p variables, respectively.</p>
 <div id="example-8.3." class="section level3" number="8.3.1">
 <h3><span class="header-section-number">8.3.1</span> Example 8.3.</h3>
 <p>In example <em>5.6.2</em>, the psychological data of <span class="math inline">\(Table 5.1\)</span>, were used in an illustration of the regression approach to computation of <span class="math inline">\(a\)</span> and <span class="math inline">\(T^2\)</span>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="chapter8.html#cb22-1"></a><span class="co">#pyschological data of males</span></span>
-<span id="cb22-2"><a href="chapter8.html#cb22-2"></a></span>
-<span id="cb22-3"><a href="chapter8.html#cb22-3"></a>y_1m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">17</span>,   <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">17</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">10</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">13</span>, <span class="dv">16</span>, <span class="dv">11</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">18</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">17</span>, <span class="dv">19</span>)</span>
-<span id="cb22-4"><a href="chapter8.html#cb22-4"></a></span>
-<span id="cb22-5"><a href="chapter8.html#cb22-5"></a>y_2m &lt;-<span class="kw">c</span>(<span class="dv">15</span>,    <span class="dv">17</span>, <span class="dv">14</span>, <span class="dv">12</span>, <span class="dv">17</span>, <span class="dv">21</span>, <span class="dv">13</span>, <span class="dv">5</span>,  <span class="dv">7</span>,  <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">19</span>, <span class="dv">18</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">14</span>, <span class="dv">21</span>, <span class="dv">21</span>, <span class="dv">17</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">13</span>, <span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">19</span>, <span class="dv">16</span>, <span class="dv">20</span>, <span class="dv">19</span>)</span>
-<span id="cb22-6"><a href="chapter8.html#cb22-6"></a></span>
-<span id="cb22-7"><a href="chapter8.html#cb22-7"></a>y_3m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">32</span>,   <span class="dv">24</span>, <span class="dv">29</span>, <span class="dv">10</span>, <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">22</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">26</span>, <span class="dv">28</span>, <span class="dv">29</span>, <span class="dv">32</span>, <span class="dv">31</span>, <span class="dv">26</span>, <span class="dv">33</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">34</span>, <span class="dv">30</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">26</span>, <span class="dv">23</span>, <span class="dv">34</span>, <span class="dv">28</span>, <span class="dv">29</span>, <span class="dv">32</span>, <span class="dv">33</span>, <span class="dv">21</span>, <span class="dv">30</span>)</span>
-<span id="cb22-8"><a href="chapter8.html#cb22-8"></a></span>
-<span id="cb22-9"><a href="chapter8.html#cb22-9"></a>y_4m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">26</span>,   <span class="dv">14</span>, <span class="dv">23</span>, <span class="dv">16</span>, <span class="dv">28</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">17</span>, <span class="dv">27</span>, <span class="dv">20</span>, <span class="dv">24</span>, <span class="dv">24</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">17</span>, <span class="dv">29</span>, <span class="dv">26</span>, <span class="dv">24</span>, <span class="dv">16</span>, <span class="dv">23</span>, <span class="dv">16</span>, <span class="dv">21</span>, <span class="dv">24</span>, <span class="dv">27</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">21</span>, <span class="dv">28</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="chapter8.html#cb23-1"></a>data542_male &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb23-2"><a href="chapter8.html#cb23-2"></a>  y_1m, y_2m, y_3m, y_4m</span>
-<span id="cb23-3"><a href="chapter8.html#cb23-3"></a>  )</span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="chapter8.html#cb24-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
-<span id="cb24-2"><a href="chapter8.html#cb24-2"></a>  data542_male, <span class="dt">caption =</span> <span class="st">&#39;Data Male&#39;</span>,</span>
-<span id="cb24-3"><a href="chapter8.html#cb24-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
-<span id="cb24-4"><a href="chapter8.html#cb24-4"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="chapter8.html#cb30-1"></a><span class="co">#pyschological data of males</span></span>
+<span id="cb30-2"><a href="chapter8.html#cb30-2"></a></span>
+<span id="cb30-3"><a href="chapter8.html#cb30-3"></a>y_1m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">17</span>,   <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">17</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">10</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">13</span>, <span class="dv">16</span>, <span class="dv">11</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">18</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">17</span>, <span class="dv">19</span>)</span>
+<span id="cb30-4"><a href="chapter8.html#cb30-4"></a></span>
+<span id="cb30-5"><a href="chapter8.html#cb30-5"></a>y_2m &lt;-<span class="kw">c</span>(<span class="dv">15</span>,    <span class="dv">17</span>, <span class="dv">14</span>, <span class="dv">12</span>, <span class="dv">17</span>, <span class="dv">21</span>, <span class="dv">13</span>, <span class="dv">5</span>,  <span class="dv">7</span>,  <span class="dv">15</span>, <span class="dv">17</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">19</span>, <span class="dv">18</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">14</span>, <span class="dv">21</span>, <span class="dv">21</span>, <span class="dv">17</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">13</span>, <span class="dv">13</span>, <span class="dv">18</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">19</span>, <span class="dv">16</span>, <span class="dv">20</span>, <span class="dv">19</span>)</span>
+<span id="cb30-6"><a href="chapter8.html#cb30-6"></a></span>
+<span id="cb30-7"><a href="chapter8.html#cb30-7"></a>y_3m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">32</span>,   <span class="dv">24</span>, <span class="dv">29</span>, <span class="dv">10</span>, <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">26</span>, <span class="dv">22</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">26</span>, <span class="dv">28</span>, <span class="dv">29</span>, <span class="dv">32</span>, <span class="dv">31</span>, <span class="dv">26</span>, <span class="dv">33</span>, <span class="dv">19</span>, <span class="dv">30</span>, <span class="dv">34</span>, <span class="dv">30</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">26</span>, <span class="dv">23</span>, <span class="dv">34</span>, <span class="dv">28</span>, <span class="dv">29</span>, <span class="dv">32</span>, <span class="dv">33</span>, <span class="dv">21</span>, <span class="dv">30</span>)</span>
+<span id="cb30-8"><a href="chapter8.html#cb30-8"></a></span>
+<span id="cb30-9"><a href="chapter8.html#cb30-9"></a>y_4m &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">26</span>,   <span class="dv">14</span>, <span class="dv">23</span>, <span class="dv">16</span>, <span class="dv">28</span>, <span class="dv">21</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">17</span>, <span class="dv">27</span>, <span class="dv">20</span>, <span class="dv">24</span>, <span class="dv">24</span>, <span class="dv">28</span>, <span class="dv">27</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">17</span>, <span class="dv">29</span>, <span class="dv">26</span>, <span class="dv">24</span>, <span class="dv">16</span>, <span class="dv">23</span>, <span class="dv">16</span>, <span class="dv">21</span>, <span class="dv">24</span>, <span class="dv">27</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">21</span>, <span class="dv">28</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="chapter8.html#cb31-1"></a>data542_male &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb31-2"><a href="chapter8.html#cb31-2"></a>  y_1m, y_2m, y_3m, y_4m</span>
+<span id="cb31-3"><a href="chapter8.html#cb31-3"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="chapter8.html#cb32-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb32-2"><a href="chapter8.html#cb32-2"></a>  data542_male, <span class="dt">caption =</span> <span class="st">&#39;Data Male&#39;</span>,</span>
+<span id="cb32-3"><a href="chapter8.html#cb32-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
+<span id="cb32-4"><a href="chapter8.html#cb32-4"></a>)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-13">Table 8.3: </span>Data Male</caption>
+<caption><span id="tab:unnamed-chunk-17">Table 8.3: </span>Data Male</caption>
 <thead>
 <tr class="header">
 <th align="right">y_1m</th>
@@ -749,33 +799,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="chapter8.html#cb25-1"></a><span class="co">#pyschological data of females</span></span>
-<span id="cb25-2"><a href="chapter8.html#cb25-2"></a></span>
-<span id="cb25-3"><a href="chapter8.html#cb25-3"></a>y_1f &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb25-4"><a href="chapter8.html#cb25-4"></a>  <span class="dv">14</span>,   <span class="dv">13</span>, <span class="dv">12</span>, <span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">14</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">13</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">16</span>, <span class="dv">13</span>, <span class="dv">2</span>,  <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">13</span>, <span class="dv">11</span>, <span class="dv">7</span>,  <span class="dv">12</span>, <span class="dv">6</span></span>
-<span id="cb25-5"><a href="chapter8.html#cb25-5"></a>  )</span>
-<span id="cb25-6"><a href="chapter8.html#cb25-6"></a></span>
-<span id="cb25-7"><a href="chapter8.html#cb25-7"></a></span>
-<span id="cb25-8"><a href="chapter8.html#cb25-8"></a>y_2f &lt;-<span class="kw">c</span>(</span>
-<span id="cb25-9"><a href="chapter8.html#cb25-9"></a>  <span class="dv">12</span>,   <span class="dv">14</span>, <span class="dv">19</span>, <span class="dv">13</span>, <span class="dv">20</span>, <span class="dv">9</span>,  <span class="dv">13</span>, <span class="dv">8</span>,  <span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">10</span>, <span class="dv">16</span>, <span class="dv">8</span>,  <span class="dv">16</span>, <span class="dv">21</span>, <span class="dv">17</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">6</span>,  <span class="dv">16</span>, <span class="dv">17</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">10</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">7</span>,  <span class="dv">15</span>, <span class="dv">5</span></span>
-<span id="cb25-10"><a href="chapter8.html#cb25-10"></a>  )</span>
-<span id="cb25-11"><a href="chapter8.html#cb25-11"></a></span>
-<span id="cb25-12"><a href="chapter8.html#cb25-12"></a>y_3f &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb25-13"><a href="chapter8.html#cb25-13"></a>  <span class="dv">14</span>,   <span class="dv">12</span>, <span class="dv">21</span>, <span class="dv">10</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">18</span>, <span class="dv">13</span>, <span class="dv">19</span>, <span class="dv">11</span>, <span class="dv">25</span>, <span class="dv">13</span>, <span class="dv">25</span>, <span class="dv">8</span>,  <span class="dv">13</span>, <span class="dv">23</span>, <span class="dv">26</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">23</span>, <span class="dv">16</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">16</span>, <span class="dv">20</span>, <span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">7</span>,  <span class="dv">6</span></span>
-<span id="cb25-14"><a href="chapter8.html#cb25-14"></a>  )</span>
-<span id="cb25-15"><a href="chapter8.html#cb25-15"></a></span>
-<span id="cb25-16"><a href="chapter8.html#cb25-16"></a>y_4f &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
-<span id="cb25-17"><a href="chapter8.html#cb25-17"></a>  <span class="dv">26</span>,   <span class="dv">21</span>, <span class="dv">21</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">18</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">27</span>, <span class="dv">25</span>, <span class="dv">26</span>, <span class="dv">28</span>, <span class="dv">14</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">26</span>, <span class="dv">14</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">28</span>, <span class="dv">14</span>, <span class="dv">26</span>, <span class="dv">9</span>,  <span class="dv">23</span>, <span class="dv">20</span>, <span class="dv">28</span>, <span class="dv">18</span>, <span class="dv">28</span>, <span class="dv">13</span></span>
-<span id="cb25-18"><a href="chapter8.html#cb25-18"></a>  )</span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="chapter8.html#cb26-1"></a>data542_female &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb26-2"><a href="chapter8.html#cb26-2"></a>  y_1f, y_2f, y_3f, y_4f</span>
-<span id="cb26-3"><a href="chapter8.html#cb26-3"></a>  )</span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="chapter8.html#cb27-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
-<span id="cb27-2"><a href="chapter8.html#cb27-2"></a>  data542_female, <span class="dt">caption =</span> <span class="st">&#39;Data Female&#39;</span>,</span>
-<span id="cb27-3"><a href="chapter8.html#cb27-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
-<span id="cb27-4"><a href="chapter8.html#cb27-4"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="chapter8.html#cb33-1"></a><span class="co">#pyschological data of females</span></span>
+<span id="cb33-2"><a href="chapter8.html#cb33-2"></a></span>
+<span id="cb33-3"><a href="chapter8.html#cb33-3"></a>y_1f &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb33-4"><a href="chapter8.html#cb33-4"></a>  <span class="dv">14</span>,   <span class="dv">13</span>, <span class="dv">12</span>, <span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">14</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">13</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">16</span>, <span class="dv">13</span>, <span class="dv">2</span>,  <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">12</span>, <span class="dv">14</span>, <span class="dv">13</span>, <span class="dv">11</span>, <span class="dv">7</span>,  <span class="dv">12</span>, <span class="dv">6</span></span>
+<span id="cb33-5"><a href="chapter8.html#cb33-5"></a>  )</span>
+<span id="cb33-6"><a href="chapter8.html#cb33-6"></a></span>
+<span id="cb33-7"><a href="chapter8.html#cb33-7"></a></span>
+<span id="cb33-8"><a href="chapter8.html#cb33-8"></a>y_2f &lt;-<span class="kw">c</span>(</span>
+<span id="cb33-9"><a href="chapter8.html#cb33-9"></a>  <span class="dv">12</span>,   <span class="dv">14</span>, <span class="dv">19</span>, <span class="dv">13</span>, <span class="dv">20</span>, <span class="dv">9</span>,  <span class="dv">13</span>, <span class="dv">8</span>,  <span class="dv">20</span>, <span class="dv">10</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">10</span>, <span class="dv">16</span>, <span class="dv">8</span>,  <span class="dv">16</span>, <span class="dv">21</span>, <span class="dv">17</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">6</span>,  <span class="dv">16</span>, <span class="dv">17</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">10</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">7</span>,  <span class="dv">15</span>, <span class="dv">5</span></span>
+<span id="cb33-10"><a href="chapter8.html#cb33-10"></a>  )</span>
+<span id="cb33-11"><a href="chapter8.html#cb33-11"></a></span>
+<span id="cb33-12"><a href="chapter8.html#cb33-12"></a>y_3f &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb33-13"><a href="chapter8.html#cb33-13"></a>  <span class="dv">14</span>,   <span class="dv">12</span>, <span class="dv">21</span>, <span class="dv">10</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">18</span>, <span class="dv">13</span>, <span class="dv">19</span>, <span class="dv">11</span>, <span class="dv">25</span>, <span class="dv">13</span>, <span class="dv">25</span>, <span class="dv">8</span>,  <span class="dv">13</span>, <span class="dv">23</span>, <span class="dv">26</span>, <span class="dv">14</span>, <span class="dv">15</span>, <span class="dv">23</span>, <span class="dv">16</span>, <span class="dv">22</span>, <span class="dv">22</span>, <span class="dv">16</span>, <span class="dv">20</span>, <span class="dv">12</span>, <span class="dv">24</span>, <span class="dv">18</span>, <span class="dv">18</span>, <span class="dv">19</span>, <span class="dv">7</span>,  <span class="dv">6</span></span>
+<span id="cb33-14"><a href="chapter8.html#cb33-14"></a>  )</span>
+<span id="cb33-15"><a href="chapter8.html#cb33-15"></a></span>
+<span id="cb33-16"><a href="chapter8.html#cb33-16"></a>y_4f &lt;-<span class="st"> </span><span class="kw">c</span>(</span>
+<span id="cb33-17"><a href="chapter8.html#cb33-17"></a>  <span class="dv">26</span>,   <span class="dv">21</span>, <span class="dv">21</span>, <span class="dv">16</span>, <span class="dv">16</span>, <span class="dv">18</span>, <span class="dv">24</span>, <span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">27</span>, <span class="dv">25</span>, <span class="dv">26</span>, <span class="dv">28</span>, <span class="dv">14</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">26</span>, <span class="dv">14</span>, <span class="dv">23</span>, <span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">26</span>, <span class="dv">28</span>, <span class="dv">14</span>, <span class="dv">26</span>, <span class="dv">9</span>,  <span class="dv">23</span>, <span class="dv">20</span>, <span class="dv">28</span>, <span class="dv">18</span>, <span class="dv">28</span>, <span class="dv">13</span></span>
+<span id="cb33-18"><a href="chapter8.html#cb33-18"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="chapter8.html#cb34-1"></a>data542_female &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb34-2"><a href="chapter8.html#cb34-2"></a>  y_1f, y_2f, y_3f, y_4f</span>
+<span id="cb34-3"><a href="chapter8.html#cb34-3"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="chapter8.html#cb35-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb35-2"><a href="chapter8.html#cb35-2"></a>  data542_female, <span class="dt">caption =</span> <span class="st">&#39;Data Female&#39;</span>,</span>
+<span id="cb35-3"><a href="chapter8.html#cb35-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
+<span id="cb35-4"><a href="chapter8.html#cb35-4"></a>)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-16">Table 8.4: </span>Data Female</caption>
+<caption><span id="tab:unnamed-chunk-20">Table 8.4: </span>Data Female</caption>
 <thead>
 <tr class="header">
 <th align="right">y_1f</th>
@@ -979,45 +1029,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
+<p>Calculating <span class="math inline">\(T^{2}\)</span> using our functions:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="chapter8.html#cb36-1"></a>T2 &lt;-<span class="st"> </span><span class="kw">calc_T2</span>(data542_male, data542_female)</span>
+<span id="cb36-2"><a href="chapter8.html#cb36-2"></a>T2</span></code></pre></div>
+<pre><code>##         [,1]
+## [1,] 97.6015</code></pre>
+<p>Calculating <span class="math inline">\(a\)</span></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="chapter8.html#cb38-1"></a>a &lt;-<span class="st"> </span><span class="kw">optim_dir</span>(data542_male, data542_female)</span>
+<span id="cb38-2"><a href="chapter8.html#cb38-2"></a><span class="kw">print</span>(a)</span></code></pre></div>
+<pre><code>##            [,1]
+## y_1m  0.5104227
+## y_2m -0.2032933
+## y_3m  0.4660420
+## y_4m -0.3096697</code></pre>
 <blockquote>
 <p>T2</p>
 </blockquote>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="chapter8.html#cb28-1"></a><span class="co">#function for finding the T^2 in a multivariate two sample setting</span></span>
-<span id="cb28-2"><a href="chapter8.html#cb28-2"></a></span>
-<span id="cb28-3"><a href="chapter8.html#cb28-3"></a>T2_two_sample&lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2) {</span>
-<span id="cb28-4"><a href="chapter8.html#cb28-4"></a>  <span class="st">&quot;</span></span>
-<span id="cb28-5"><a href="chapter8.html#cb28-5"></a></span>
-<span id="cb28-6"><a href="chapter8.html#cb28-6"></a><span class="st">  &quot;</span></span>
-<span id="cb28-7"><a href="chapter8.html#cb28-7"></a>  n_<span class="dv">1</span> &lt;&lt;-<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
-<span id="cb28-8"><a href="chapter8.html#cb28-8"></a>  n_<span class="dv">2</span>&lt;&lt;-<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
-<span id="cb28-9"><a href="chapter8.html#cb28-9"></a>  sigma_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data1)</span>
-<span id="cb28-10"><a href="chapter8.html#cb28-10"></a>  sigma_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data2)</span>
-<span id="cb28-11"><a href="chapter8.html#cb28-11"></a>  </span>
-<span id="cb28-12"><a href="chapter8.html#cb28-12"></a>  y_mean_<span class="dv">1</span>&lt;-<span class="kw">as.matrix</span>(</span>
-<span id="cb28-13"><a href="chapter8.html#cb28-13"></a>  <span class="kw">apply</span>(data1, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
-<span id="cb28-14"><a href="chapter8.html#cb28-14"></a>        )</span>
-<span id="cb28-15"><a href="chapter8.html#cb28-15"></a>  )</span>
-<span id="cb28-16"><a href="chapter8.html#cb28-16"></a>  </span>
-<span id="cb28-17"><a href="chapter8.html#cb28-17"></a>  y_mean_<span class="dv">2</span>&lt;-<span class="kw">as.matrix</span>(</span>
-<span id="cb28-18"><a href="chapter8.html#cb28-18"></a>  <span class="kw">apply</span>(data2, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
-<span id="cb28-19"><a href="chapter8.html#cb28-19"></a>        )</span>
-<span id="cb28-20"><a href="chapter8.html#cb28-20"></a>  )</span>
-<span id="cb28-21"><a href="chapter8.html#cb28-21"></a>  sigma_population&lt;-(</span>
-<span id="cb28-22"><a href="chapter8.html#cb28-22"></a>    <span class="dv">1</span><span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2-2</span>)</span>
-<span id="cb28-23"><a href="chapter8.html#cb28-23"></a>    )<span class="op">*</span>(</span>
-<span id="cb28-24"><a href="chapter8.html#cb28-24"></a>    (n_<span class="dv">1-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(n_<span class="dv">2-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">2</span></span>
-<span id="cb28-25"><a href="chapter8.html#cb28-25"></a>    )</span>
-<span id="cb28-26"><a href="chapter8.html#cb28-26"></a>  </span>
-<span id="cb28-27"><a href="chapter8.html#cb28-27"></a>  sigma_population_inverse &lt;-<span class="st"> </span><span class="kw">solve</span>(sigma_population)</span>
-<span id="cb28-28"><a href="chapter8.html#cb28-28"></a>  T2 &lt;&lt;-<span class="st"> </span>((n_<span class="dv">1</span><span class="op">*</span>n_<span class="dv">2</span>)<span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2</span>))<span class="op">*</span><span class="kw">t</span>(y_mean_<span class="dv">1</span><span class="op">-</span>y_mean_<span class="dv">2</span>) <span class="op">%*%</span><span class="st"> </span>sigma_population_inverse <span class="op">%*%</span><span class="st"> </span>(y_mean_<span class="dv">1</span><span class="op">-</span>y_mean_<span class="dv">2</span>)</span>
-<span id="cb28-29"><a href="chapter8.html#cb28-29"></a>  </span>
-<span id="cb28-30"><a href="chapter8.html#cb28-30"></a>  <span class="kw">print</span>(<span class="st">&quot;The pooled covariance matrix is:&quot;</span>)</span>
-<span id="cb28-31"><a href="chapter8.html#cb28-31"></a>  <span class="kw">print</span>(sigma_population)</span>
-<span id="cb28-32"><a href="chapter8.html#cb28-32"></a>  <span class="kw">print</span>(<span class="st">&quot;The value of T2 is:&quot;</span>)</span>
-<span id="cb28-33"><a href="chapter8.html#cb28-33"></a>  <span class="kw">print</span> (T2)</span>
-<span id="cb28-34"><a href="chapter8.html#cb28-34"></a>}</span>
-<span id="cb28-35"><a href="chapter8.html#cb28-35"></a></span>
-<span id="cb28-36"><a href="chapter8.html#cb28-36"></a>T2&lt;-<span class="kw">T2_two_sample</span>(data542_female, data542_male)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="chapter8.html#cb40-1"></a><span class="co">#function for finding the T^2 in a multivariate two sample setting</span></span>
+<span id="cb40-2"><a href="chapter8.html#cb40-2"></a></span>
+<span id="cb40-3"><a href="chapter8.html#cb40-3"></a>T2_two_sample&lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2) {</span>
+<span id="cb40-4"><a href="chapter8.html#cb40-4"></a>  <span class="st">&quot;</span></span>
+<span id="cb40-5"><a href="chapter8.html#cb40-5"></a></span>
+<span id="cb40-6"><a href="chapter8.html#cb40-6"></a><span class="st">  &quot;</span></span>
+<span id="cb40-7"><a href="chapter8.html#cb40-7"></a>  n_<span class="dv">1</span> &lt;&lt;-<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
+<span id="cb40-8"><a href="chapter8.html#cb40-8"></a>  n_<span class="dv">2</span>&lt;&lt;-<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
+<span id="cb40-9"><a href="chapter8.html#cb40-9"></a>  sigma_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data1)</span>
+<span id="cb40-10"><a href="chapter8.html#cb40-10"></a>  sigma_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data2)</span>
+<span id="cb40-11"><a href="chapter8.html#cb40-11"></a>  </span>
+<span id="cb40-12"><a href="chapter8.html#cb40-12"></a>  y_mean_<span class="dv">1</span>&lt;-<span class="kw">as.matrix</span>(</span>
+<span id="cb40-13"><a href="chapter8.html#cb40-13"></a>  <span class="kw">apply</span>(data1, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
+<span id="cb40-14"><a href="chapter8.html#cb40-14"></a>        )</span>
+<span id="cb40-15"><a href="chapter8.html#cb40-15"></a>  )</span>
+<span id="cb40-16"><a href="chapter8.html#cb40-16"></a>  </span>
+<span id="cb40-17"><a href="chapter8.html#cb40-17"></a>  y_mean_<span class="dv">2</span>&lt;-<span class="kw">as.matrix</span>(</span>
+<span id="cb40-18"><a href="chapter8.html#cb40-18"></a>  <span class="kw">apply</span>(data2, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
+<span id="cb40-19"><a href="chapter8.html#cb40-19"></a>        )</span>
+<span id="cb40-20"><a href="chapter8.html#cb40-20"></a>  )</span>
+<span id="cb40-21"><a href="chapter8.html#cb40-21"></a>  sigma_population&lt;-(</span>
+<span id="cb40-22"><a href="chapter8.html#cb40-22"></a>    <span class="dv">1</span><span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2-2</span>)</span>
+<span id="cb40-23"><a href="chapter8.html#cb40-23"></a>    )<span class="op">*</span>(</span>
+<span id="cb40-24"><a href="chapter8.html#cb40-24"></a>    (n_<span class="dv">1-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(n_<span class="dv">2-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">2</span></span>
+<span id="cb40-25"><a href="chapter8.html#cb40-25"></a>    )</span>
+<span id="cb40-26"><a href="chapter8.html#cb40-26"></a>  </span>
+<span id="cb40-27"><a href="chapter8.html#cb40-27"></a>  sigma_population_inverse &lt;-<span class="st"> </span><span class="kw">solve</span>(sigma_population)</span>
+<span id="cb40-28"><a href="chapter8.html#cb40-28"></a>  T2 &lt;&lt;-<span class="st"> </span>((n_<span class="dv">1</span><span class="op">*</span>n_<span class="dv">2</span>)<span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2</span>))<span class="op">*</span><span class="kw">t</span>(y_mean_<span class="dv">1</span><span class="op">-</span>y_mean_<span class="dv">2</span>) <span class="op">%*%</span><span class="st"> </span>sigma_population_inverse <span class="op">%*%</span><span class="st"> </span>(y_mean_<span class="dv">1</span><span class="op">-</span>y_mean_<span class="dv">2</span>)</span>
+<span id="cb40-29"><a href="chapter8.html#cb40-29"></a>  </span>
+<span id="cb40-30"><a href="chapter8.html#cb40-30"></a>  <span class="kw">print</span>(<span class="st">&quot;The pooled covariance matrix is:&quot;</span>)</span>
+<span id="cb40-31"><a href="chapter8.html#cb40-31"></a>  <span class="kw">print</span>(sigma_population)</span>
+<span id="cb40-32"><a href="chapter8.html#cb40-32"></a>  <span class="kw">print</span>(<span class="st">&quot;The value of T2 is:&quot;</span>)</span>
+<span id="cb40-33"><a href="chapter8.html#cb40-33"></a>  <span class="kw">print</span> (T2)</span>
+<span id="cb40-34"><a href="chapter8.html#cb40-34"></a>}</span>
+<span id="cb40-35"><a href="chapter8.html#cb40-35"></a></span>
+<span id="cb40-36"><a href="chapter8.html#cb40-36"></a>T2&lt;-<span class="kw">T2_two_sample</span>(data542_female, data542_male)</span></code></pre></div>
 <pre><code>## [1] &quot;The pooled covariance matrix is:&quot;
 ##          y_1f      y_2f      y_3f      y_4f
 ## y_1f 7.164315  6.047379  5.693044  4.700605
@@ -1027,48 +1090,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [1] &quot;The value of T2 is:&quot;
 ##         [,1]
 ## [1,] 97.6015</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="chapter8.html#cb30-1"></a>discriminant_function &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2) {</span>
-<span id="cb30-2"><a href="chapter8.html#cb30-2"></a>    <span class="st">&quot;</span></span>
-<span id="cb30-3"><a href="chapter8.html#cb30-3"></a><span class="st">    This function determines the discriminat function coefficient vector</span></span>
-<span id="cb30-4"><a href="chapter8.html#cb30-4"></a><span class="st">    </span></span>
-<span id="cb30-5"><a href="chapter8.html#cb30-5"></a></span>
-<span id="cb30-6"><a href="chapter8.html#cb30-6"></a><span class="st">    Input: </span></span>
-<span id="cb30-7"><a href="chapter8.html#cb30-7"></a><span class="st">    + data1: dataset from sample 1</span></span>
-<span id="cb30-8"><a href="chapter8.html#cb30-8"></a><span class="st">    + data2: dataset from sample 2</span></span>
-<span id="cb30-9"><a href="chapter8.html#cb30-9"></a></span>
-<span id="cb30-10"><a href="chapter8.html#cb30-10"></a><span class="st">    Output:</span></span>
-<span id="cb30-11"><a href="chapter8.html#cb30-11"></a><span class="st">    + a: discriminant function coefficient vector</span></span>
-<span id="cb30-12"><a href="chapter8.html#cb30-12"></a><span class="st">  </span></span>
-<span id="cb30-13"><a href="chapter8.html#cb30-13"></a><span class="st">    &quot;</span></span>
-<span id="cb30-14"><a href="chapter8.html#cb30-14"></a>  n_<span class="dv">1</span> &lt;&lt;-<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
-<span id="cb30-15"><a href="chapter8.html#cb30-15"></a>  n_<span class="dv">2</span>&lt;&lt;-<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
-<span id="cb30-16"><a href="chapter8.html#cb30-16"></a>  sigma_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data1)</span>
-<span id="cb30-17"><a href="chapter8.html#cb30-17"></a>  sigma_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data2)</span>
-<span id="cb30-18"><a href="chapter8.html#cb30-18"></a>  </span>
-<span id="cb30-19"><a href="chapter8.html#cb30-19"></a>  y_mean_<span class="dv">1</span>&lt;-<span class="kw">as.matrix</span>(</span>
-<span id="cb30-20"><a href="chapter8.html#cb30-20"></a>  <span class="kw">apply</span>(data1, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
-<span id="cb30-21"><a href="chapter8.html#cb30-21"></a>        )</span>
-<span id="cb30-22"><a href="chapter8.html#cb30-22"></a>  )</span>
-<span id="cb30-23"><a href="chapter8.html#cb30-23"></a>  </span>
-<span id="cb30-24"><a href="chapter8.html#cb30-24"></a>  y_mean_<span class="dv">2</span>&lt;-<span class="kw">as.matrix</span>(</span>
-<span id="cb30-25"><a href="chapter8.html#cb30-25"></a>  <span class="kw">apply</span>(data2, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
-<span id="cb30-26"><a href="chapter8.html#cb30-26"></a>        )</span>
-<span id="cb30-27"><a href="chapter8.html#cb30-27"></a>  )</span>
-<span id="cb30-28"><a href="chapter8.html#cb30-28"></a>  sigma_population&lt;-(</span>
-<span id="cb30-29"><a href="chapter8.html#cb30-29"></a>    <span class="dv">1</span><span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2-2</span>)</span>
-<span id="cb30-30"><a href="chapter8.html#cb30-30"></a>    )<span class="op">*</span>(</span>
-<span id="cb30-31"><a href="chapter8.html#cb30-31"></a>    (n_<span class="dv">1-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(n_<span class="dv">2-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">2</span></span>
-<span id="cb30-32"><a href="chapter8.html#cb30-32"></a>    )</span>
-<span id="cb30-33"><a href="chapter8.html#cb30-33"></a>  </span>
-<span id="cb30-34"><a href="chapter8.html#cb30-34"></a>  sigma_population_inverse &lt;-<span class="st"> </span><span class="kw">solve</span>(sigma_population)</span>
-<span id="cb30-35"><a href="chapter8.html#cb30-35"></a>  a &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(sigma_population_inverse<span class="op">%*%</span>(y_mean_<span class="dv">1</span><span class="op">-</span>y_mean_<span class="dv">2</span>))</span>
-<span id="cb30-36"><a href="chapter8.html#cb30-36"></a>  <span class="kw">print</span>(</span>
-<span id="cb30-37"><a href="chapter8.html#cb30-37"></a>      <span class="st">&quot;The discriminant coeficient vector is: &quot;</span></span>
-<span id="cb30-38"><a href="chapter8.html#cb30-38"></a>      )</span>
-<span id="cb30-39"><a href="chapter8.html#cb30-39"></a>  <span class="kw">print</span>(<span class="kw">round</span>(a, <span class="dv">4</span>))</span>
-<span id="cb30-40"><a href="chapter8.html#cb30-40"></a>}</span>
-<span id="cb30-41"><a href="chapter8.html#cb30-41"></a></span>
-<span id="cb30-42"><a href="chapter8.html#cb30-42"></a>a&lt;-<span class="kw">discriminant_function</span>(data542_female, data542_male)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="chapter8.html#cb42-1"></a>discriminant_function &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2) {</span>
+<span id="cb42-2"><a href="chapter8.html#cb42-2"></a>    <span class="st">&quot;</span></span>
+<span id="cb42-3"><a href="chapter8.html#cb42-3"></a><span class="st">    This function determines the discriminat function coefficient vector</span></span>
+<span id="cb42-4"><a href="chapter8.html#cb42-4"></a><span class="st">    </span></span>
+<span id="cb42-5"><a href="chapter8.html#cb42-5"></a></span>
+<span id="cb42-6"><a href="chapter8.html#cb42-6"></a><span class="st">    Input: </span></span>
+<span id="cb42-7"><a href="chapter8.html#cb42-7"></a><span class="st">    + data1: dataset from sample 1</span></span>
+<span id="cb42-8"><a href="chapter8.html#cb42-8"></a><span class="st">    + data2: dataset from sample 2</span></span>
+<span id="cb42-9"><a href="chapter8.html#cb42-9"></a></span>
+<span id="cb42-10"><a href="chapter8.html#cb42-10"></a><span class="st">    Output:</span></span>
+<span id="cb42-11"><a href="chapter8.html#cb42-11"></a><span class="st">    + a: discriminant function coefficient vector</span></span>
+<span id="cb42-12"><a href="chapter8.html#cb42-12"></a><span class="st">  </span></span>
+<span id="cb42-13"><a href="chapter8.html#cb42-13"></a><span class="st">    &quot;</span></span>
+<span id="cb42-14"><a href="chapter8.html#cb42-14"></a>  n_<span class="dv">1</span> &lt;&lt;-<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
+<span id="cb42-15"><a href="chapter8.html#cb42-15"></a>  n_<span class="dv">2</span>&lt;&lt;-<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
+<span id="cb42-16"><a href="chapter8.html#cb42-16"></a>  sigma_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data1)</span>
+<span id="cb42-17"><a href="chapter8.html#cb42-17"></a>  sigma_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">cov</span>(data2)</span>
+<span id="cb42-18"><a href="chapter8.html#cb42-18"></a>  </span>
+<span id="cb42-19"><a href="chapter8.html#cb42-19"></a>  y_mean_<span class="dv">1</span>&lt;-<span class="kw">as.matrix</span>(</span>
+<span id="cb42-20"><a href="chapter8.html#cb42-20"></a>  <span class="kw">apply</span>(data1, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
+<span id="cb42-21"><a href="chapter8.html#cb42-21"></a>        )</span>
+<span id="cb42-22"><a href="chapter8.html#cb42-22"></a>  )</span>
+<span id="cb42-23"><a href="chapter8.html#cb42-23"></a>  </span>
+<span id="cb42-24"><a href="chapter8.html#cb42-24"></a>  y_mean_<span class="dv">2</span>&lt;-<span class="kw">as.matrix</span>(</span>
+<span id="cb42-25"><a href="chapter8.html#cb42-25"></a>  <span class="kw">apply</span>(data2, <span class="dv">2</span>, <span class="dt">FUN=</span>mean</span>
+<span id="cb42-26"><a href="chapter8.html#cb42-26"></a>        )</span>
+<span id="cb42-27"><a href="chapter8.html#cb42-27"></a>  )</span>
+<span id="cb42-28"><a href="chapter8.html#cb42-28"></a>  sigma_population&lt;-(</span>
+<span id="cb42-29"><a href="chapter8.html#cb42-29"></a>    <span class="dv">1</span><span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2-2</span>)</span>
+<span id="cb42-30"><a href="chapter8.html#cb42-30"></a>    )<span class="op">*</span>(</span>
+<span id="cb42-31"><a href="chapter8.html#cb42-31"></a>    (n_<span class="dv">1-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>(n_<span class="dv">2-1</span>) <span class="op">*</span><span class="st"> </span>sigma_<span class="dv">2</span></span>
+<span id="cb42-32"><a href="chapter8.html#cb42-32"></a>    )</span>
+<span id="cb42-33"><a href="chapter8.html#cb42-33"></a>  </span>
+<span id="cb42-34"><a href="chapter8.html#cb42-34"></a>  sigma_population_inverse &lt;-<span class="st"> </span><span class="kw">solve</span>(sigma_population)</span>
+<span id="cb42-35"><a href="chapter8.html#cb42-35"></a>  a &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(sigma_population_inverse<span class="op">%*%</span>(y_mean_<span class="dv">1</span><span class="op">-</span>y_mean_<span class="dv">2</span>))</span>
+<span id="cb42-36"><a href="chapter8.html#cb42-36"></a>  <span class="kw">print</span>(</span>
+<span id="cb42-37"><a href="chapter8.html#cb42-37"></a>      <span class="st">&quot;The discriminant coeficient vector is: &quot;</span></span>
+<span id="cb42-38"><a href="chapter8.html#cb42-38"></a>      )</span>
+<span id="cb42-39"><a href="chapter8.html#cb42-39"></a>  <span class="kw">print</span>(<span class="kw">round</span>(a, <span class="dv">4</span>))</span>
+<span id="cb42-40"><a href="chapter8.html#cb42-40"></a>}</span>
+<span id="cb42-41"><a href="chapter8.html#cb42-41"></a></span>
+<span id="cb42-42"><a href="chapter8.html#cb42-42"></a>a&lt;-<span class="kw">discriminant_function</span>(data542_female, data542_male)</span></code></pre></div>
 <pre><code>## [1] &quot;The discriminant coeficient vector is: &quot;
 ##         [,1]
 ## y_1f -0.5104
@@ -1084,19 +1147,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote>
 <p>b</p>
 </blockquote>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="chapter8.html#cb32-1"></a>regression_coefficientes &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2, a, T2) {</span>
-<span id="cb32-2"><a href="chapter8.html#cb32-2"></a>  <span class="st">&quot;</span></span>
-<span id="cb32-3"><a href="chapter8.html#cb32-3"></a></span>
-<span id="cb32-4"><a href="chapter8.html#cb32-4"></a><span class="st">  &quot;</span></span>
-<span id="cb32-5"><a href="chapter8.html#cb32-5"></a>  n_<span class="dv">1</span>=<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
-<span id="cb32-6"><a href="chapter8.html#cb32-6"></a>  n_<span class="dv">2</span>=<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
-<span id="cb32-7"><a href="chapter8.html#cb32-7"></a>  b &lt;-<span class="st"> </span><span class="kw">as.double</span>((n_<span class="dv">1</span><span class="op">*</span>n_<span class="dv">2</span>)<span class="op">/</span>((n_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>n_<span class="dv">2</span>)<span class="op">*</span>(n_<span class="dv">1</span><span class="op">+</span><span class="st"> </span>n_<span class="dv">2-2</span><span class="op">+</span>T2)))<span class="op">*</span>a</span>
-<span id="cb32-8"><a href="chapter8.html#cb32-8"></a></span>
-<span id="cb32-9"><a href="chapter8.html#cb32-9"></a>  <span class="co">#b &lt;- as.matrix((n_1* n_2/((n_1 + n_2)%*%(n_1+ n_2-2+T2)))*a)</span></span>
-<span id="cb32-10"><a href="chapter8.html#cb32-10"></a>  <span class="kw">print</span>(<span class="st">&quot;The vector of regression coefficientes is:&quot;</span>)</span>
-<span id="cb32-11"><a href="chapter8.html#cb32-11"></a>  <span class="kw">print</span>(b)</span>
-<span id="cb32-12"><a href="chapter8.html#cb32-12"></a>}</span>
-<span id="cb32-13"><a href="chapter8.html#cb32-13"></a><span class="kw">regression_coefficientes</span>(data542_female, data542_male,a,T2)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapter8.html#cb44-1"></a>regression_coefficientes &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2, a, T2) {</span>
+<span id="cb44-2"><a href="chapter8.html#cb44-2"></a>  <span class="st">&quot;</span></span>
+<span id="cb44-3"><a href="chapter8.html#cb44-3"></a></span>
+<span id="cb44-4"><a href="chapter8.html#cb44-4"></a><span class="st">  &quot;</span></span>
+<span id="cb44-5"><a href="chapter8.html#cb44-5"></a>  n_<span class="dv">1</span>=<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
+<span id="cb44-6"><a href="chapter8.html#cb44-6"></a>  n_<span class="dv">2</span>=<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
+<span id="cb44-7"><a href="chapter8.html#cb44-7"></a>  b &lt;-<span class="st"> </span><span class="kw">as.double</span>((n_<span class="dv">1</span><span class="op">*</span>n_<span class="dv">2</span>)<span class="op">/</span>((n_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>n_<span class="dv">2</span>)<span class="op">*</span>(n_<span class="dv">1</span><span class="op">+</span><span class="st"> </span>n_<span class="dv">2-2</span><span class="op">+</span>T2)))<span class="op">*</span>a</span>
+<span id="cb44-8"><a href="chapter8.html#cb44-8"></a></span>
+<span id="cb44-9"><a href="chapter8.html#cb44-9"></a>  <span class="co">#b &lt;- as.matrix((n_1* n_2/((n_1 + n_2)%*%(n_1+ n_2-2+T2)))*a)</span></span>
+<span id="cb44-10"><a href="chapter8.html#cb44-10"></a>  <span class="kw">print</span>(<span class="st">&quot;The vector of regression coefficientes is:&quot;</span>)</span>
+<span id="cb44-11"><a href="chapter8.html#cb44-11"></a>  <span class="kw">print</span>(b)</span>
+<span id="cb44-12"><a href="chapter8.html#cb44-12"></a>}</span>
+<span id="cb44-13"><a href="chapter8.html#cb44-13"></a><span class="kw">regression_coefficientes</span>(data542_female, data542_male,a,T2)</span></code></pre></div>
 <pre><code>## [1] &quot;The vector of regression coefficientes is:&quot;
 ##             [,1]
 ## y_1f -0.05116744
@@ -1106,40 +1169,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <blockquote>
 <p>R2</p>
 </blockquote>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="chapter8.html#cb34-1"></a>r2 &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2,T2) {</span>
-<span id="cb34-2"><a href="chapter8.html#cb34-2"></a>  <span class="st">&quot;</span></span>
-<span id="cb34-3"><a href="chapter8.html#cb34-3"></a><span class="st">  Function to obtain the squared multiple correlation R2</span></span>
-<span id="cb34-4"><a href="chapter8.html#cb34-4"></a><span class="st">  &quot;</span></span>
-<span id="cb34-5"><a href="chapter8.html#cb34-5"></a>  n_<span class="dv">1</span>=<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
-<span id="cb34-6"><a href="chapter8.html#cb34-6"></a>  n_<span class="dv">2</span>=<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
-<span id="cb34-7"><a href="chapter8.html#cb34-7"></a>  r2 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">as.double</span>(T2<span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2-2</span><span class="op">+</span>T2)),<span class="dv">4</span>)</span>
-<span id="cb34-8"><a href="chapter8.html#cb34-8"></a>  <span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The squared multiple correlation (R2) is: &quot;</span>, r2))</span>
-<span id="cb34-9"><a href="chapter8.html#cb34-9"></a>}</span>
-<span id="cb34-10"><a href="chapter8.html#cb34-10"></a><span class="kw">r2</span>(data542_female, data542_male, T2)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="chapter8.html#cb46-1"></a>r2 &lt;-<span class="st"> </span><span class="cf">function</span>(data1, data2,T2) {</span>
+<span id="cb46-2"><a href="chapter8.html#cb46-2"></a>  <span class="st">&quot;</span></span>
+<span id="cb46-3"><a href="chapter8.html#cb46-3"></a><span class="st">  Function to obtain the squared multiple correlation R2</span></span>
+<span id="cb46-4"><a href="chapter8.html#cb46-4"></a><span class="st">  &quot;</span></span>
+<span id="cb46-5"><a href="chapter8.html#cb46-5"></a>  n_<span class="dv">1</span>=<span class="st"> </span><span class="kw">nrow</span>(data1)</span>
+<span id="cb46-6"><a href="chapter8.html#cb46-6"></a>  n_<span class="dv">2</span>=<span class="st"> </span><span class="kw">nrow</span>(data2)</span>
+<span id="cb46-7"><a href="chapter8.html#cb46-7"></a>  r2 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">as.double</span>(T2<span class="op">/</span>(n_<span class="dv">1</span><span class="op">+</span>n_<span class="dv">2-2</span><span class="op">+</span>T2)),<span class="dv">4</span>)</span>
+<span id="cb46-8"><a href="chapter8.html#cb46-8"></a>  <span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The squared multiple correlation (R2) is: &quot;</span>, r2))</span>
+<span id="cb46-9"><a href="chapter8.html#cb46-9"></a>}</span>
+<span id="cb46-10"><a href="chapter8.html#cb46-10"></a><span class="kw">r2</span>(data542_female, data542_male, T2)</span></code></pre></div>
 <pre><code>## [1] &quot;The squared multiple correlation (R2) is: 0.6115&quot;</code></pre>
 </div>
 </div>
 <div id="discriminant-analysis-for-several-groups" class="section level2" number="8.4">
 <h2><span class="header-section-number">8.4</span> Discriminant Analysis For Several Groups</h2>
+<p>“In discriminant analysis for several groups, we are concerned with finding linear combinations of variables that best separate the k groups of multivariate observations. Discriminant analysis for several groups may serve any one of various pur- poses:
+1. Examine group separation in a two-dimensional plot. When there are more than two groups, it requires more than one discriminant function to describe group separation. If the points in the p-dimensional space are projected onto a 2-dimensional space represented by the first t”wo discriminant functions, we obtain the best possible view of how the groups are separated.
+2. Find a subset of the original variables that separates the groups almost as well as the original set. This topic was introduced in Section 6.11.2.
+3. Rank the variables in terms of their relative contribution to group separation. This use for discriminant functions has been mentioned in Sections 5.5, 6.1.4, 6.1.8, and 6.4. In Section 8.5, we discuss standardized discriminant function coefficients that provide a more valid comparison of the variables.
+4. Interpret the new dimensions represented by the discriminant functions.
+5. Follow up to fixed-effects MANOVA."</p>
 <div id="example-8.4.1." class="section level3" number="8.4.1">
 <h3><span class="header-section-number">8.4.1</span> Example 8.4.1.</h3>
 <p>The data in <em>Table 8.3</em> were collected by G.R.Bryce and R. M. Baker as part of a preliminary study of possible link between football helmet design and neck injuries.</p>
 <p>Six head measurements were made on the subject. There were 30 subjects in each of the three groups: high school football players (group 1), college football playes (group 2); and nonfootball players(group 3). The six variables are:</p>
 <p><span class="math display">\[ wdim = \textit{head width at widest dimension}\]</span>
-<span class="math display">\[ circum = \textit{head circumference}\]</span>
-<span class="math display">\[fbeye = \textit{front-to-back measurements at eye level}\]</span></p>
-<p><span class="math display">\[eyehd = \textit{eye-to-top-of-head measurements}\]</span>
-<span class="math display">\[earhd = \textit{ear-to-top-of-head measurements}\]</span>
-<span class="math display">\[jaw = \textit{jaw width}\]</span></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="chapter8.html#cb36-1"></a>footballHeads &lt;-<span class="kw">read.table</span>(<span class="st">&quot;T8_3_FOOTBALL.DAT&quot;</span>)</span>
-<span id="cb36-2"><a href="chapter8.html#cb36-2"></a><span class="kw">names</span>(footballHeads) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&quot;wdim&quot;</span>, <span class="st">&quot;circum&quot;</span>, <span class="st">&quot;fbeye&quot;</span>, <span class="st">&quot;eyehd&quot;</span>, <span class="st">&quot;earhd&quot;</span>, <span class="st">&quot;jaw&quot;</span>)</span>
-<span id="cb36-3"><a href="chapter8.html#cb36-3"></a>footballHeads[, <span class="st">&#39;group&#39;</span>] &lt;-<span class="st"> </span><span class="kw">as.factor</span>(footballHeads[, <span class="st">&#39;group&#39;</span>])</span></code></pre></div>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="chapter8.html#cb37-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
-<span id="cb37-2"><a href="chapter8.html#cb37-2"></a>  footballHeads, <span class="dt">caption =</span> <span class="st">&#39;Football Heads&#39;</span>,</span>
-<span id="cb37-3"><a href="chapter8.html#cb37-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
-<span id="cb37-4"><a href="chapter8.html#cb37-4"></a>)</span></code></pre></div>
+<span class="math display">\[ circum = \textit{head circumference}\]</span></p>
+<p><span class="math display">\[fbeye = \textit{front-to-back measurements at eye level}\]</span></p>
+<p><span class="math display">\[eyehd = \textit{eye-to-top-of-head measurements}\]</span></p>
+<p><span class="math display">\[earhd = \textit{ear-to-top-of-head measurements}\]</span></p>
+<p><span class="math display">\[jaw = \textit{jaw width}\]</span></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="chapter8.html#cb48-1"></a>footballHeads &lt;-<span class="kw">read.table</span>(<span class="st">&quot;T8_3_FOOTBALL.DAT&quot;</span>)</span>
+<span id="cb48-2"><a href="chapter8.html#cb48-2"></a><span class="kw">names</span>(footballHeads) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&quot;wdim&quot;</span>, <span class="st">&quot;circum&quot;</span>, <span class="st">&quot;fbeye&quot;</span>, <span class="st">&quot;eyehd&quot;</span>, <span class="st">&quot;earhd&quot;</span>, <span class="st">&quot;jaw&quot;</span>)</span>
+<span id="cb48-3"><a href="chapter8.html#cb48-3"></a>footballHeads[, <span class="st">&#39;group&#39;</span>] &lt;-<span class="st"> </span><span class="kw">as.factor</span>(footballHeads[, <span class="st">&#39;group&#39;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="chapter8.html#cb49-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb49-2"><a href="chapter8.html#cb49-2"></a>  footballHeads, <span class="dt">caption =</span> <span class="st">&#39;Football Heads&#39;</span>,</span>
+<span id="cb49-3"><a href="chapter8.html#cb49-3"></a>  <span class="dt">booktabs =</span> <span class="ot">TRUE</span></span>
+<span id="cb49-4"><a href="chapter8.html#cb49-4"></a>)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-22">Table 8.5: </span>Football Heads</caption>
+<caption><span id="tab:unnamed-chunk-28">Table 8.5: </span>Football Heads</caption>
 <thead>
 <tr class="header">
 <th align="left">group</th>
@@ -1965,62 +2034,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>The eigen values of <span class="math inline">\(E^-1H\)</span> are:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="chapter8.html#cb38-1"></a>data_group &lt;-<span class="st"> </span><span class="kw">split</span>(footballHeads</span>
-<span id="cb38-2"><a href="chapter8.html#cb38-2"></a>[,<span class="dv">2</span><span class="op">:</span><span class="dv">7</span>], footballHeads<span class="op">$</span>group)</span></code></pre></div>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="chapter8.html#cb39-1"></a>data_means &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">sapply</span>(data_group, <span class="cf">function</span>(x) {</span>
-<span id="cb39-2"><a href="chapter8.html#cb39-2"></a>  <span class="kw">apply</span>(x, <span class="dv">2</span>, mean)</span>
-<span id="cb39-3"><a href="chapter8.html#cb39-3"></a>}, <span class="dt">simplify =</span> <span class="st">&#39;data.frame&#39;</span>),<span class="dv">2</span>)</span>
-<span id="cb39-4"><a href="chapter8.html#cb39-4"></a></span>
-<span id="cb39-5"><a href="chapter8.html#cb39-5"></a>data_means</span></code></pre></div>
-<pre><code>##            1     2     3
-## wdim   15.20 15.42 15.58
-## circum 58.94 57.38 57.77
-## fbeye  20.11 19.80 19.81
-## eyehd  13.08 10.08 10.95
-## earhd  14.73 13.45 13.70
-## jaw    12.27 11.94 11.80</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="chapter8.html#cb41-1"></a>total_means &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">colMeans</span>(footballHeads[,<span class="dv">2</span><span class="op">:</span><span class="dv">7</span>]),<span class="dv">2</span>)</span>
-<span id="cb41-2"><a href="chapter8.html#cb41-2"></a>total_means</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="chapter8.html#cb50-1"></a>data_group &lt;-<span class="st"> </span><span class="kw">split</span>(footballHeads</span>
+<span id="cb50-2"><a href="chapter8.html#cb50-2"></a>[,<span class="dv">2</span><span class="op">:</span><span class="dv">7</span>], footballHeads<span class="op">$</span>group)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="chapter8.html#cb51-1"></a>data_means &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">sapply</span>(data_group, <span class="cf">function</span>(x) {<span class="kw">apply</span>(x, <span class="dv">2</span>, mean)}, <span class="dt">simplify =</span> <span class="st">&#39;data.frame&#39;</span>), <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="chapter8.html#cb52-1"></a>total_means &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">colMeans</span>(footballHeads[,<span class="dv">2</span><span class="op">:</span><span class="dv">7</span>]),<span class="dv">2</span>)</span>
+<span id="cb52-2"><a href="chapter8.html#cb52-2"></a>total_means</span></code></pre></div>
 <pre><code>##   wdim circum  fbeye  eyehd  earhd    jaw 
 ##  15.40  58.03  19.91  11.37  13.96  12.00</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="chapter8.html#cb43-1"></a>n &lt;-<span class="st"> </span><span class="kw">dim</span>(footballHeads)[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(footballHeads<span class="op">$</span>group))</span>
-<span id="cb43-2"><a href="chapter8.html#cb43-2"></a>n</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter8.html#cb54-1"></a>n &lt;-<span class="st"> </span><span class="kw">dim</span>(footballHeads)[<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(footballHeads<span class="op">$</span>group))</span>
+<span id="cb54-2"><a href="chapter8.html#cb54-2"></a>n</span></code></pre></div>
 <pre><code>## [1] 30</code></pre>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="chapter8.html#cb45-1"></a><span class="co"># Nrow: number of dependent variables</span></span>
-<span id="cb45-2"><a href="chapter8.html#cb45-2"></a><span class="co"># Ncol: number of dependent variables</span></span>
-<span id="cb45-3"><a href="chapter8.html#cb45-3"></a></span>
-<span id="cb45-4"><a href="chapter8.html#cb45-4"></a><span class="co"># H Matrix</span></span>
-<span id="cb45-5"><a href="chapter8.html#cb45-5"></a>H =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> (<span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span>), <span class="dt">ncol =</span>(<span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span>))</span>
-<span id="cb45-6"><a href="chapter8.html#cb45-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(H)[<span class="dv">1</span>]) {</span>
-<span id="cb45-7"><a href="chapter8.html#cb45-7"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
-<span id="cb45-8"><a href="chapter8.html#cb45-8"></a>    H[i,j] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]) <span class="op">*</span><span class="st"> </span>(data_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]))</span>
-<span id="cb45-9"><a href="chapter8.html#cb45-9"></a>    H[j,i] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]) <span class="op">*</span><span class="st"> </span>(data_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]))</span>
-<span id="cb45-10"><a href="chapter8.html#cb45-10"></a>  }</span>
-<span id="cb45-11"><a href="chapter8.html#cb45-11"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="chapter8.html#cb46-1"></a><span class="co"># E Matrix</span></span>
-<span id="cb46-2"><a href="chapter8.html#cb46-2"></a>E =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> (<span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span>), <span class="dt">ncol =</span>(<span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span>))</span>
-<span id="cb46-3"><a href="chapter8.html#cb46-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(E)[<span class="dv">1</span>]) {</span>
-<span id="cb46-4"><a href="chapter8.html#cb46-4"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
-<span id="cb46-5"><a href="chapter8.html#cb46-5"></a>    b &lt;-<span class="st"> </span><span class="kw">c</span>() </span>
-<span id="cb46-6"><a href="chapter8.html#cb46-6"></a>    <span class="cf">for</span> (k <span class="cf">in</span> data_group) {</span>
-<span id="cb46-7"><a href="chapter8.html#cb46-7"></a>      a &lt;-<span class="st"> </span><span class="kw">sum</span>((k[,i] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,i])) <span class="op">*</span><span class="st"> </span>(k[,j] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,j])))</span>
-<span id="cb46-8"><a href="chapter8.html#cb46-8"></a>      b &lt;-<span class="st"> </span><span class="kw">append</span>(b, a)</span>
-<span id="cb46-9"><a href="chapter8.html#cb46-9"></a>    }</span>
-<span id="cb46-10"><a href="chapter8.html#cb46-10"></a>    E[i,j] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
-<span id="cb46-11"><a href="chapter8.html#cb46-11"></a>    E[j,i] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
-<span id="cb46-12"><a href="chapter8.html#cb46-12"></a>  }</span>
-<span id="cb46-13"><a href="chapter8.html#cb46-13"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="chapter8.html#cb47-1"></a>E &lt;-<span class="st"> </span><span class="kw">round</span>(E,<span class="dv">4</span>)</span>
-<span id="cb47-2"><a href="chapter8.html#cb47-2"></a>E</span></code></pre></div>
-<pre><code>##         [,1]     [,2]    [,3]     [,4]    [,5]    [,6]
-## [1,] 37.2560  50.2812 13.7390   7.2900 10.8360 19.8360
-## [2,] 50.2812 275.0151 88.7378  56.7853 29.5855 43.9434
-## [3,] 13.7390  88.7378 47.4971   6.6822 11.1873 13.8430
-## [4,]  7.2900  56.7853  6.6822 107.2243 27.3833  3.6947
-## [5,] 10.8360  29.5855 11.1873  27.3833 53.7710  0.7943
-## [6,] 19.8360  43.9434 13.8430   3.6947  0.7943 32.6700</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="chapter8.html#cb49-1"></a><span class="co">#H &lt;- round(H, 2)</span></span>
-<span id="cb49-2"><a href="chapter8.html#cb49-2"></a>H</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter8.html#cb56-1"></a><span class="co"># Nrow: number of dependent variables</span></span>
+<span id="cb56-2"><a href="chapter8.html#cb56-2"></a><span class="co"># Ncol: number of dependent variables</span></span>
+<span id="cb56-3"><a href="chapter8.html#cb56-3"></a></span>
+<span id="cb56-4"><a href="chapter8.html#cb56-4"></a><span class="co"># H Matrix</span></span>
+<span id="cb56-5"><a href="chapter8.html#cb56-5"></a>H =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> (<span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span>), <span class="dt">ncol =</span>(<span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb56-6"><a href="chapter8.html#cb56-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(H)[<span class="dv">1</span>]) {</span>
+<span id="cb56-7"><a href="chapter8.html#cb56-7"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb56-8"><a href="chapter8.html#cb56-8"></a>    H[i,j] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]) <span class="op">*</span><span class="st"> </span>(data_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]))</span>
+<span id="cb56-9"><a href="chapter8.html#cb56-9"></a>    H[j,i] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]) <span class="op">*</span><span class="st"> </span>(data_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]))</span>
+<span id="cb56-10"><a href="chapter8.html#cb56-10"></a>  }</span>
+<span id="cb56-11"><a href="chapter8.html#cb56-11"></a>}</span>
+<span id="cb56-12"><a href="chapter8.html#cb56-12"></a><span class="kw">print</span>(H)</span></code></pre></div>
 <pre><code>##         [,1]   [,2]   [,3]    [,4]   [,5]   [,6]
 ## [1,]   2.184 -7.254 -1.806 -13.302 -6.330 -2.736
 ## [2,]  -7.254 39.546  8.385  75.114 32.994 10.101
@@ -2028,20 +2063,140 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [4,] -13.302 75.114 15.777 142.938 62.514 18.693
 ## [5,]  -6.330 32.994  7.083  62.514 27.618  8.715
 ## [6,]  -2.736 10.101  2.418  18.693  8.715  3.495</code></pre>
+<p>Doing a function for calculating <span class="math inline">\(H\)</span> matrix</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="chapter8.html#cb58-1"></a>cal_H_mat &lt;-<span class="st"> </span><span class="cf">function</span>(grouped_data, groupcol){</span>
+<span id="cb58-2"><a href="chapter8.html#cb58-2"></a>  <span class="st">&quot;</span></span>
+<span id="cb58-3"><a href="chapter8.html#cb58-3"></a><span class="st">  Computes H (see 6.1): </span></span>
+<span id="cb58-4"><a href="chapter8.html#cb58-4"></a><span class="st">  Must have the grouped database, and a column which specifices the groups</span></span>
+<span id="cb58-5"><a href="chapter8.html#cb58-5"></a><span class="st">  groupcol: column specifing the group </span></span>
+<span id="cb58-6"><a href="chapter8.html#cb58-6"></a><span class="st">  &quot;</span></span>
+<span id="cb58-7"><a href="chapter8.html#cb58-7"></a>    <span class="co"># assuming that the group variable is the first</span></span>
+<span id="cb58-8"><a href="chapter8.html#cb58-8"></a>    ungrouped_data &lt;-<span class="st"> </span><span class="kw">split</span>(grouped_data[,<span class="dv">2</span><span class="op">:</span><span class="kw">ncol</span>(grouped_data)], grouped_data<span class="op">$</span><span class="st">&quot;group&quot;</span>) </span>
+<span id="cb58-9"><a href="chapter8.html#cb58-9"></a>    <span class="co"># calculates the mean by group</span></span>
+<span id="cb58-10"><a href="chapter8.html#cb58-10"></a>    data_means &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">sapply</span>(ungrouped_data, <span class="cf">function</span>(x) {<span class="kw">apply</span>(x, <span class="dv">2</span>, mean)}, <span class="dt">simplify =</span> <span class="st">&#39;data.frame&#39;</span>), <span class="dv">2</span>)</span>
+<span id="cb58-11"><a href="chapter8.html#cb58-11"></a>    <span class="co"># calculate total means by column</span></span>
+<span id="cb58-12"><a href="chapter8.html#cb58-12"></a>    total_means &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">colMeans</span>(grouped_data[,<span class="dv">2</span><span class="op">:</span><span class="kw">ncol</span>(grouped_data)]),<span class="dv">2</span>)</span>
+<span id="cb58-13"><a href="chapter8.html#cb58-13"></a>    </span>
+<span id="cb58-14"><a href="chapter8.html#cb58-14"></a>    <span class="co"># generates empty matrix</span></span>
+<span id="cb58-15"><a href="chapter8.html#cb58-15"></a>    H_dim =<span class="st"> </span><span class="kw">ncol</span>(<span class="kw">as.data.frame</span>(grouped_data)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span> </span>
+<span id="cb58-16"><a href="chapter8.html#cb58-16"></a>    H =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> H_dim, <span class="dt">ncol =</span> H_dim)</span>
+<span id="cb58-17"><a href="chapter8.html#cb58-17"></a>    <span class="co"># populate the matrix</span></span>
+<span id="cb58-18"><a href="chapter8.html#cb58-18"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(H)[<span class="dv">1</span>]) {</span>
+<span id="cb58-19"><a href="chapter8.html#cb58-19"></a>      <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb58-20"><a href="chapter8.html#cb58-20"></a>        H[i,j] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]) <span class="op">*</span><span class="st"> </span>(data_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]))</span>
+<span id="cb58-21"><a href="chapter8.html#cb58-21"></a>        H[j,i] &lt;-<span class="st"> </span>n <span class="op">*</span><span class="st"> </span><span class="kw">sum</span>((data_means[j,] <span class="op">-</span><span class="st"> </span>total_means[j]) <span class="op">*</span><span class="st"> </span>(data_means[i,] <span class="op">-</span><span class="st"> </span>total_means[i]))</span>
+<span id="cb58-22"><a href="chapter8.html#cb58-22"></a>    }</span>
+<span id="cb58-23"><a href="chapter8.html#cb58-23"></a>    }</span>
+<span id="cb58-24"><a href="chapter8.html#cb58-24"></a>    </span>
+<span id="cb58-25"><a href="chapter8.html#cb58-25"></a>  H_mat &lt;-<span class="st"> </span><span class="kw">round</span>(H, <span class="dv">4</span>)</span>
+<span id="cb58-26"><a href="chapter8.html#cb58-26"></a>  <span class="kw">print</span>(H_mat)</span>
+<span id="cb58-27"><a href="chapter8.html#cb58-27"></a>}</span></code></pre></div>
+<p>Testing the function</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="chapter8.html#cb59-1"></a><span class="kw">cal_H_mat</span>(footballHeads, <span class="st">&quot;group&quot;</span>)</span></code></pre></div>
+<pre><code>##         [,1]   [,2]   [,3]    [,4]   [,5]   [,6]
+## [1,]   2.184 -7.254 -1.806 -13.302 -6.330 -2.736
+## [2,]  -7.254 39.546  8.385  75.114 32.994 10.101
+## [3,]  -1.806  8.385  1.863  15.777  7.083  2.418
+## [4,] -13.302 75.114 15.777 142.938 62.514 18.693
+## [5,]  -6.330 32.994  7.083  62.514 27.618  8.715
+## [6,]  -2.736 10.101  2.418  18.693  8.715  3.495</code></pre>
+<p>Calculating <span class="math inline">\(E\)</span> matrix</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="chapter8.html#cb61-1"></a><span class="co"># E Matrix</span></span>
+<span id="cb61-2"><a href="chapter8.html#cb61-2"></a>E =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> (<span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span>), <span class="dt">ncol =</span>(<span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb61-3"><a href="chapter8.html#cb61-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(E)[<span class="dv">1</span>]) {</span>
+<span id="cb61-4"><a href="chapter8.html#cb61-4"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb61-5"><a href="chapter8.html#cb61-5"></a>    b &lt;-<span class="st"> </span><span class="kw">c</span>() </span>
+<span id="cb61-6"><a href="chapter8.html#cb61-6"></a>    <span class="cf">for</span> (k <span class="cf">in</span> data_group) {</span>
+<span id="cb61-7"><a href="chapter8.html#cb61-7"></a>      a &lt;-<span class="st"> </span><span class="kw">sum</span>((k[,i] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,i])) <span class="op">*</span><span class="st"> </span>(k[,j] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,j])))</span>
+<span id="cb61-8"><a href="chapter8.html#cb61-8"></a>      b &lt;-<span class="st"> </span><span class="kw">append</span>(b, a)</span>
+<span id="cb61-9"><a href="chapter8.html#cb61-9"></a>    }</span>
+<span id="cb61-10"><a href="chapter8.html#cb61-10"></a>    E[i,j] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
+<span id="cb61-11"><a href="chapter8.html#cb61-11"></a>    E[j,i] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
+<span id="cb61-12"><a href="chapter8.html#cb61-12"></a>  }</span>
+<span id="cb61-13"><a href="chapter8.html#cb61-13"></a>}</span>
+<span id="cb61-14"><a href="chapter8.html#cb61-14"></a></span>
+<span id="cb61-15"><a href="chapter8.html#cb61-15"></a>E &lt;-<span class="st"> </span><span class="kw">round</span>(E,<span class="dv">4</span>)</span>
+<span id="cb61-16"><a href="chapter8.html#cb61-16"></a>E</span></code></pre></div>
+<pre><code>##         [,1]     [,2]    [,3]     [,4]    [,5]    [,6]
+## [1,] 37.2560  50.2812 13.7390   7.2900 10.8360 19.8360
+## [2,] 50.2812 275.0151 88.7378  56.7853 29.5855 43.9434
+## [3,] 13.7390  88.7378 47.4971   6.6822 11.1873 13.8430
+## [4,]  7.2900  56.7853  6.6822 107.2243 27.3833  3.6947
+## [5,] 10.8360  29.5855 11.1873  27.3833 53.7710  0.7943
+## [6,] 19.8360  43.9434 13.8430   3.6947  0.7943 32.6700</code></pre>
+<p>Doing a function for calculating <span class="math inline">\(E\)</span> matrix</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="chapter8.html#cb63-1"></a>cal_E_mat &lt;-<span class="st"> </span><span class="cf">function</span>(grouped_data, groupcol){</span>
+<span id="cb63-2"><a href="chapter8.html#cb63-2"></a>  <span class="st">&quot;</span></span>
+<span id="cb63-3"><a href="chapter8.html#cb63-3"></a><span class="st">  Computes E (see 6.12): </span></span>
+<span id="cb63-4"><a href="chapter8.html#cb63-4"></a><span class="st">  Must have the grouped database, and a column which specifices the groups</span></span>
+<span id="cb63-5"><a href="chapter8.html#cb63-5"></a><span class="st">  groupcol: column specifing the group </span></span>
+<span id="cb63-6"><a href="chapter8.html#cb63-6"></a><span class="st">  &quot;</span> </span>
+<span id="cb63-7"><a href="chapter8.html#cb63-7"></a>    <span class="co"># assuming that the group variable is the first</span></span>
+<span id="cb63-8"><a href="chapter8.html#cb63-8"></a>    ungrouped_data &lt;-<span class="st"> </span><span class="kw">split</span>(grouped_data[,<span class="dv">2</span><span class="op">:</span><span class="kw">ncol</span>(grouped_data)], grouped_data<span class="op">$</span><span class="st">&quot;group&quot;</span>) </span>
+<span id="cb63-9"><a href="chapter8.html#cb63-9"></a>    </span>
+<span id="cb63-10"><a href="chapter8.html#cb63-10"></a>    H_dim =<span class="st"> </span><span class="kw">ncol</span>(<span class="kw">as.data.frame</span>(grouped_data)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span> </span>
+<span id="cb63-11"><a href="chapter8.html#cb63-11"></a></span>
+<span id="cb63-12"><a href="chapter8.html#cb63-12"></a>    <span class="co"># generates empty matrix</span></span>
+<span id="cb63-13"><a href="chapter8.html#cb63-13"></a>    E_dim =<span class="st"> </span><span class="kw">ncol</span>(<span class="kw">as.data.frame</span>(grouped_data)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span> </span>
+<span id="cb63-14"><a href="chapter8.html#cb63-14"></a>    E =<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">data =</span> <span class="dv">0</span>, <span class="dt">nrow =</span> H_dim, <span class="dt">ncol =</span> H_dim)</span>
+<span id="cb63-15"><a href="chapter8.html#cb63-15"></a>    <span class="co"># populate the matrix</span></span>
+<span id="cb63-16"><a href="chapter8.html#cb63-16"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(E)[<span class="dv">1</span>]) {</span>
+<span id="cb63-17"><a href="chapter8.html#cb63-17"></a>     <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>i) {</span>
+<span id="cb63-18"><a href="chapter8.html#cb63-18"></a>        b &lt;-<span class="st"> </span><span class="kw">c</span>() </span>
+<span id="cb63-19"><a href="chapter8.html#cb63-19"></a>          <span class="cf">for</span> (k <span class="cf">in</span> ungrouped_data) {</span>
+<span id="cb63-20"><a href="chapter8.html#cb63-20"></a>            a &lt;-<span class="st"> </span><span class="kw">sum</span>((k[,i] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,i])) <span class="op">*</span><span class="st"> </span>(k[,j] <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(k[,j])))</span>
+<span id="cb63-21"><a href="chapter8.html#cb63-21"></a>            b &lt;-<span class="st"> </span><span class="kw">append</span>(b, a)</span>
+<span id="cb63-22"><a href="chapter8.html#cb63-22"></a>          }</span>
+<span id="cb63-23"><a href="chapter8.html#cb63-23"></a>      E[i,j] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
+<span id="cb63-24"><a href="chapter8.html#cb63-24"></a>      E[j,i] &lt;-<span class="st"> </span><span class="kw">sum</span>(b)</span>
+<span id="cb63-25"><a href="chapter8.html#cb63-25"></a>      }</span>
+<span id="cb63-26"><a href="chapter8.html#cb63-26"></a>    }</span>
+<span id="cb63-27"><a href="chapter8.html#cb63-27"></a>    </span>
+<span id="cb63-28"><a href="chapter8.html#cb63-28"></a>  E_mat &lt;-<span class="st"> </span><span class="kw">round</span>(E, <span class="dv">4</span>)</span>
+<span id="cb63-29"><a href="chapter8.html#cb63-29"></a>  </span>
+<span id="cb63-30"><a href="chapter8.html#cb63-30"></a>}</span>
+<span id="cb63-31"><a href="chapter8.html#cb63-31"></a><span class="co"># Testing the function</span></span>
+<span id="cb63-32"><a href="chapter8.html#cb63-32"></a><span class="kw">print</span>(<span class="kw">cal_E_mat</span>(footballHeads, <span class="st">&quot;group&quot;</span>))</span></code></pre></div>
+<pre><code>##         [,1]     [,2]    [,3]     [,4]    [,5]    [,6]
+## [1,] 37.2560  50.2812 13.7390   7.2900 10.8360 19.8360
+## [2,] 50.2812 275.0151 88.7378  56.7853 29.5855 43.9434
+## [3,] 13.7390  88.7378 47.4971   6.6822 11.1873 13.8430
+## [4,]  7.2900  56.7853  6.6822 107.2243 27.3833  3.6947
+## [5,] 10.8360  29.5855 11.1873  27.3833 53.7710  0.7943
+## [6,] 19.8360  43.9434 13.8430   3.6947  0.7943 32.6700</code></pre>
 <p>Then the two eigenvalues are:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="chapter8.html#cb51-1"></a>EH&lt;-<span class="kw">solve</span>(E)<span class="op">%*%</span>H</span>
-<span id="cb51-2"><a href="chapter8.html#cb51-2"></a><span class="kw">round</span>(<span class="kw">eigen</span>(EH)<span class="op">$</span>values,<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="chapter8.html#cb65-1"></a>EH&lt;-<span class="kw">solve</span>(E)<span class="op">%*%</span>H</span>
+<span id="cb65-2"><a href="chapter8.html#cb65-2"></a><span class="kw">round</span>(<span class="kw">eigen</span>(EH)<span class="op">$</span>values,<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 1.919 0.116 0.000 0.000 0.000 0.000</code></pre>
 <p><span class="math display">\[\lambda_1=1.919\]</span>
 <span class="math display">\[\lambda_2=0.116\]</span></p>
+<p>Function for calculating the eigenvalues <span class="math inline">\(\lambda\)</span>:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="chapter8.html#cb67-1"></a>calc_lambdas &lt;-<span class="st"> </span><span class="cf">function</span>(E_mat, H_mat){</span>
+<span id="cb67-2"><a href="chapter8.html#cb67-2"></a>  eig_values &lt;-<span class="st"> </span><span class="kw">solve</span>(E_mat)<span class="op">%*%</span>H_mat</span>
+<span id="cb67-3"><a href="chapter8.html#cb67-3"></a>  <span class="kw">round</span>(<span class="kw">eigen</span>(eig_values)<span class="op">$</span>values,<span class="dv">3</span>)</span>
+<span id="cb67-4"><a href="chapter8.html#cb67-4"></a>}</span>
+<span id="cb67-5"><a href="chapter8.html#cb67-5"></a><span class="co"># Testing the function</span></span>
+<span id="cb67-6"><a href="chapter8.html#cb67-6"></a><span class="kw">print</span>(<span class="kw">calc_lambdas</span>(E, H))</span></code></pre></div>
+<pre><code>## [1] 1.919 0.116 0.000 0.000 0.000 0.000</code></pre>
+<p><strong>Computing the eigenvectors</strong>
+The matrix E _ 1 H is not symmetric. Many algorithms for computation of eigen- values and eigenvectors accept only symmetric matrices. In Section 6.1.4, it was shown that the eigenvalues of the symmetric matrix ( U _ 1 ) ’ H U ~ are the same as those of E_ 1 H, where E = U’U is the Cholesky factorization of E. However, an adjustment is needed for the eigenvectors. If b is an eigenvector of ( U _ 1 ) ’ H U ~ , then a = U _ 1 b is an eigenvector of E _ 1 H .</p>
+<p><strong>corregir esta parte</strong></p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="chapter8.html#cb69-1"></a><span class="co"># obtaining the colesky factorization of E: U&#39;U</span></span>
+<span id="cb69-2"><a href="chapter8.html#cb69-2"></a><span class="co"># U &lt;- chol(E)</span></span>
+<span id="cb69-3"><a href="chapter8.html#cb69-3"></a><span class="co"># # obtaining the eigenvectors od inv(U)&#39;H*inv(U)</span></span>
+<span id="cb69-4"><a href="chapter8.html#cb69-4"></a><span class="co"># trans &lt;- t(solve(U)) %*% H %*% solve(U)</span></span>
+<span id="cb69-5"><a href="chapter8.html#cb69-5"></a><span class="co"># </span></span>
+<span id="cb69-6"><a href="chapter8.html#cb69-6"></a><span class="co"># eigen_trans &lt;- eigen(trans)</span></span>
+<span id="cb69-7"><a href="chapter8.html#cb69-7"></a><span class="co"># b1 &lt;- eigen_trans$vectors[,1]</span></span>
+<span id="cb69-8"><a href="chapter8.html#cb69-8"></a><span class="co"># solve(U) %*% b1</span></span></code></pre></div>
 <p>The corresponding eigenvectors are <span class="math inline">\(LD1\)</span> and <span class="math inline">\(LD2\)</span>.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="chapter8.html#cb53-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;MASS&quot;</span>)){</span>
-<span id="cb53-2"><a href="chapter8.html#cb53-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
-<span id="cb53-3"><a href="chapter8.html#cb53-3"></a>    <span class="kw">library</span>(MASS)</span>
-<span id="cb53-4"><a href="chapter8.html#cb53-4"></a>  }</span>
-<span id="cb53-5"><a href="chapter8.html#cb53-5"></a></span>
-<span id="cb53-6"><a href="chapter8.html#cb53-6"></a>lda_footballHeads &lt;-<span class="st"> </span><span class="kw">lda</span>(group <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> footballHeads)</span>
-<span id="cb53-7"><a href="chapter8.html#cb53-7"></a>lda_footballHeads<span class="op">$</span>scaling</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chapter8.html#cb70-1"></a><span class="cf">if</span>(<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;MASS&quot;</span>)){</span>
+<span id="cb70-2"><a href="chapter8.html#cb70-2"></a>    <span class="kw">install.packages</span>(<span class="st">&quot;MASS&quot;</span>)</span>
+<span id="cb70-3"><a href="chapter8.html#cb70-3"></a>    <span class="kw">library</span>(MASS)</span>
+<span id="cb70-4"><a href="chapter8.html#cb70-4"></a>  }</span>
+<span id="cb70-5"><a href="chapter8.html#cb70-5"></a></span>
+<span id="cb70-6"><a href="chapter8.html#cb70-6"></a>lda_footballHeads &lt;-<span class="st"> </span><span class="kw">lda</span>(group <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> footballHeads)</span>
+<span id="cb70-7"><a href="chapter8.html#cb70-7"></a>lda_footballHeads<span class="op">$</span>scaling</span></code></pre></div>
 <pre><code>##                 LD1           LD2
 ## wdim    0.948423100  1.4067750094
 ## circum -0.003639865 -0.0005126312
@@ -2066,34 +2221,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 -0.3839132257\\
 -1.5288556226
 \end{pmatrix}\]</span></p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="chapter8.html#cb55-1"></a><span class="kw">plot</span>(lda_footballHeads)</span></code></pre></div>
-<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="chapter8.html#cb72-1"></a><span class="kw">plot</span>(lda_footballHeads)</span></code></pre></div>
+<p><img src="multivariate-statistics-R-code_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
 <p>The first eigenvalue accounts for a sustantial proportion of the total:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter8.html#cb56-1"></a><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>]<span class="op">/</span>(<span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>]<span class="op">+</span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="chapter8.html#cb73-1"></a><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>]<span class="op">/</span>(<span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>]<span class="op">+</span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">2</span>])</span></code></pre></div>
 <pre><code>## [1] 0.9429084</code></pre>
 <p>Thus the mean vectors lie largely in one dimension, and one discriminant function suffices to describe most of the separation among the three groups.</p>
 </div>
 <div id="example-8.4.2." class="section level3" number="8.4.2">
 <h3><span class="header-section-number">8.4.2</span> Example 8.4.2.</h3>
 <p>For the football data of Table 8.3, we obtain the squared canonical correlation between each of the two discriminant functions and the grouping of the variables.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="chapter8.html#cb58-1"></a><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="chapter8.html#cb75-1"></a><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## [1] 1.919458</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="chapter8.html#cb60-1"></a>r1_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>]<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>])</span>
-<span id="cb60-2"><a href="chapter8.html#cb60-2"></a><span class="kw">round</span>(r1_<span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="chapter8.html#cb77-1"></a>r1_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>]<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">1</span>])</span>
+<span id="cb77-2"><a href="chapter8.html#cb77-2"></a><span class="kw">round</span>(r1_<span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 0.657</code></pre>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="chapter8.html#cb62-1"></a>r2_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">2</span>]<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">2</span>])</span>
-<span id="cb62-2"><a href="chapter8.html#cb62-2"></a><span class="kw">round</span>(r2_<span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="chapter8.html#cb79-1"></a>r2_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">2</span>]<span class="op">/</span>(<span class="dv">1</span><span class="op">+</span><span class="kw">eigen</span>(EH)<span class="op">$</span>values[<span class="dv">2</span>])</span>
+<span id="cb79-2"><a href="chapter8.html#cb79-2"></a><span class="kw">round</span>(r2_<span class="dv">2</span>, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 0.104</code></pre>
 </div>
 </div>
 <div id="standarized-discriminant-functions" class="section level2" number="8.5">
 <h2><span class="header-section-number">8.5</span> Standarized Discriminant Functions</h2>
+<p>In Section 5.5, it was noted that in the two-group case the relative contribution of the y’s to separation of the two groups can best be assessed by comparing the coefficients ar,<span class="math inline">\(r = 1,2,...,p\)</span>, in the discriminant function</p>
+<p><span class="math display">\[z=a&#39;y=a_1y_1+a_2y_2+···+ a_py_p.\]</span></p>
+<p>However, such comparisons are informative only if the y’s are commensurate, that is, measured on the same scale and with comparable variances. If the y’s are not commensurate, we need coefficients <span class="math inline">\(a_r^*\)</span> that are applicable to standardized variables.</p>
 <div id="example-8.5." class="section level3" number="8.5.1">
 <h3><span class="header-section-number">8.5.1</span> Example 8.5.</h3>
 <p>In Example <span class="math inline">\(8.4.1\)</span>, we obtained the discriminant function coefficient vectors <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span> for the football data of Table <span class="math inline">\(8.3\)</span>. Since <span class="math inline">\(\lambda_1/(\lambda_1+\lambda_2)=0.94\)</span>, we concentrate on <span class="math inline">\(a_1\)</span>. To standarize <span class="math inline">\(a_1\)</span>, we need the within sample standard deviations of the variables. The pooled covariance matrix is given by:</p>
 <p><span class="math inline">\(S_{pl}=E/87\)</span></p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chapter8.html#cb64-1"></a>Spl &lt;-<span class="st"> </span>E<span class="op">/</span><span class="dv">87</span></span>
-<span id="cb64-2"><a href="chapter8.html#cb64-2"></a>Spl</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="chapter8.html#cb81-1"></a>Spl &lt;-<span class="st"> </span>E<span class="op">/</span><span class="dv">87</span></span>
+<span id="cb81-2"><a href="chapter8.html#cb81-2"></a>Spl</span></code></pre></div>
 <pre><code>##           [,1]      [,2]      [,3]       [,4]        [,5]        [,6]
 ## [1,] 0.4282299 0.5779448 0.1579195 0.08379310 0.124551724 0.228000000
 ## [2,] 0.5779448 3.1610931 1.0199747 0.65270460 0.340063218 0.505096552
@@ -2102,21 +2260,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## [5,] 0.1245517 0.3400632 0.1285897 0.31475057 0.618057471 0.009129885
 ## [6,] 0.2280000 0.5050966 0.1591149 0.04246782 0.009129885 0.375517241</code></pre>
 <p>Using the square roots of the diagonal elements of <span class="math inline">\(S_{pl}\)</span>, we obtain:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="chapter8.html#cb66-1"></a>lda_footballHeads<span class="op">$</span>scaling</span></code></pre></div>
-<pre><code>##                 LD1           LD2
-## wdim    0.948423100  1.4067750094
-## circum -0.003639865 -0.0005126312
-## fbeye  -0.006439599 -0.0286176430
-## eyehd  -0.647483088  0.5402700415
-## earhd  -0.504360916 -0.3839132257
-## jaw    -0.828535064 -1.5288556226</code></pre>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="chapter8.html#cb68-1"></a>a1&lt;-<span class="kw">c</span>(<span class="fl">0.948423100</span>, <span class="fl">-0.003639865</span>,<span class="op">-</span><span class="fl">0.006439599</span>,<span class="op">-</span><span class="fl">0.647483088</span>, <span class="fl">-0.504360916</span>, <span class="fl">-0.828535064</span>)</span>
-<span id="cb68-2"><a href="chapter8.html#cb68-2"></a>a1</span></code></pre></div>
-<pre><code>## [1]  0.948423100 -0.003639865 -0.006439599 -0.647483088 -0.504360916
-## [6] -0.828535064</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chapter8.html#cb70-1"></a><span class="kw">sqrt</span>(<span class="kw">diag</span>(Spl))<span class="op">*</span>a1</span></code></pre></div>
-<pre><code>## [1]  0.620641211 -0.006471485 -0.004758091 -0.718812156 -0.396511562
-## [6] -0.507721826</code></pre>
+<p><strong>Nota, los signos están invertidos, por eso por el momento se le agregó un “-” a a1 y a2</strong></p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="chapter8.html#cb83-1"></a><span class="co"># digonal elements of Spl</span></span>
+<span id="cb83-2"><a href="chapter8.html#cb83-2"></a>diag_sqrt_spl &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(Spl))</span>
+<span id="cb83-3"><a href="chapter8.html#cb83-3"></a><span class="co"># from the last example we extract the eigenvectors</span></span>
+<span id="cb83-4"><a href="chapter8.html#cb83-4"></a>a1&lt;-<span class="st"> </span><span class="op">-</span>lda_footballHeads<span class="op">$</span>scaling[,<span class="dv">1</span>]</span>
+<span id="cb83-5"><a href="chapter8.html#cb83-5"></a><span class="kw">print</span>(<span class="st">&quot;a1&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;a1&quot;</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="chapter8.html#cb85-1"></a><span class="kw">print</span>(a1)</span></code></pre></div>
+<pre><code>##         wdim       circum        fbeye        eyehd        earhd          jaw 
+## -0.948423100  0.003639865  0.006439599  0.647483088  0.504360916  0.828535064</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="chapter8.html#cb87-1"></a>a2&lt;-<span class="st"> </span><span class="op">-</span>lda_footballHeads<span class="op">$</span>scaling[,<span class="dv">2</span>]</span>
+<span id="cb87-2"><a href="chapter8.html#cb87-2"></a><span class="kw">print</span>(<span class="st">&quot;a2&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;a2&quot;</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="chapter8.html#cb89-1"></a><span class="kw">print</span>(a2)</span></code></pre></div>
+<pre><code>##          wdim        circum         fbeye         eyehd         earhd 
+## -1.4067750094  0.0005126312  0.0286176430 -0.5402700415  0.3839132257 
+##           jaw 
+##  1.5288556226</code></pre>
+<p>using the square roots of the digonal elements of Spl</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="chapter8.html#cb91-1"></a>a1_star &lt;-<span class="st"> </span>a1<span class="op">*</span>diag_sqrt_spl</span>
+<span id="cb91-2"><a href="chapter8.html#cb91-2"></a>a1_star</span></code></pre></div>
+<pre><code>##         wdim       circum        fbeye        eyehd        earhd          jaw 
+## -0.620641211  0.006471484  0.004758091  0.718812156  0.396511561  0.507721826</code></pre>
+<p>Thus the fourth, first, sixth and fifth variables contribute de most to separating the groups, in that order. The second and thrid variables are not useful (in the presence of the others) in distinguishing groups.</p>
+<p>sorting the vector:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="chapter8.html#cb93-1"></a><span class="kw">sort</span>(a1_star, <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>##        eyehd          jaw        earhd       circum        fbeye         wdim 
+##  0.718812156  0.507721826  0.396511561  0.006471484  0.004758091 -0.620641211</code></pre>
 <p><span class="math display">\[a_1^*=\begin{pmatrix}
 0.620641211 \\
 -0.006471485\\
@@ -2125,7 +2296,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 -0.396511562\\
 -0.507721826
 \end{pmatrix}\]</span></p>
-<p>Thus the fourth, first, sixth and fifth variables contribute de most to separating the groups, in that order. The second and thrid variables are not useful (in the presence of the others) in distinguishing groups.</p>
 </div>
 </div>
 <div id="test-of-significance" class="section level2" number="8.6">
@@ -2133,7 +2303,207 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="example-8.6.2" class="section level3" number="8.6.1">
 <h3><span class="header-section-number">8.6.1</span> Example 8.6.2</h3>
 <p>We test the significance of the two discriminant functions obtained in Example <span class="math inline">\(8.4.1.\)</span> for the football data. For the overall test we have, by <span class="math inline">\(8.18\)</span>.</p>
-<p>Thus <span class="math inline">\(p-value\)</span> for $F</p>
+<p>Again, the associated eigenvalues are:</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="chapter8.html#cb95-1"></a><span class="co"># compute H</span></span>
+<span id="cb95-2"><a href="chapter8.html#cb95-2"></a>H_mat &lt;-<span class="st"> </span><span class="kw">cal_H_mat</span>(footballHeads, <span class="st">&quot;group&quot;</span>)</span></code></pre></div>
+<pre><code>##         [,1]   [,2]   [,3]    [,4]   [,5]   [,6]
+## [1,]   2.184 -7.254 -1.806 -13.302 -6.330 -2.736
+## [2,]  -7.254 39.546  8.385  75.114 32.994 10.101
+## [3,]  -1.806  8.385  1.863  15.777  7.083  2.418
+## [4,] -13.302 75.114 15.777 142.938 62.514 18.693
+## [5,]  -6.330 32.994  7.083  62.514 27.618  8.715
+## [6,]  -2.736 10.101  2.418  18.693  8.715  3.495</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="chapter8.html#cb97-1"></a><span class="co">#print(&quot;H matrix&quot;)</span></span>
+<span id="cb97-2"><a href="chapter8.html#cb97-2"></a><span class="co">#print(H_mat)</span></span>
+<span id="cb97-3"><a href="chapter8.html#cb97-3"></a><span class="co"># compute E</span></span>
+<span id="cb97-4"><a href="chapter8.html#cb97-4"></a>E_mat &lt;-<span class="st"> </span><span class="kw">cal_E_mat</span>(footballHeads, <span class="st">&quot;group&quot;</span>)</span>
+<span id="cb97-5"><a href="chapter8.html#cb97-5"></a><span class="co">#print(E_mat)</span></span>
+<span id="cb97-6"><a href="chapter8.html#cb97-6"></a><span class="co">#print(&quot;E matrix&quot;)</span></span>
+<span id="cb97-7"><a href="chapter8.html#cb97-7"></a><span class="co"># eigenvalues</span></span>
+<span id="cb97-8"><a href="chapter8.html#cb97-8"></a>eig_values &lt;-<span class="st"> </span><span class="kw">calc_lambdas</span>(E_mat, H_mat)</span>
+<span id="cb97-9"><a href="chapter8.html#cb97-9"></a><span class="kw">print</span>(<span class="st">&quot;eigenvalues&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;eigenvalues&quot;</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="chapter8.html#cb99-1"></a><span class="kw">print</span>(<span class="kw">round</span>(eig_values))</span></code></pre></div>
+<pre><code>## [1] 2+0i 0+0i 0+0i 0+0i 0+0i 0+0i</code></pre>
+<p>Then, we compute <span class="math inline">\(\Lambda_{1}\)</span> just using 1.919 and 0.116:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="chapter8.html#cb101-1"></a>calc_Lambda1 &lt;-<span class="st"> </span><span class="cf">function</span>(eigenvalues){</span>
+<span id="cb101-2"><a href="chapter8.html#cb101-2"></a>  Lambda &lt;-<span class="st"> </span><span class="kw">c</span>()</span>
+<span id="cb101-3"><a href="chapter8.html#cb101-3"></a>  count =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb101-4"><a href="chapter8.html#cb101-4"></a>  <span class="cf">for</span> (i <span class="cf">in</span> eigenvalues){</span>
+<span id="cb101-5"><a href="chapter8.html#cb101-5"></a>    <span class="cf">if</span>(i <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>){</span>
+<span id="cb101-6"><a href="chapter8.html#cb101-6"></a>      Lambda[count] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>i)</span>
+<span id="cb101-7"><a href="chapter8.html#cb101-7"></a>    } <span class="cf">else</span>{</span>
+<span id="cb101-8"><a href="chapter8.html#cb101-8"></a>      Lambda[count] &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb101-9"><a href="chapter8.html#cb101-9"></a>    }</span>
+<span id="cb101-10"><a href="chapter8.html#cb101-10"></a>  count =<span class="st"> </span>count <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb101-11"><a href="chapter8.html#cb101-11"></a>  }</span>
+<span id="cb101-12"><a href="chapter8.html#cb101-12"></a>  Lambda1 &lt;-<span class="st"> </span><span class="kw">prod</span>(Lambda)</span>
+<span id="cb101-13"><a href="chapter8.html#cb101-13"></a>  <span class="kw">as.numeric</span>(Lambda1)</span>
+<span id="cb101-14"><a href="chapter8.html#cb101-14"></a>}</span></code></pre></div>
+<p>calculate <span class="math inline">\(\Lambda_{1}\)</span>:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="chapter8.html#cb102-1"></a>Lambda1 &lt;-<span class="st"> </span><span class="kw">calc_Lambda1</span>(eig_values)</span>
+<span id="cb102-2"><a href="chapter8.html#cb102-2"></a>Lambda1</span></code></pre></div>
+<pre><code>## [1] 0.3069741</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="chapter8.html#cb104-1"></a>calc_Lambda2 &lt;-<span class="st"> </span><span class="cf">function</span>(eigenvalues){</span>
+<span id="cb104-2"><a href="chapter8.html#cb104-2"></a>  Lambda &lt;-<span class="st"> </span><span class="kw">c</span>()</span>
+<span id="cb104-3"><a href="chapter8.html#cb104-3"></a>  count =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb104-4"><a href="chapter8.html#cb104-4"></a>  <span class="cf">for</span> (i <span class="cf">in</span> eigenvalues){</span>
+<span id="cb104-5"><a href="chapter8.html#cb104-5"></a>    <span class="cf">if</span>(i <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>){</span>
+<span id="cb104-6"><a href="chapter8.html#cb104-6"></a>      Lambda[count] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>i)</span>
+<span id="cb104-7"><a href="chapter8.html#cb104-7"></a>    } <span class="cf">else</span>{</span>
+<span id="cb104-8"><a href="chapter8.html#cb104-8"></a>      Lambda[count] &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb104-9"><a href="chapter8.html#cb104-9"></a>    }</span>
+<span id="cb104-10"><a href="chapter8.html#cb104-10"></a>  count =<span class="st"> </span>count <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb104-11"><a href="chapter8.html#cb104-11"></a>  }</span>
+<span id="cb104-12"><a href="chapter8.html#cb104-12"></a>  Lambda2 &lt;-<span class="st"> </span><span class="kw">prod</span>(Lambda[<span class="dv">2</span><span class="op">:</span><span class="kw">length</span>(eig_values)])</span>
+<span id="cb104-13"><a href="chapter8.html#cb104-13"></a>  <span class="kw">as.numeric</span>(Lambda2)</span>
+<span id="cb104-14"><a href="chapter8.html#cb104-14"></a>}</span></code></pre></div>
+<p>calculate <span class="math inline">\(\Lambda_{2}\)</span>:</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="chapter8.html#cb105-1"></a>Lambda2 &lt;-<span class="st"> </span><span class="kw">calc_Lambda2</span>(eig_values)</span>
+<span id="cb105-2"><a href="chapter8.html#cb105-2"></a>Lambda2</span></code></pre></div>
+<pre><code>## [1] 0.8960573</code></pre>
+<p>Computing the <span class="math inline">\(\chi^2\)</span> approximation:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="chapter8.html#cb107-1"></a>lambda1_tst &lt;-<span class="st"> </span><span class="cf">function</span>(nvars, ngroups, nrows, Lambda1, <span class="dt">alpha=</span><span class="fl">0.99</span>){</span>
+<span id="cb107-2"><a href="chapter8.html#cb107-2"></a>  <span class="st">&quot;</span></span>
+<span id="cb107-3"><a href="chapter8.html#cb107-3"></a><span class="st">  nvars: number of variables (p)</span></span>
+<span id="cb107-4"><a href="chapter8.html#cb107-4"></a><span class="st">  ngroups: number of groups (k)</span></span>
+<span id="cb107-5"><a href="chapter8.html#cb107-5"></a><span class="st">  nrows: number of rows (N)</span></span>
+<span id="cb107-6"><a href="chapter8.html#cb107-6"></a><span class="st">  Lambda1: lambda1 statistc</span></span>
+<span id="cb107-7"><a href="chapter8.html#cb107-7"></a><span class="st">  alpha: significance level</span></span>
+<span id="cb107-8"><a href="chapter8.html#cb107-8"></a><span class="st">  &quot;</span></span>
+<span id="cb107-9"><a href="chapter8.html#cb107-9"></a>  p &lt;-<span class="st"> </span>nvars</span>
+<span id="cb107-10"><a href="chapter8.html#cb107-10"></a>  k &lt;-<span class="st"> </span>ngroups</span>
+<span id="cb107-11"><a href="chapter8.html#cb107-11"></a>  N &lt;-<span class="st"> </span>nrows</span>
+<span id="cb107-12"><a href="chapter8.html#cb107-12"></a>  V1 &lt;-<span class="st"> </span><span class="op">-</span>(N <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>(p<span class="op">+</span>k))<span class="op">*</span><span class="kw">log</span>(Lambda1)</span>
+<span id="cb107-13"><a href="chapter8.html#cb107-13"></a>  </span>
+<span id="cb107-14"><a href="chapter8.html#cb107-14"></a>  <span class="co">#lambda1 is distribute as wilk-statitstic with (p-m)(k-m) degrees of freedom (where m=1 for Lambda1)</span></span>
+<span id="cb107-15"><a href="chapter8.html#cb107-15"></a>  </span>
+<span id="cb107-16"><a href="chapter8.html#cb107-16"></a>  <span class="co"># we can use the cbhi2 approx with p(k-1) df.</span></span>
+<span id="cb107-17"><a href="chapter8.html#cb107-17"></a>  critical_valuechi &lt;-<span class="st"> </span><span class="kw">qchisq</span>(alpha, <span class="dt">df=</span>p<span class="op">*</span>(k<span class="dv">-1</span>)) </span>
+<span id="cb107-18"><a href="chapter8.html#cb107-18"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;critical value of chi2 with &quot;</span>, p<span class="op">*</span>(k<span class="dv">-1</span>), <span class="st">&quot; degrees of freedom: &quot;</span>, critical_valuechi))</span>
+<span id="cb107-19"><a href="chapter8.html#cb107-19"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Value of V1: &quot;</span>, V1))</span>
+<span id="cb107-20"><a href="chapter8.html#cb107-20"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Reject the null hipothesis H0?:&quot;</span>, V1 <span class="op">&gt;</span><span class="st"> </span>critical_valuechi))</span>
+<span id="cb107-21"><a href="chapter8.html#cb107-21"></a>  </span>
+<span id="cb107-22"><a href="chapter8.html#cb107-22"></a>  <span class="kw">print</span>(<span class="st">&quot;&quot;</span>)</span>
+<span id="cb107-23"><a href="chapter8.html#cb107-23"></a>  <span class="kw">print</span>(<span class="st">&quot;*****F approximation&quot;</span>)</span>
+<span id="cb107-24"><a href="chapter8.html#cb107-24"></a>  num_t &lt;-<span class="st"> </span>(p)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>(k<span class="dv">-1</span>)<span class="op">^</span>(<span class="dv">2</span>) <span class="op">-</span><span class="st"> </span><span class="dv">4</span></span>
+<span id="cb107-25"><a href="chapter8.html#cb107-25"></a>  den_t &lt;-<span class="st"> </span>(p)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(k<span class="dv">-1</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="dv">5</span></span>
+<span id="cb107-26"><a href="chapter8.html#cb107-26"></a>  t &lt;-<span class="st"> </span><span class="kw">sqrt</span>(num_t<span class="op">/</span>den_t)</span>
+<span id="cb107-27"><a href="chapter8.html#cb107-27"></a>  w &lt;-<span class="st"> </span>N <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>(p<span class="op">+</span>k)</span>
+<span id="cb107-28"><a href="chapter8.html#cb107-28"></a>  df1 &lt;-<span class="st"> </span>(p)<span class="op">*</span>(k<span class="dv">-1</span>)</span>
+<span id="cb107-29"><a href="chapter8.html#cb107-29"></a>  df2 &lt;-<span class="st"> </span>w<span class="op">*</span>t <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>((p)<span class="op">*</span>(k<span class="dv">-1</span>) <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb107-30"><a href="chapter8.html#cb107-30"></a>  num_F &lt;-<span class="st"> </span>(df2<span class="op">/</span>df1)<span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>Lambda1<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span>t))</span>
+<span id="cb107-31"><a href="chapter8.html#cb107-31"></a>  den_F &lt;-<span class="st"> </span>(Lambda1<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span>t))</span>
+<span id="cb107-32"><a href="chapter8.html#cb107-32"></a>  F_stat &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(num_F<span class="op">/</span>den_F)</span>
+<span id="cb107-33"><a href="chapter8.html#cb107-33"></a>  </span>
+<span id="cb107-34"><a href="chapter8.html#cb107-34"></a>  critical_valueF &lt;-<span class="st"> </span><span class="kw">qf</span>(alpha, df1, df2) </span>
+<span id="cb107-35"><a href="chapter8.html#cb107-35"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;critical value of F with vE&quot;</span>, N<span class="op">-</span>k, <span class="st">&quot; and vH: &quot;</span>, (k<span class="dv">-1</span>), <span class="st">&quot;:&quot;</span>, critical_valueF))</span>
+<span id="cb107-36"><a href="chapter8.html#cb107-36"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Value of F: &quot;</span>, F_stat))</span>
+<span id="cb107-37"><a href="chapter8.html#cb107-37"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;P-value: &quot;</span>, <span class="kw">pf</span>(F_stat, df1, df2, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)))</span>
+<span id="cb107-38"><a href="chapter8.html#cb107-38"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Reject the null hipothesis H0?:&quot;</span>, F_stat <span class="op">&gt;</span><span class="st"> </span>critical_valueF))</span>
+<span id="cb107-39"><a href="chapter8.html#cb107-39"></a>  </span>
+<span id="cb107-40"><a href="chapter8.html#cb107-40"></a>  </span>
+<span id="cb107-41"><a href="chapter8.html#cb107-41"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="chapter8.html#cb108-1"></a>Lambda1 &lt;-<span class="st"> </span><span class="kw">calc_Lambda1</span>(eig_values)</span>
+<span id="cb108-2"><a href="chapter8.html#cb108-2"></a>nvars &lt;-<span class="st"> </span><span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span></span>
+<span id="cb108-3"><a href="chapter8.html#cb108-3"></a>nrows &lt;-<span class="st"> </span><span class="kw">nrow</span>(footballHeads)</span>
+<span id="cb108-4"><a href="chapter8.html#cb108-4"></a>ngroups &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(footballHeads<span class="op">$</span>group))</span>
+<span id="cb108-5"><a href="chapter8.html#cb108-5"></a></span>
+<span id="cb108-6"><a href="chapter8.html#cb108-6"></a></span>
+<span id="cb108-7"><a href="chapter8.html#cb108-7"></a><span class="kw">lambda1_tst</span>(nvars, ngroups, nrows, Lambda1, <span class="dt">alpha=</span><span class="fl">0.99</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;critical value of chi2 with  12  degrees of freedom:  26.2169673055358&quot;
+## [1] &quot;Value of V1:  99.7938202677277&quot;
+## [1] &quot;Reject the null hipothesis H0?: TRUE&quot;
+## [1] &quot;&quot;
+## [1] &quot;*****F approximation&quot;
+## [1] &quot;critical value of F with vE 87  and vH:  2 : 2.29485384504251&quot;
+## [1] &quot;Value of F:  11.0000728016944&quot;
+## [1] &quot;P-value:  6.58284166213314e-16&quot;
+## [1] &quot;Reject the null hipothesis H0?: TRUE&quot;</code></pre>
+<p>Testing the second discriminant function using a general function. We can replace m by 2 which is the default value.</p>
+<p>Define a general function for Lambda m</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="chapter8.html#cb110-1"></a>calc_Lambdam &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">m=</span><span class="dv">2</span>, eigenvalues){</span>
+<span id="cb110-2"><a href="chapter8.html#cb110-2"></a>  Lambda &lt;-<span class="st"> </span><span class="kw">c</span>()</span>
+<span id="cb110-3"><a href="chapter8.html#cb110-3"></a>  count =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb110-4"><a href="chapter8.html#cb110-4"></a>  <span class="cf">for</span> (i <span class="cf">in</span> eigenvalues){</span>
+<span id="cb110-5"><a href="chapter8.html#cb110-5"></a>    <span class="cf">if</span>(i <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>){</span>
+<span id="cb110-6"><a href="chapter8.html#cb110-6"></a>      Lambda[count] &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>i)</span>
+<span id="cb110-7"><a href="chapter8.html#cb110-7"></a>    } <span class="cf">else</span>{</span>
+<span id="cb110-8"><a href="chapter8.html#cb110-8"></a>      Lambda[count] &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb110-9"><a href="chapter8.html#cb110-9"></a>    }</span>
+<span id="cb110-10"><a href="chapter8.html#cb110-10"></a>  count =<span class="st"> </span>count <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb110-11"><a href="chapter8.html#cb110-11"></a>  }</span>
+<span id="cb110-12"><a href="chapter8.html#cb110-12"></a>  Lambdam &lt;-<span class="st"> </span><span class="kw">prod</span>(Lambda[m<span class="op">:</span><span class="kw">length</span>(eig_values)])</span>
+<span id="cb110-13"><a href="chapter8.html#cb110-13"></a>  <span class="kw">as.numeric</span>(Lambdam)</span>
+<span id="cb110-14"><a href="chapter8.html#cb110-14"></a>}</span></code></pre></div>
+<p>Testing the function:</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="chapter8.html#cb111-1"></a>eig_values &lt;-<span class="st"> </span><span class="kw">calc_lambdas</span>(E_mat, H_mat)</span>
+<span id="cb111-2"><a href="chapter8.html#cb111-2"></a><span class="co">#eig_values</span></span>
+<span id="cb111-3"><a href="chapter8.html#cb111-3"></a></span>
+<span id="cb111-4"><a href="chapter8.html#cb111-4"></a>Lambda2 &lt;-<span class="st"> </span><span class="kw">calc_Lambdam</span>(<span class="dt">m=</span><span class="dv">2</span>, eig_values)</span>
+<span id="cb111-5"><a href="chapter8.html#cb111-5"></a>Lambda2</span></code></pre></div>
+<pre><code>## [1] 0.8960573</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="chapter8.html#cb113-1"></a>lambdam_tst &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">m=</span><span class="dv">2</span>, nvars, ngroups, nrows, Lambdam, <span class="dt">alpha=</span><span class="fl">0.99</span>){</span>
+<span id="cb113-2"><a href="chapter8.html#cb113-2"></a>  <span class="st">&quot;</span></span>
+<span id="cb113-3"><a href="chapter8.html#cb113-3"></a><span class="st">  m: # discriminant </span></span>
+<span id="cb113-4"><a href="chapter8.html#cb113-4"></a><span class="st">  nvars: number of variables (p)</span></span>
+<span id="cb113-5"><a href="chapter8.html#cb113-5"></a><span class="st">  ngroups: number of groups (k)</span></span>
+<span id="cb113-6"><a href="chapter8.html#cb113-6"></a><span class="st">  nrows: number of rows (N)</span></span>
+<span id="cb113-7"><a href="chapter8.html#cb113-7"></a><span class="st">  Lambdam: lambdam statistc</span></span>
+<span id="cb113-8"><a href="chapter8.html#cb113-8"></a><span class="st">  alpha: significance level</span></span>
+<span id="cb113-9"><a href="chapter8.html#cb113-9"></a><span class="st">  &quot;</span></span>
+<span id="cb113-10"><a href="chapter8.html#cb113-10"></a>  p &lt;-<span class="st"> </span>nvars</span>
+<span id="cb113-11"><a href="chapter8.html#cb113-11"></a>  k &lt;-<span class="st"> </span>ngroups</span>
+<span id="cb113-12"><a href="chapter8.html#cb113-12"></a>  N &lt;-<span class="st"> </span>nrows</span>
+<span id="cb113-13"><a href="chapter8.html#cb113-13"></a>  Vm &lt;-<span class="st"> </span><span class="op">-</span>(N <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>(p<span class="op">+</span>k))<span class="op">*</span><span class="kw">log</span>(Lambdam)</span>
+<span id="cb113-14"><a href="chapter8.html#cb113-14"></a>  </span>
+<span id="cb113-15"><a href="chapter8.html#cb113-15"></a>  <span class="co"># lambdam is distribute as wilk-statitstic with (p-m+1)*(k-m) degrees of freedom </span></span>
+<span id="cb113-16"><a href="chapter8.html#cb113-16"></a>  </span>
+<span id="cb113-17"><a href="chapter8.html#cb113-17"></a>  <span class="co"># we can use the cbhi2 approx with p(k-1) df.</span></span>
+<span id="cb113-18"><a href="chapter8.html#cb113-18"></a>  <span class="kw">print</span>(<span class="st">&quot;*****Chi2 approximation&quot;</span>)</span>
+<span id="cb113-19"><a href="chapter8.html#cb113-19"></a>  critical_value &lt;-<span class="st"> </span><span class="kw">qchisq</span>(alpha, <span class="dt">df=</span>(p<span class="op">-</span>m<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(k<span class="op">-</span>m))</span>
+<span id="cb113-20"><a href="chapter8.html#cb113-20"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;critical value of chi2 with &quot;</span>, (p<span class="op">-</span>m<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(k<span class="op">-</span>m), <span class="st">&quot; degrees of freedom: &quot;</span>, critical_value))</span>
+<span id="cb113-21"><a href="chapter8.html#cb113-21"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Value of Vm: &quot;</span>, Vm))</span>
+<span id="cb113-22"><a href="chapter8.html#cb113-22"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;reject the null hipothesis H0:&quot;</span>, Vm <span class="op">&gt;</span><span class="st"> </span>critical_value))</span>
+<span id="cb113-23"><a href="chapter8.html#cb113-23"></a>  </span>
+<span id="cb113-24"><a href="chapter8.html#cb113-24"></a>  </span>
+<span id="cb113-25"><a href="chapter8.html#cb113-25"></a>  <span class="kw">print</span>(<span class="st">&quot;&quot;</span>)</span>
+<span id="cb113-26"><a href="chapter8.html#cb113-26"></a>  <span class="kw">print</span>(<span class="st">&quot;*****F approximation&quot;</span>)</span>
+<span id="cb113-27"><a href="chapter8.html#cb113-27"></a>  num_t &lt;-<span class="st"> </span>(p<span class="op">-</span>m<span class="op">+</span><span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>(k<span class="op">-</span>m)<span class="op">^</span>(<span class="dv">2</span>) <span class="op">-</span><span class="st"> </span><span class="dv">4</span></span>
+<span id="cb113-28"><a href="chapter8.html#cb113-28"></a>  den_t &lt;-<span class="st"> </span>(p<span class="op">-</span>m<span class="op">+</span><span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(k<span class="op">-</span>m)<span class="op">^</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="dv">5</span></span>
+<span id="cb113-29"><a href="chapter8.html#cb113-29"></a>  t &lt;-<span class="st"> </span><span class="kw">sqrt</span>(num_t<span class="op">/</span>den_t)</span>
+<span id="cb113-30"><a href="chapter8.html#cb113-30"></a>  w &lt;-<span class="st"> </span>N <span class="op">-</span><span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>(p<span class="op">+</span>k)</span>
+<span id="cb113-31"><a href="chapter8.html#cb113-31"></a>  df1 &lt;-<span class="st"> </span>(p<span class="op">-</span>m<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(k<span class="op">-</span>m)</span>
+<span id="cb113-32"><a href="chapter8.html#cb113-32"></a>  df2 &lt;-<span class="st"> </span>w<span class="op">*</span>t <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>((p<span class="op">-</span>m<span class="op">+</span><span class="dv">1</span>)<span class="op">*</span>(k<span class="op">-</span>m) <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb113-33"><a href="chapter8.html#cb113-33"></a>  num_F &lt;-<span class="st"> </span>(<span class="dv">1</span><span class="op">-</span>Lambdam<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span>t))<span class="op">*</span>df2</span>
+<span id="cb113-34"><a href="chapter8.html#cb113-34"></a>  den_F &lt;-<span class="st"> </span>(Lambdam<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span>t))<span class="op">*</span>df1</span>
+<span id="cb113-35"><a href="chapter8.html#cb113-35"></a>  F_stat &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(num_F<span class="op">/</span>den_F)</span>
+<span id="cb113-36"><a href="chapter8.html#cb113-36"></a></span>
+<span id="cb113-37"><a href="chapter8.html#cb113-37"></a>  critical_valueF &lt;-<span class="st"> </span><span class="kw">qf</span>(alpha, df1, df2) </span>
+<span id="cb113-38"><a href="chapter8.html#cb113-38"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;critical value of F with vE&quot;</span>, N<span class="op">-</span>k, <span class="st">&quot; and vH: &quot;</span>, (k<span class="dv">-1</span>), <span class="st">&quot;:&quot;</span>, critical_valueF))</span>
+<span id="cb113-39"><a href="chapter8.html#cb113-39"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Value of F: &quot;</span>, F_stat))</span>
+<span id="cb113-40"><a href="chapter8.html#cb113-40"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;P-value: &quot;</span>, <span class="kw">pf</span>(F_stat, df1, df2, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)))</span>
+<span id="cb113-41"><a href="chapter8.html#cb113-41"></a>  <span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;Reject the null hipothesis H0?:&quot;</span>, F_stat <span class="op">&gt;</span><span class="st"> </span>critical_valueF))</span>
+<span id="cb113-42"><a href="chapter8.html#cb113-42"></a>  </span>
+<span id="cb113-43"><a href="chapter8.html#cb113-43"></a>  </span>
+<span id="cb113-44"><a href="chapter8.html#cb113-44"></a>}</span></code></pre></div>
+<p>Test for Lambda 2</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="chapter8.html#cb114-1"></a>Lambda2 &lt;-<span class="st"> </span><span class="kw">calc_Lambdam</span>(<span class="dt">m=</span><span class="dv">2</span>, eig_values)</span>
+<span id="cb114-2"><a href="chapter8.html#cb114-2"></a>nvars &lt;-<span class="st"> </span><span class="kw">ncol</span>(footballHeads)<span class="op">-</span><span class="dv">1</span></span>
+<span id="cb114-3"><a href="chapter8.html#cb114-3"></a>nrows &lt;-<span class="st"> </span><span class="kw">nrow</span>(footballHeads)</span>
+<span id="cb114-4"><a href="chapter8.html#cb114-4"></a>ngroups &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">unique</span>(footballHeads<span class="op">$</span>group))</span>
+<span id="cb114-5"><a href="chapter8.html#cb114-5"></a>m &lt;-<span class="st"> </span><span class="dv">2</span> <span class="co"># second discriminant</span></span>
+<span id="cb114-6"><a href="chapter8.html#cb114-6"></a><span class="kw">lambdam_tst</span>(<span class="dt">m=</span><span class="dv">2</span>, nvars, ngroups, nrows, Lambda2, <span class="dt">alpha=</span><span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;*****Chi2 approximation&quot;
+## [1] &quot;critical value of chi2 with  5  degrees of freedom:  11.0704976935164&quot;
+## [1] &quot;Value of Vm:  9.27394800454559&quot;
+## [1] &quot;reject the null hipothesis H0: FALSE&quot;
+## [1] &quot;&quot;
+## [1] &quot;*****F approximation&quot;
+## [1] &quot;critical value of F with vE 87  and vH:  2 : 2.32447320379092&quot;
+## [1] &quot;Value of F:  1.9256&quot;
+## [1] &quot;P-value:  0.0987198325042634&quot;
+## [1] &quot;Reject the null hipothesis H0?: FALSE&quot;</code></pre>
 </div>
 </div>
 <div id="interpretation-of-discriminant-functions" class="section level2" number="8.7">
